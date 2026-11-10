@@ -1,0 +1,79 @@
+/* Shared look of the 17-step French path (lesson → practice → homework). */
+:root{--vert:#117b5c;--vert-fonce:#0d5c45;--pale:#e9f6ee;--carte:#fff;--texte:#173b39;--doux:#536b5e;--or:#e9b52e;--bon:#1f8a4c;--non:#b3443b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--pale);color:var(--texte);font-family:system-ui,'Segoe UI',Arial,sans-serif}
+button{font:inherit;cursor:pointer}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:4px solid #e28d22;outline-offset:3px}
+
+/* Header */
+.pr-barre{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--vert-fonce);color:#fff;padding:10px 4vw}
+.pr-barre a,.pr-barre button{color:#fff;text-decoration:none;border:2px solid #ffffff55;background:#ffffff1a;border-radius:14px;padding:7px 13px;font-weight:700;font-size:17px}
+.pr-barre .pr-titre{flex:1;text-align:center;font-weight:800;font-size:clamp(17px,2.2vw,22px)}
+.pr-shell{max-width:960px;margin:0 auto;padding:18px 16px 40px}
+h1{font-size:clamp(26px,4.5vw,38px);margin:8px 0 12px}
+
+/* Tabs: lesson / practice / homework */
+.pr-onglets{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.pr-onglets button{border:2px solid #bad9c6;background:#fff;color:var(--vert-fonce);border-radius:999px;padding:8px 16px;font-weight:700;font-size:18px}
+.pr-onglets button[aria-current="true"]{background:var(--vert);border-color:var(--vert);color:#fff}
+.pr-progres{height:12px;background:#d9e7de;border-radius:20px;overflow:hidden;margin:6px 0 16px}
+.pr-progres div{height:100%;width:0;background:var(--or);transition:width .25s}
+
+/* Main card */
+.pr-carte{background:var(--carte);border-radius:28px;box-shadow:0 14px 36px #1d5c3826;padding:clamp(18px,4vw,38px);min-height:430px;text-align:center}
+.pr-etiquette{font-size:18px;font-weight:700;color:var(--doux);margin:0 0 6px}
+.pr-img{font-size:clamp(64px,12vw,96px);line-height:1.15;display:block;margin:4px 0}
+.pr-grand{font-size:clamp(34px,7vw,58px);font-weight:800;color:var(--vert);line-height:1.25;margin:8px 0}
+.pr-texte{font-size:clamp(22px,3.2vw,28px);line-height:1.5;margin:10px auto;max-width:720px}
+.pr-sous{font-size:20px;color:var(--doux);line-height:1.45;margin:8px auto;max-width:680px}
+.pr-consigne{font-size:21px;font-weight:700;color:var(--vert-fonce);margin:4px 0 10px}
+.pr-question{font-size:clamp(26px,4.4vw,38px);font-weight:800;line-height:1.35;margin:10px 0}
+.case{display:inline-flex;align-items:center;justify-content:center;min-width:3.2em;min-height:1.25em;padding:0 .3em;margin:0 .2em;border:3px dashed #e9b52e;border-radius:12px;background:#fff8e3;vertical-align:middle;line-height:1.1;transition:background .3s,border-color .3s}.case.pleine{border-style:solid;border-color:#36a568;background:#d8f3df;color:#0f5a2e}.glisse{background:#c8f8d7;border:3px solid #36a568;border-radius:14px;font-weight:900;color:#0f5a2e;font-size:clamp(22px,3.6vw,32px);box-shadow:0 8px 20px #0003}
+.pr-histoire{white-space:pre-line;text-align:left;background:#f4faf6;border-radius:18px;padding:16px 20px;font-size:clamp(21px,3vw,26px);line-height:1.6;max-width:640px;margin:8px auto 14px}
+.pr-tableau{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 22px;max-width:520px;margin:12px auto;font-size:clamp(21px,3.2vw,27px);text-align:left}
+.pr-tableau span b{color:var(--vert)}
+.pr-tableau .fin{color:#c0392b;font-weight:800}
+
+/* Answers */
+.pr-choix{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin:18px 0 8px}
+.pr-choix button{min-width:110px;min-height:64px;background:#e8f5eb;color:#174b3c;border:3px solid #bad9c6;border-radius:18px;padding:10px 20px;font-size:clamp(22px,3.6vw,30px);font-weight:700}
+.pr-choix button:hover{background:#d3eadd}
+.pr-choix button.bon{background:#d8f3df;border-color:var(--bon);color:#0f5a2e}
+.pr-choix button.non{background:#fbe3e0;border-color:var(--non);color:#7c2a24;text-decoration:line-through}
+.pr-choix button:disabled{cursor:default}
+.pr-mots{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:14px 0}
+.pr-mots button{background:#fff7dc;border:3px solid #ecd28a;border-radius:14px;padding:10px 16px;font-size:clamp(21px,3.4vw,28px);font-weight:700;color:#5a4208}
+.pr-phrase{min-height:64px;border:3px dashed #bad9c6;border-radius:16px;padding:12px;font-size:clamp(22px,3.6vw,30px);font-weight:700;margin:10px auto;max-width:720px}
+.pr-carte input,.pr-carte textarea{font:inherit;font-size:clamp(22px,3.4vw,28px);border:3px solid #bad9c6;border-radius:14px;padding:10px 14px;width:min(520px,100%);text-align:center}
+.pr-carte textarea{text-align:left;min-height:170px;line-height:1.5;width:min(720px,100%)}
+.pr-liste{list-style:none;padding:0;margin:12px auto;max-width:560px;text-align:left;font-size:20px}
+.pr-liste li{margin:6px 0}
+.pr-retour{font-weight:700;min-height:34px;font-size:22px;margin-top:8px}
+.pr-retour.bon{color:var(--bon)}
+.pr-retour.non{color:var(--non)}
+.pr-aide{font-size:19px;color:var(--doux);margin:6px auto;max-width:640px}
+
+/* Bottom buttons */
+.pr-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+.pr-actions button,.pr-actions a{border:0;border-radius:18px;padding:13px 22px;font-size:21px;font-weight:700;background:var(--vert);color:#fff;min-height:58px;text-decoration:none;display:inline-flex;align-items:center}
+.pr-actions .second{background:#e1efe6;color:#185740}
+.pr-etoiles{font-size:clamp(48px,9vw,72px);letter-spacing:6px}
+.pr-note{margin-top:18px;background:#f8fff9;padding:12px 16px;border-radius:16px;font-size:16px;color:var(--doux)}
+.pr-note summary{cursor:pointer;font-weight:700}
+
+/* Path home page */
+.pr-liste-etapes{display:grid;gap:12px}
+.pr-liste-etapes a{display:flex;gap:16px;align-items:center;background:#fff;color:#165d45;text-decoration:none;padding:16px 20px;border-radius:18px;font-size:21px;box-shadow:0 5px 15px #123a2312}
+.pr-liste-etapes a:hover{background:#d9eee1}
+.pr-liste-etapes .num{background:#d9eee1;border-radius:12px;padding:8px 10px;font-weight:800;min-width:48px;text-align:center}
+.pr-liste-etapes .nom{flex:1}
+.pr-liste-etapes .et{font-size:22px;white-space:nowrap}
+.pr-groupe{font-size:20px;color:var(--doux);margin:22px 0 6px;font-weight:800}
+.vide{opacity:.28;filter:grayscale(1)}
+.fiches-ex{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:8px}
+.fiches-ex .fx{display:flex;gap:10px;align-items:center;background:#fff;border-radius:14px;padding:10px 14px;font-size:18px}
+.fiches-ex .num{background:#d9eee1;border-radius:10px;padding:4px 8px;font-weight:800}.fiches-ex .nom{flex:1}
+.fiches-ex a{color:#117b5c;font-weight:800;text-decoration:none;white-space:nowrap}
+
+@media print{.pr-barre,.pr-onglets,.pr-progres,.pr-actions,.pr-note{display:none}.pr-carte{box-shadow:none}}
+@media(max-width:520px){.pr-barre a,.pr-barre button{font-size:15px;padding:6px 9px}.pr-choix button{min-width:84px}}

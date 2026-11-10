@@ -1,0 +1,123 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>FrançaisRoute — Les petites histoires de Lili</title><link rel="icon" href="../images/favicon.svg" type="image/svg+xml"><style>
+/* Lili's little stories: find ÊTRE and AVOIR in each story. */
+*{box-sizing:border-box}
+body{margin:0;font-family:'Trebuchet MS',system-ui,sans-serif;background:linear-gradient(135deg,#e2f7ff,#fff6dc 58%,#efe4ff);color:#2a3552;min-height:100vh}
+.barre{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#7553bb;color:#fff;padding:10px 4vw}
+.barre a,.barre button{color:#fff;text-decoration:none;border:2px solid #ffffff66;background:#ffffff1f;border-radius:14px;padding:7px 13px;font:800 17px 'Trebuchet MS',system-ui,sans-serif;cursor:pointer}
+.barre .titre{flex:1;text-align:center;font-weight:900;font-size:clamp(17px,2.2vw,21px)}
+.wrap{max-width:920px;margin:auto;padding:18px}
+.top{text-align:center;font-size:clamp(28px,5vw,42px);margin:10px 0 20px}
+.scene{background:linear-gradient(#bcecff 0 60%,#c2e7aa 60%);border:5px solid white;border-radius:28px;padding:18px;text-align:center;box-shadow:0 7px 0 #d8e5e6}
+.scene .label{font-size:clamp(20px,3.5vw,27px);font-weight:900;background:#fffdf1;border-radius:16px;padding:7px 17px;display:inline-block}
+.art{font-size:clamp(52px,9vw,87px);line-height:1.7}
+.paper{background:#fff;border:4px solid #e9d49c;border-radius:26px;padding:24px;margin:20px 0;box-shadow:0 5px 0 #e6dbbd}
+.paper h2{font-size:clamp(21px,3.2vw,27px);margin:0 0 15px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.paper h2 .sp{flex:1}
+.ecoute{background:#7553bb;color:#fff;border:0;border-radius:14px;padding:9px 16px;font:900 17px 'Trebuchet MS',system-ui,sans-serif;cursor:pointer}
+.story{font-size:clamp(25px,3.8vw,33px);line-height:2.1;font-weight:800}
+.word{border:2px solid transparent;background:transparent;font:inherit;color:inherit;border-radius:8px;cursor:pointer;padding:1px 2px;display:inline;line-height:inherit;position:relative}
+.word:hover{background:#fff4cf}
+.word.etre{background:#cbf5d5;border-color:#49b766;cursor:default}
+.word.avoir{background:#ffe6c4;border-color:#e08a1e;cursor:default}
+.word .tag{position:absolute;left:50%;transform:translateX(-50%);bottom:-1.25em;font-size:13px;font-weight:900;line-height:1;white-space:nowrap}
+.word.etre .tag{color:#2e8a4a}.word.avoir .tag{color:#a85b0f}
+.word.bad{background:#ffe1e1;border-color:#e37a7a;animation:secoue .35s}
+@keyframes secoue{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.word:focus-visible,.nav:focus-visible,.ecoute:focus-visible{outline:4px solid #e9a31b;outline-offset:2px}
+.feedback{min-height:64px;text-align:center;font-size:clamp(22px,3.6vw,30px);font-weight:900;color:#5e3c99;padding:10px}
+.hint{text-align:center;font-size:clamp(17px,2.6vw,21px);font-weight:800;margin-top:26px}
+.stars{font-size:20px;text-align:center;font-weight:800;color:#356b4a}
+.memo{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;font-size:17px;line-height:1.6}
+.memo div{border-radius:16px;padding:8px 14px}.memo b{display:block;font-size:18px}
+.memo .e{background:#e3f7e9;border:3px solid #49b766}.memo .a{background:#fff1dc;border:3px solid #e08a1e}
+.navrow{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:22px 0}
+.nav{background:#7553bb;border:0;border-radius:15px;padding:14px 20px;color:white;font:900 clamp(16px,2.7vw,20px) 'Trebuchet MS',system-ui,sans-serif;cursor:pointer;text-decoration:none}
+.nav:disabled{opacity:.35;cursor:default}.nav.vert{background:#2f9a5a}
+.count{text-align:center;font-size:clamp(16px,2.7vw,21px);font-weight:900}
+.fin{text-align:center}.fin .grand{font-size:64px;letter-spacing:6px}.fin p{font-size:24px;font-weight:800}.vide{opacity:.28;filter:grayscale(1)}
+.note{color:#586780;font-size:15px;margin:10px 0 30px}.note summary{cursor:pointer;font-weight:800}
+@media(max-width:550px){.wrap{padding:10px}.paper{padding:15px}.nav{padding:11px 10px}.art{font-size:48px}.memo{grid-template-columns:1fr}}
+</style></head><body>
+<header class="barre"><a href="etape8.html">← Activité</a><span class="titre">📚 FrançaisRoute · Activité / 17</span></header>
+<main class="wrap">
+<h1 class="top">📖 Les petites histoires de Lili 🌈</h1>
+<div id="jeu">
+<section class="scene"><div class="label" id="sceneTitle"></div><div class="art" id="sceneArt" aria-hidden="true"></div></section>
+<section class="paper"><h2>👀 Lis et trouve les verbes !<span class="sp"></span><button type="button" class="ecoute" id="ecoute">🔊 Écouter l’histoire</button></h2>
+<div class="story" id="story"></div>
+<div class="hint">👆 Clique sur les verbes ÊTRE et AVOIR.</div>
+<div class="feedback" id="feedback" aria-live="polite">🔎 À toi de jouer !</div>
+<div class="stars" id="stars"></div>
+<div class="memo"><div class="e"><b>😊 ÊTRE</b>je suis · tu es · il/elle est<br>nous sommes · vous êtes · ils/elles sont</div><div class="a"><b>🎒 AVOIR</b>j’ai · tu as · il/elle a<br>nous avons · vous avez · ils/elles ont</div></div>
+</section>
+<div class="navrow"><button class="nav" id="prev" type="button">⬅ Retour</button><div class="count" id="count"></div><button class="nav" id="next" type="button">Suivant ➡</button></div>
+</div>
+<details class="note"><summary>👩‍🏫 Notes pour l’enseignante</summary><p>Six petites histoires. L’élève clique sur chaque forme de être (en vert) et de avoir (en orange). Les autres mots, et les mots qui se disent pareil (à, et), sont des pièges. Un point par verbe trouvé, moins un point par erreur ; les étoiles sont gardées sur l’appareil.</p></details>
+</main>
+<script src="voix.js"></script>
+<script src="parcours.js"></script>
+<script src="menu8.js"></script>
+<script>
+(function(){
+'use strict';
+const HISTOIRES=[
+ {titre:'Une journée au parc',art:'🌳 👧🏻 🎈 👦🏽 🐕 🌼',texte:'Aujourd’hui, Lili est au parc. Elle a un ballon rouge. Sami est avec elle. Il a un petit chien. Les enfants sont contents.'},
+ {titre:'Dans la classe',art:'🏫 👩‍🏫 📚 ✏️ 🎒',texte:'Lili est dans la classe. Elle a un livre. Sami est à sa table. Il a un crayon. Nous sommes prêts.'},
+ {titre:'Les animaux de la ferme',art:'🌾 🐄 🐥 🐴 🌻',texte:'La vache est dans le pré. Elle a un petit veau. Les poussins sont jaunes. Ils ont des plumes. Le cheval est gentil.'},
+ {titre:'Le goûter',art:'🍎 🧃 🥪 👧🏻 👦🏽',texte:'Tu as une pomme. Je suis à côté de toi. Nous avons du jus. Les sandwichs sont bons. Vous êtes contents.'},
+ {titre:'La fête des amis',art:'🎂 🎉 🎁 🎈 🥳',texte:'Aujourd’hui, c’est la fête de Lili. Elle a un gâteau. Ses amis sont là. Ils ont des cadeaux. Lili est heureuse.'},
+ {titre:'À la plage',art:'🏖️ 🐚 🌊 ☀️ 🪣',texte:'Nous sommes à la plage. Tu as un seau. Je suis sous le parasol. Les vagues sont grandes. Vous avez des coquillages.'}
+];
+const ETRE=['suis','es','est','sommes','êtes','sont'],AVOIR=['ai','as','a','avons','avez','ont'];
+const verbeDe=m=>{m=m.toLowerCase();return ETRE.includes(m)?'être':AVOIR.includes(m)?'avoir':null};
+const $=id=>document.getElementById(id);
+// Words become buttons; "c’est" / "j’ai" are split so that only "est" / "ai" is the verb.
+function mots(t){const out=[];t.split(/(\s+)/).forEach(ch=>{if(!ch)return;if(/^\s+$/.test(ch)){out.push({txt:ch});return}
+ const m=/^([\p{L}’'-]*?)([^\p{L}’'-]*)$/u.exec(ch)||[ch,ch,''];let w=m[1];const fin=m[2];
+ const el=/^(c’|c'|j’|j'|l’|l'|d’|d'|qu’|qu')(.+)$/i.exec(w);if(el&&!/^aujourd/i.test(w)){out.push({mot:el[1]});w=el[2]}
+ if(w)out.push({mot:w});if(fin)out.push({txt:fin})});return out}
+const LISTES=HISTOIRES.map(h=>mots(h.texte));
+const etat=HISTOIRES.map(()=>({trouves:new Set(),erreurs:0}));
+let k=0;
+const aTrouver=n=>LISTES[n].filter(m=>m.mot&&verbeDe(m.mot)).length;
+function dessiner(){
+ const h=HISTOIRES[k],st=etat[k];
+ $('jeu').hidden=false;
+ $('sceneTitle').textContent=h.titre;$('sceneArt').textContent=h.art;
+ $('count').textContent='Histoire '+(k+1)+' / '+HISTOIRES.length;
+ $('prev').disabled=k===0;
+ $('next').textContent=k<HISTOIRES.length-1?'Suivant ➡':'Terminer ✔';
+ $('feedback').textContent='🔎 À toi de jouer !';
+ const box=$('story');box.replaceChildren();
+ LISTES[k].forEach((m,j)=>{
+  if(!m.mot){box.append(document.createTextNode(m.txt));return}
+  const b=document.createElement('button');b.type='button';b.className='word';b.textContent=m.mot;
+  const v=verbeDe(m.mot);
+  const marquer=()=>{b.classList.add(v==='être'?'etre':'avoir');b.insertAdjacentHTML('beforeend','<span class="tag">'+v+'</span>');b.setAttribute('aria-label',m.mot+', verbe '+v)};
+  if(st.trouves.has(j))marquer();
+  b.onclick=()=>{
+   if(st.trouves.has(j))return;
+   if(v){st.trouves.add(j);marquer();$('feedback').textContent='😊 Bravo ! « '+m.mot+' », c’est le verbe '+v.toUpperCase()+'.';LIRE(m.mot+', verbe '+v)}
+   else{st.erreurs++;b.classList.remove('bad');void b.offsetWidth;b.classList.add('bad');setTimeout(()=>b.classList.remove('bad'),1200);
+    $('feedback').textContent=['à','et','son','on'].includes(m.mot.toLowerCase())?'🤔 « '+m.mot+' » se dit pareil, mais ce n’est pas un verbe. Essaie encore !':'😢 Essaie encore !'}
+   etoiles()};
+  box.append(b)});
+ etoiles();
+}
+function etoiles(){const t=aTrouver(k),f=etat[k].trouves.size;$('stars').textContent='⭐ '+f+' / '+t+' verbes trouvés'+(f===t?' — 🎉 Bravo !':'')}
+function bilan(){
+ const tot=HISTOIRES.reduce((n,_,i)=>n+aTrouver(i),0),tr=etat.reduce((n,s)=>n+s.trouves.size,0),err=etat.reduce((n,s)=>n+s.erreurs,0);
+ const score=Math.max(0,tr-err),e=window.FR17?window.FR17.garder('8-reperer',score,tot):1;
+ $('jeu').hidden=true;
+ let fin=document.getElementById('fin');if(!fin){fin=document.createElement('section');fin.id='fin';fin.className='paper fin';$('jeu').after(fin)}
+ fin.hidden=false;
+ fin.innerHTML=`<div class="grand">${'⭐'.repeat(e)}<span class="vide">${'⭐'.repeat(3-e)}</span></div><p>Tu as trouvé <b>${tr}</b> verbes sur <b>${tot}</b>.</p><p>${err?err+' erreur'+(err>1?'s':'')+' en chemin.':'Aucune erreur, bravo !'}</p><div class="navrow" style="justify-content:center"><button type="button" class="nav" id="encore">🔁 Recommencer</button><a class="nav vert" href="etape8-devoir.html">📝 Le petit devoir →</a><a class="nav" href="index.html">⬅ Retour aux étapes</a></div>`;
+ $('encore').onclick=()=>{etat.forEach(s=>{s.trouves.clear();s.erreurs=0});fin.hidden=true;k=0;dessiner();window.scrollTo(0,0)};
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+$('prev').onclick=()=>{if(k>0){k--;dessiner()}};
+$('next').onclick=()=>{if(k<HISTOIRES.length-1){k++;dessiner();window.scrollTo({top:0,behavior:'smooth'})}else bilan()};
+$('ecoute').onclick=()=>LIRE(HISTOIRES[k].texte,true);
+dessiner();
+})();
+</script></body></html>

@@ -1,0 +1,39 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>FrançaisRoute — Parcours en 17 étapes</title><link rel="icon" href="../images/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="parcours.css"></head><body>
+<header class="pr-barre"><a href="../index.html">← FrançaisRoute</a><span class="pr-titre">📚 Parcours en 17 étapes</span></header>
+<main class="pr-shell">
+<h1>📚 Mon parcours de français</h1>
+<p class="pr-sous" style="text-align:left;margin-left:0">Chaque étape a une leçon, un entraînement et un petit devoir. Le petit devoir donne des étoiles. Le son se déclenche seulement quand tu cliques sur 🔊.</p>
+<div id="liste"></div>
+<p class="pr-groupe">🧾 Exercices à imprimer</p>
+<p class="pr-sous" style="text-align:left;margin-left:0">Une feuille d’exercices par étape, avec son corrigé. Ouvre-la pour l’imprimer, ou télécharge le PDF.</p>
+<div id="fiches" class="fiches-ex"></div>
+<div class="pr-actions" style="justify-content:flex-start"><a href="../francais/cours.html">🎓 Niveau supérieur : Cours de français →</a></div>
+<p class="pr-sous" style="text-align:left;margin-left:0;font-size:16px">Les étoiles sont gardées sur cet appareil.</p>
+</main>
+<script src="parcours.js"></script>
+<script>
+// List of steps, grouped by learning goal.
+const GROUPES=[
+ ['🔤 Lire les lettres et les sons',[[1,'Les sons et les lettres'],[2,'Les syllabes'],[3,'Les mots de tous les jours'],[4,'Les sons composés']]],
+ ['📝 La phrase et les mots',[[5,'La phrase'],[6,'La ponctuation'],[7,'Le nom et le déterminant'],[8,'Être et avoir au présent']]],
+ ['🎤 Conjuguer les verbes',[[9,'Les verbes en -er au présent'],[10,'Les verbes en -ir comme finir'],[11,'Les verbes du 3e groupe'],[12,'Le futur proche'],[13,'Le passé composé'],[14,'L’imparfait'],[15,'Le futur simple']]],
+ ['📖 Lire et écrire',[[16,'Lire et comprendre'],[17,'J’écris des phrases et des textes']]]
+];
+const p=window.FR17.progres(),box=document.getElementById('liste');
+// Printable practice sheets, one per step.
+const fx=document.getElementById('fiches');GROUPES.flatMap(g=>g[1]).forEach(([n,nom])=>{const d=document.createElement('div');d.className='fx';d.innerHTML='<span class="num">'+String(n).padStart(2,'0')+'</span><span class="nom"></span><a href="exercices'+n+'.html" target="_blank" rel="noopener">🖨️ Ouvrir</a><a href="pdf/exercices'+n+'.pdf" download>⬇️ PDF</a>';d.querySelector('.nom').textContent=nom;fx.append(d);
+ // Step 8 has more sheets.
+ if(n===2)[['2-2','Couper les mots'],['2-3','Compter les syllabes'],['2-4','Former des mots'],['2-5','Les syllabes dans la phrase'],['2-6','Je révise les syllabes']].forEach(([f,t],i)=>{const x=document.createElement('div');x.className='fx';x.innerHTML='<span class="num">02</span><span class="nom"></span><a href="exercices'+f+'.html" target="_blank" rel="noopener">🖨️ Ouvrir</a><a href="pdf/exercices'+f+'.pdf" download>⬇️ PDF</a>';x.querySelector('.nom').textContent='Feuille '+(i+2)+' · '+t;fx.append(x)});
+ if(n===8)[['8-2','Le verbe être'],['8-3','Le verbe avoir'],['8-4','Être ou avoir ?'],['8-5','Je trouve être et avoir'],['8-6','Les mots qui se ressemblent']].forEach(([f,t],i)=>{const x=document.createElement('div');x.className='fx';x.innerHTML='<span class="num">08</span><span class="nom"></span><a href="exercices'+f+'.html" target="_blank" rel="noopener">🖨️ Ouvrir</a><a href="pdf/exercices'+f+'.pdf" download>⬇️ PDF</a>';x.querySelector('.nom').textContent='Feuille '+(i+2)+' · '+t;fx.append(x)})});
+GROUPES.forEach(([titre,etapes])=>{
+ const h=document.createElement('p');h.className='pr-groupe';h.textContent=titre;box.append(h);
+ const nav=document.createElement('nav');nav.className='pr-liste-etapes';nav.setAttribute('aria-label',titre);
+ etapes.forEach(([n,nom])=>{
+  const e=(p[n]||{}).etoiles||0,a=document.createElement('a');a.href='etape'+n+'.html';
+  a.innerHTML='<span class="num">'+String(n).padStart(2,'0')+'</span><span class="nom"></span><span class="et" aria-label="'+e+' étoile'+(e>1?'s':'')+' sur 3">'+'⭐'.repeat(e)+'<span class="vide">'+'⭐'.repeat(3-e)+'</span></span>';
+  a.querySelector('.nom').textContent=nom;nav.append(a);
+ });
+ box.append(nav);
+});
+</script>
+</body></html>

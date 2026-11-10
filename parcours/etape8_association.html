@@ -1,0 +1,57 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>FrançaisRoute — Relie avec des flèches</title><style>
+*{box-sizing:border-box}body{margin:0;background:#f0f8f3;color:#153f33;font-family:system-ui,sans-serif}.wrap{max-width:1040px;margin:auto;padding:18px}h1{font-size:clamp(26px,4vw,38px)}p{font-size:20px;line-height:1.5}.panel{background:white;padding:clamp(12px,3vw,30px);border-radius:22px;box-shadow:0 5px 24px #18452f1a}.stage{position:relative;min-height:390px}.columns{display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:clamp(28px,10vw,115px);position:relative;z-index:1}.column{display:grid;grid-template-rows:auto repeat(4,72px);gap:12px;min-width:0}.column h2{text-align:center;font-size:clamp(15px,2vw,21px);margin:0;white-space:nowrap}.tile{background:white;border:3px solid #222;color:#111;font:600 clamp(15px,2.5vw,23px) system-ui;min-width:0;min-height:70px;border-radius:2px;padding:5px;cursor:pointer}.tile.selected{outline:4px solid #f5b93e;outline-offset:2px}.tile.done{background:#e2f5e7;border-color:#228653}.tile:focus-visible{outline:4px solid #dfac2a;outline-offset:2px}.arrows{position:absolute;inset:0;width:100%;height:100%;z-index:5;pointer-events:none;overflow:visible}.feedback{font-size:21px;font-weight:650;min-height:64px;margin-top:20px}.actions{display:flex;flex-wrap:wrap;gap:10px}button.action{border:0;background:#177c58;color:white;border-radius:13px;padding:13px 18px;font:700 19px system-ui;cursor:pointer}.action.alt{background:#dcefe3;color:#174d39}.progress{height:12px;background:#dceee2;border-radius:10px;overflow:hidden;margin:15px 0}.fill{height:100%;background:#e5b53b;width:0}.small{font-size:16px;color:#567161}a{color:#126d4b}@media(max-width:600px){.columns{gap:28px}.column{grid-template-rows:auto repeat(4,67px);gap:10px}.tile{font-size:15px;min-height:65px;border-width:2px}.column h2{font-size:14px}}
+</style></head><body><main class="wrap"><h1>📚 Relie les mots avec des flèches !</h1><p>Choisis un <b>pronom</b>, puis le bon <b>verbe</b>, puis la <b>fin de phrase</b>. Les flèches relient tes choix.</p><div class="progress"><div id="fill" class="fill"></div></div><section class="panel"><h2 id="title"></h2><div id="stage" class="stage"><svg id="arrows" class="arrows" aria-hidden="true"></svg><div id="columns" class="columns"></div></div><div id="feedback" class="feedback" aria-live="polite"></div><div id="actions" class="actions"></div></section><p class="small">La voix est déclenchée après une bonne association. Les réponses ne sont pas envoyées à un serveur.</p><p><a href="index.html">← Retour au parcours</a></p></main><script>
+/* Each round: 4 pronouns, 4 verbs, 4 endings. Any correct sentence is accepted, not only the planned one.
+   An ending lists the pronouns it agrees with. */
+const CONJ={'Je':'suis|','J’':'|ai','Tu':'es|as','Il':'est|a','Elle':'est|a','Nous':'sommes|avons','Vous':'êtes|avez','Ils':'sont|ont','Elles':'sont|ont'};
+const TOUS=Object.keys(CONJ);
+const R=[
+ {p:['Tu','Je','Vous','Elles'],v:['as','suis','avez','sont'],c:[['faim','avoir',TOUS],['heureux','être',['Je','Tu','Il','Nous','Vous','Ils']],['un livre','avoir',TOUS],['jolies','être',['Nous','Vous','Elles']]]},
+ {p:['Il','Nous','Ils','J’'],v:['est','avons','sont','ai'],c:[['gentil','être',['Je','Tu','Il']],['des crayons','avoir',TOUS],['contents','être',['Nous','Vous','Ils']],['sept ans','avoir',TOUS]]},
+ {p:['Elle','Nous','Vous','Je'],v:['a','sommes','êtes','suis'],c:[['un chat','avoir',TOUS],['amis','être',['Nous','Vous','Ils']],['prêts','être',['Nous','Vous','Ils']],['petit','être',['Je','Tu','Il']]]}
+];
+const COLORS=['#e54848','#209b4b','#a84bb3','#e08a1e'];
+let round=0,choice=[null,null,null],done=[new Set(),new Set(),new Set()],paths=[],buttons=[[],[],[]],found=0;
+const $=id=>document.getElementById(id);
+const orders=[[0,1,2,3],[1,2,3,0],[2,3,0,1]];
+function speak(t){if(!('speechSynthesis' in window))return;speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(t);u.lang='fr-CA';u.rate=.8;speechSynthesis.speak(u)}
+function label(c,k){const r=R[round];return c===0?r.p[k]:c===1?r.v[k]:r.c[k][0]}
+function verbeDe(form){return ['suis','es','est','sommes','êtes','sont'].includes(form)?'être':'avoir'}
+function correct(a,b,c){const r=R[round],p=r.p[a],v=r.v[b],e=r.c[c];return CONJ[p].split('|').includes(v)&&e[1]===verbeDe(v)&&e[2].includes(p)}
+function full(a,b,c){const r=R[round],p=r.p[a];return (p==='J’'?p+r.v[b]:p+' '+r.v[b])+' '+r.c[c][0]+'.'}
+function draw(){
+const svg=$('arrows'),stage=$('stage');svg.replaceChildren();
+const r=stage.getBoundingClientRect();if(!r.width||!r.height)return;
+svg.setAttribute('viewBox',`0 0 ${r.width} ${r.height}`);
+const all=paths.slice();
+if(choice[0]!==null&&choice[1]!==null)all.push([0,choice[0],choice[1],true,choice[0]]);
+if(choice[1]!==null&&choice[2]!==null)all.push([1,choice[1],choice[2],true,choice[0]]);
+for(const [col,a,b,temp,colour] of all){
+const from=buttons[col][a].getBoundingClientRect(),to=buttons[col+1][b].getBoundingClientRect();
+const x1=from.right-r.left+3,y1=from.top+from.height/2-r.top;
+const x2=to.left-r.left-7,y2=to.top+to.height/2-r.top;
+const dx=x2-x1,dy=y2-y1,len=Math.hypot(dx,dy)||1,ux=dx/len,uy=dy/len;
+const color=COLORS[colour];
+const line=document.createElementNS('http://www.w3.org/2000/svg','line');
+for(const [k,v] of Object.entries({x1,y1,x2,y2,stroke:color,'stroke-width':4,'stroke-linecap':'round'}))line.setAttribute(k,v);
+if(temp)line.setAttribute('stroke-dasharray','8 5');
+svg.append(line);
+const head=document.createElementNS('http://www.w3.org/2000/svg','polygon');
+const size=12,wide=6;
+head.setAttribute('points',`${x2},${y2} ${x2-ux*size-uy*wide},${y2-uy*size+ux*wide} ${x2-ux*size+uy*wide},${y2-uy*size-ux*wide}`);
+head.setAttribute('fill',color);svg.append(head);
+}}
+
+function render(){const cols=$('columns'),actions=$('actions');cols.replaceChildren();actions.replaceChildren();$('feedback').textContent='';choice=[null,null,null];done=[new Set(),new Set(),new Set()];paths=[];buttons=[[],[],[]];found=0;$('fill').style.width=round/R.length*100+'%';
+if(round===R.length){$('title').textContent='🌟 Bravo ! Tu as relié toutes les phrases !';$('stage').style.display='none';actions.append(action('🔁 Recommencer',()=>{round=0;render()}));const l=document.createElement('a');l.className='action';l.href='etape8-devoir.html';l.textContent='📝 Petit devoir →';actions.append(l);const t=document.createElement('a');t.className='action secondary';t.href='index.html';t.textContent='⬅ Retour aux étapes';actions.append(t);return}
+$('stage').style.display='block';$('title').textContent=`Série ${round+1} sur ${R.length}`;const labels=['Pronom','Être ou avoir','Fin de la phrase'];for(let c=0;c<3;c++){const col=document.createElement('div');col.className='column';const h=document.createElement('h2');h.textContent=labels[c];col.append(h);for(let k of orders[c]){const b=document.createElement('button');b.className='tile';b.textContent=label(c,k);b.onclick=()=>select(c,k);col.append(b);buttons[c][k]=b}cols.append(col)}
+actions.append(action('🔊 Écouter',()=>speak('Choisis un pronom, puis le bon verbe, puis la fin de la phrase.'),true));actions.append(action('↩ Effacer le choix',()=>{choice=[null,null,null];for(let c=0;c<3;c++)buttons[c].forEach(b=>b.classList.remove('selected'));$('feedback').textContent='Choisis un pronom pour recommencer.';draw()},true));
+requestAnimationFrame(draw)}
+function action(t,fn,alt=false){let b=document.createElement('button');b.className='action'+(alt?' alt':'');b.textContent=t;b.onclick=fn;return b}
+function select(c,k){if(done[c].has(k))return;if(c>0&&choice[c-1]===null){$('feedback').textContent='Commence par la colonne de gauche.';return}if(c===0){choice=[null,null,null];}else if(c===1){choice[2]=null}
+choice[c]=k;for(let j=0;j<3;j++)buttons[j].forEach(b=>b.classList.remove('selected'));for(let j=0;j<3;j++)if(choice[j]!==null)buttons[j][choice[j]].classList.add('selected');
+draw();
+if(c===2){const [a,b,e]=choice;if(correct(a,b,e)){paths.push([0,a,b,false,a],[1,b,e,false,a]);[a,b,e].forEach((k2,j)=>{done[j].add(k2);buttons[j][k2].classList.remove('selected');buttons[j][k2].classList.add('done');buttons[j][k2].disabled=true});found++;const phrase=full(a,b,e);$('feedback').textContent='⭐ Bravo ! '+phrase;speak(phrase);choice=[null,null,null];draw();if(found===4){$('actions').append(action('➜ Série suivante',()=>{round++;render()}))}}else{const r=R[round];$('feedback').textContent=!CONJ[r.p[a]].split('|').includes(r.v[b])?'Essaie encore : ce verbe ne va pas avec « '+r.p[a]+' ».':'Essaie encore : cette fin de phrase ne va pas avec « '+r.p[a]+' '+r.v[b]+' ».';choice=[null,null,null];for(let j=0;j<3;j++)buttons[j].forEach(b=>b.classList.remove('selected'));draw()}}
+}
+window.addEventListener('resize',()=>{if(round<R.length)draw()});render();
+</script><script src="menu8.js"></script></body></html>

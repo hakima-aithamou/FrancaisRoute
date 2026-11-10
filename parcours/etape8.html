@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>FrançaisRoute — La classe de Lili</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f5f1fb;font-family:system-ui,'Segoe UI',sans-serif;color:#51367b}main{max-width:920px;margin:auto;padding:18px}.sheet{background:#fff7e9;border-radius:25px;padding:clamp(16px,3vw,32px);box-shadow:0 10px 35px #7b619021}h1{text-align:center;font-size:clamp(25px,4vw,36px)}h2{font-size:clamp(20px,3vw,26px);margin:0 0 14px}.hero{display:flex;align-items:center;gap:16px}.mascot{width:112px;max-width:26%;flex:none}.bubble{background:#fff;border:2px solid #c9a8f0;border-radius:22px;padding:17px;flex:1;font-size:clamp(16px,2.4vw,20px);line-height:1.5}.mission{border-radius:20px;padding:18px;margin:18px 0}.green{background:#e1f4e9;color:#176d45}.yellow{background:#fff0c5;color:#865c00}.lavender{background:#eee5fc;color:#573c8d}.white{background:#fff;color:#573c8d}.exline{font-size:clamp(17px,2.4vw,21px);margin:9px 0;line-height:1.5}.row{display:flex;align-items:center;gap:15px}.iconart{width:90px;min-width:90px;height:100px;border-radius:16px;background:white;display:grid;place-items:center;font-size:55px}.note{background:white;border-radius:15px;padding:14px;margin-top:12px;line-height:1.5}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.card{border-radius:16px;padding:15px;min-width:0}.card .exline{font-size:17px}button,.linkbtn{border:0;border-radius:14px;background:#7954b2;color:white;font:700 17px system-ui;padding:12px 15px;cursor:pointer;text-decoration:none;display:inline-block}button:hover,.linkbtn:hover{filter:brightness(.95)}button:disabled{opacity:.4;cursor:default}.choice{background:#fff;color:#573c8d;border:2px solid #c9a8f0}.choice.active{background:#d8c4f5}.choice.good{background:#d6f4df;border-color:#65b67d}.choice.bad{background:#ffe0df;border-color:#d98686}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.question{background:#fff;border-radius:18px;padding:22px;margin-top:12px;text-align:center}.question strong{font-size:clamp(22px,4vw,29px)}.feedback{min-height:36px;font-weight:700;margin-top:13px}.counter{font-size:15px;opacity:.8}.progress{height:12px;background:#e5d9f0;border-radius:10px;overflow:hidden}.progress span{display:block;height:100%;background:#8c68bd;transition:width .2s}.small{font-size:14px;color:#705b8b}.hidden{display:none!important}a{color:#6541a1}button:focus-visible,a:focus-visible{outline:3px solid #f6ad42;outline-offset:3px}@media(max-width:540px){.grid2{grid-template-columns:1fr}.grid3{grid-template-columns:repeat(2,1fr)}.hero{gap:8px}.mascot{width:76px}.iconart{min-width:62px;width:62px;height:78px;font-size:40px}.row{gap:9px}.mission{padding:13px}.bubble{padding:12px}}
+input.answer{font:700 20px system-ui;max-width:250px;width:100%;border:2px solid #bba1e0;border-radius:12px;padding:12px;background:#fff;color:#51367b} .wordlist{display:flex;flex-wrap:wrap;gap:9px;justify-content:center}.wordlist button{font-size:18px}.selectedpair{background:#d8c4f5!important;border-color:#7856ac!important}.successnote{color:#176d45;font-weight:700}.errornote{color:#a83b48;font-weight:700}.mission{display:none;margin-top:10px}.mission.current{display:block}.missionNav{background:#fff;border-radius:20px;padding:16px;margin:16px 0;position:sticky;top:5px;z-index:10;box-shadow:0 4px 18px #806aa52b}.missionNav .navrow{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.missionNav .navrow button{font-size:15px}.missionNav .navrow button:disabled{opacity:.4}.missionNav .bar{height:10px;background:#eee5fc;border-radius:8px;overflow:hidden;margin:12px 0}.missionNav .bar>div{height:100%;background:#8a68bd;transition:width .25s}.missionNav .status{font-weight:700}.missionNav .help{font-size:13px;color:#745c94}.mission{min-height:360px}@media(max-width:540px){.missionNav{position:static}} .missionNav{position:static!important;margin:24px 0 18px!important;padding:22px!important;border:3px solid #d6b8f5!important}.missionNav .navrow{display:grid!important;grid-template-columns:1fr 1fr;gap:18px!important}.missionNav .navrow button{font-size:clamp(20px,3vw,27px)!important;min-height:82px;padding:18px 16px!important;border-radius:19px!important;box-shadow:0 5px 0 #5b3a86;line-height:1.3}.missionNav .navrow button:disabled{box-shadow:none}.missionNav .help{grid-column:1/-1;text-align:center;font-size:15px}.missionNav .status{font-size:20px}@media(max-width:520px){.missionNav .navrow{gap:9px!important}.missionNav .navrow button{font-size:19px!important;min-height:76px;padding:12px 6px!important}}
+/* Workshops: the game on the left, être / avoir reminder on the right */
+.atelier-zone{display:grid;grid-template-columns:minmax(0,1fr) 230px;gap:16px;align-items:start;margin-top:16px}
+.atelier-zone #gamescreen{min-width:0}
+.memo-conj{display:grid;gap:12px;position:sticky;top:12px}
+.memo{background:#fff;border:3px solid #a5dfd0;border-radius:18px;padding:10px 14px}
+.memo.avoir{border-color:#f2cc83}
+.memo h3{margin:0 0 6px;font-size:20px;color:#0a7a56}
+.memo.avoir h3{color:#a25b12}
+.memo ul{list-style:none;margin:0;padding:0;font-size:19px;line-height:1.55}
+.memo b{color:#0a7a56}.memo.avoir b{color:#a25b12}
+@media(max-width:760px){.atelier-zone{grid-template-columns:1fr}.memo-conj{position:static;grid-template-columns:1fr 1fr}}
+
+/* One tab for être, one for avoir, one for the games */
+.onglets8{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 6px}
+.onglets8 button{flex:1;min-width:180px;border:3px solid #c8b3ec;background:#fff;color:#4b3486;border-radius:16px;padding:12px 14px;font-size:clamp(17px,2.2vw,21px);font-weight:900;cursor:pointer}
+.onglets8 button[aria-selected="true"]{background:#7954b6;border-color:#7954b6;color:#fff}
+#onglet-etre h2{color:#0a7a56}#onglet-avoir h2{color:#a25b12}
+.onglet-panneau{margin-top:10px}
+.fin-phrase{font-size:1.2em;align-self:center;margin-left:-4px}.ecoute{margin:4px auto 10px;display:inline-block}.case{display:inline-flex;align-items:center;justify-content:center;min-width:3.2em;min-height:1.25em;padding:0 .3em;margin:0 .2em;border:3px dashed #b9a2e6;border-radius:12px;background:#f7f2ff;vertical-align:middle;line-height:1.1;transition:background .3s,border-color .3s}.case.pleine{border-style:solid;border-color:#36a568;background:#d8f3df;color:#0f5a2e}.glisse{font-size:24px!important;background:#c8f8d7;border:3px solid #36a568;border-radius:14px;font-weight:900;color:#0f5a2e;box-shadow:0 8px 20px #0003}.liens-onglet{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+/* Big buttons for young children: one click opens the activity on its own page */
+.grands-boutons{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin:14px 0}
+.grand-bouton{display:flex;gap:14px;align-items:center;text-decoration:none;color:#2f2160;background:#fff;border:4px solid #c8b3ec;border-radius:24px;padding:20px;box-shadow:0 6px 0 #d9cdf3;transition:transform .1s}
+.grand-bouton:hover{transform:translateY(-2px)}.grand-bouton:active{transform:translateY(3px);box-shadow:0 2px 0 #d9cdf3}
+.grand-bouton .gb-emo{font-size:52px}.grand-bouton b{display:block;font-size:24px}.grand-bouton small{display:block;font-size:17px;color:#5d4d86;margin-top:4px}
+.grand-bouton.b1{border-color:#7954b6;background:#f4eeff}.grand-bouton.b2{border-color:#36a568;background:#eefbf3}
+.retour-etapes{text-align:center;margin:24px 0}</style><style>
+.fishing-pond,.balloon-area,.train-area{border-radius:24px;margin-top:16px;padding:22px 14px;text-align:center;min-height:310px}
+.fishing-pond{background:linear-gradient(#d4f4ff 0 26%,#79cfe8 26% 100%);color:#234b68}.balloon-area{background:linear-gradient(#eaf6ff,#fff2d7);color:#573c8d}.train-area{background:linear-gradient(#f7fff1,#d7edc9);color:#315b40}
+.fishing-hook{font-size:55px}.game-prompt{font-size:clamp(20px,3vw,27px);font-weight:800;margin:12px auto 22px;max-width:620px}.fish-row,.balloon-row,.train-row{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;align-items:center;min-height:120px}
+.fish-option,.balloon-option,.train-option{font-size:20px;font-weight:800;min-width:108px;min-height:82px;color:#233b55;transition:transform .18s}
+.fish-option{background:#ffcb77;border:4px solid #fff;border-radius:60% 45% 50% 50%;box-shadow:0 6px 0 #e49a3d}.fish-option::before{content:"🐟 ";font-size:25px}
+.balloon-option{background:#f7a8c4;border:3px solid #fff;border-radius:52% 52% 48% 48%;min-height:115px;box-shadow:0 8px 0 #ca79a3}.balloon-option:nth-child(2n){background:#9fd8ff}.balloon-option:nth-child(3n){background:#d8b3f6}.balloon-option::after{content:" 🎈";font-size:21px}
+.train-option{background:#f9c86a;border:4px solid #6f96ae;border-radius:12px;box-shadow:0 9px 0 #667b8e}.train-option::before{content:"🚃 ";font-size:26px}
+.fish-option:hover,.balloon-option:hover,.train-option:hover{transform:translateY(-6px)}.game-feedback{font-weight:800;min-height:32px;margin-top:20px}.game-count{margin-top:10px;font-size:15px}
+</style><style>
+.blockworld{margin-top:16px;border:4px solid #8e76b6;border-radius:20px;overflow:hidden;background:#fff}
+.blocksky{height:320px;position:relative;background:linear-gradient(#a8ddff,#e7f7ff);overflow:hidden}
+.blocksun{position:absolute;right:24px;top:15px;font-size:45px}.blockcloud{position:absolute;top:22px;left:24px;font-size:50px}
+.blockground{position:absolute;bottom:0;left:0;right:0;height:44px;background:repeating-linear-gradient(90deg,#78b35d 0 48px,#82bd65 48px 96px);border-top:8px solid #4d9b50}
+.blocktower{position:absolute;bottom:43px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column-reverse;align-items:center;gap:1px}
+.blockbrick{height:39px;width:152px;display:grid;place-items:center;border:3px solid #6352a0;border-radius:3px;background:#b99bef;color:#30265b;font-weight:900;font-size:19px;box-shadow:inset -8px -7px #9577cf,5px 3px 0 #6d579a;animation:blockPop .3s ease-out}
+.blockbrick:nth-child(2n){background:#f5c777;border-color:#b17a3c;box-shadow:inset -8px -7px #db9c49,5px 3px 0 #986a38}
+.blockbrick:nth-child(3n){background:#9ce0bb;border-color:#499c72;box-shadow:inset -8px -7px #63c08e,5px 3px 0 #397e5a}
+@keyframes blockPop{from{transform:translateY(-35px) scale(.85);opacity:.2}to{transform:translateY(0) scale(1);opacity:1}}
+.blockhero{position:absolute;left:12%;bottom:41px;width:75px;height:115px;display:flex;flex-direction:column;align-items:center}
+.blockhead{background:#f8d5b3;width:52px;height:48px;border:3px solid #73513c;display:grid;place-items:center;font-size:29px;border-radius:5px}
+.blocktorso{height:46px;width:64px;background:#6c8ce5;border:3px solid #3658b4}.blocklegs{font-size:30px;color:#364a8e;line-height:22px}
+.blockcontrol{padding:20px 14px;text-align:center}.blockprogress{font-weight:800;color:#573c8d}.blockprompt{font-weight:900;font-size:clamp(20px,3.2vw,27px);margin:18px 0}
+.blockchoices{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}.blockoption{background:#e0c8ff;color:#44316e;border:3px solid #8d70c1;border-radius:6px;box-shadow:5px 6px 0 #9d81cc;font-size:21px;min-width:102px;min-height:70px}
+.blockoption:nth-child(2){background:#ffdf96;border-color:#bd8948;box-shadow:5px 6px 0 #bd8948}.blockoption:nth-child(3){background:#b9eccb;border-color:#64ac82;box-shadow:5px 6px 0 #64ac82}
+.blockoption:disabled{opacity:.6}.blockoption:hover:not(:disabled){transform:translateY(-3px)}
+@media(max-width:540px){.blocksky{height:300px}.blockhero{left:4%;transform:scale(.75);transform-origin:bottom left}.blockbrick{width:130px}}
+</style><style>.gameframe{display:block;width:100%;height: min(830px, 88vw);min-height:390px;border:3px solid #c3a6e5;border-radius:18px;background:#f5f0ff}@media(max-width:650px){.gameframe{height: min(630px, 100vw);min-height:300px}}</style><style>
+/* Navigation discrète : deux boutons compacts côte à côte, sur tous les écrans */
+.missionNav{padding:12px 16px!important;margin:14px 0!important;border:2px solid #e4d6f5!important;border-radius:15px!important;box-shadow:none!important}
+.missionNav .status{font-size:15px!important;text-align:center}
+.missionNav .bar{height:6px!important;margin:8px 0 12px!important}
+.missionNav .navrow{display:flex!important;flex-wrap:nowrap!important;align-items:center!important;justify-content:space-between!important;gap:12px!important}
+.missionNav .navrow button{width:auto!important;flex:0 1 160px!important;min-width:0!important;min-height:42px!important;padding:9px 13px!important;font-size:15px!important;border-radius:12px!important;box-shadow:0 3px 0 #5b3a86!important;line-height:1.2!important}
+.missionNav .navrow button:disabled{box-shadow:none!important}
+.missionNav .help{grid-column:auto!important;font-size:12px!important;text-align:center!important;flex:1 1 auto!important}
+@media(max-width:520px){.missionNav .navrow{gap:7px!important}.missionNav .navrow button{font-size:13px!important;padding:9px 7px!important;flex-basis:115px!important}.missionNav .help{font-size:10px!important}}
+</style></head><body><main><div class="sheet">
+<h1>🌈 Bienvenue dans la classe de Lili !</h1>
+<div class="hero"><svg aria-label="Lili, enseignante souriante" class="mascot" role="img" viewbox="0 0 110 180"><rect fill="#fff" height="176" rx="18" width="106" x="2" y="2"></rect><rect fill="#6e927d" height="80" rx="5" width="100" x="5" y="25"></rect><path d="M5 25H105" stroke="#8b634c" stroke-width="5"></path><ellipse cx="55" cy="63" fill="#8c5948" rx="29" ry="34"></ellipse><circle cx="55" cy="69" fill="#f9c8a9" r="24"></circle><path d="M31 61Q32 26 58 32Q82 32 80 61Q68 43 56 46Q45 56 31 61" fill="#a36b56"></path><circle cx="46" cy="68" fill="#493a4c" r="2.6"></circle><circle cx="65" cy="68" fill="#493a4c" r="2.6"></circle><path d="M48 80Q55 87 64 80" fill="none" stroke="#a65061" stroke-width="2"></path><circle cx="38" cy="76" fill="#f1a8a8" opacity=".8" r="4"></circle><circle cx="72" cy="76" fill="#f1a8a8" opacity=".8" r="4"></circle><path d="M41 96L69 96L80 143L30 143Z" fill="#b9a1d7" stroke="#8065a6" stroke-width="2"></path><path d="M35 103L18 119L10 113M75 103L91 119" stroke="#f9c8a9" stroke-linecap="round" stroke-width="9"></path><rect fill="#f2a9b2" height="29" rx="2" stroke="#845c9e" stroke-width="2" transform="rotate(-12 67 119)" width="24" x="55" y="105"></rect><path d="M44 144L42 166M66 144L69 166" stroke="#f9c8a9" stroke-linecap="round" stroke-width="9"></path><path d="M29 168Q42 160 49 168M62 168Q74 160 82 168" stroke="#725079" stroke-linecap="round" stroke-width="7"></path></svg><div class="bubble">💬 <b>Bonjour, petit explorateur !</b><p>Aujourd'hui, je vais t'apprendre à utiliser <b>ÊTRE</b> et <b>AVOIR</b>. Nous allons regarder des images, parler et jouer ensemble !</p><button onclick="speak('Bonjour petit explorateur ! Aujourd’hui nous allons apprendre être et avoir.')">🔊 Écouter Lili</button></div></div>
+
+
+
+
+
+<section class="onglet-panneau" id="onglet-etre" role="tabpanel" hidden><h2>😊 Le verbe ÊTRE</h2><div class="grands-boutons"><a class="grand-bouton b1" href="classe_lili_etre_avoir.html?verbe=etre"><span class="gb-emo">🌈</span><span><b>1. La classe de Lili</b><small>Regarde, puis réponds aux questions.</small></span></a><a class="grand-bouton b2" href="etape8-etre.html"><span class="gb-emo">❓</span><span><b>2. Les questions de Lili</b><small>21 questions sur ÊTRE.</small></span></a><a class="grand-bouton b3" href="fiche8.html" target="_blank" rel="noopener"><span class="gb-emo">🖨️</span><span><b>Fiche à imprimer</b><small>Être et avoir.</small></span></a></div></section><section class="onglet-panneau" id="onglet-avoir" role="tabpanel" hidden><h2>🎒 Le verbe AVOIR</h2><div class="grands-boutons"><a class="grand-bouton b1" href="classe_lili_etre_avoir.html?verbe=avoir"><span class="gb-emo">🌈</span><span><b>1. La classe de Lili</b><small>Regarde, puis réponds aux questions.</small></span></a><a class="grand-bouton b2" href="etape8-avoir.html"><span class="gb-emo">❓</span><span><b>2. Les questions de Lili</b><small>21 questions sur AVOIR.</small></span></a><a class="grand-bouton b3" href="fiche8.html" target="_blank" rel="noopener"><span class="gb-emo">🖨️</span><span><b>Fiche à imprimer</b><small>Être et avoir.</small></span></a></div></section><div class="onglet-panneau" id="onglet-jeux" role="tabpanel" aria-labelledby="tab-jeux" hidden><section class="mission lavender" id="newgames"><h2>🎲 Les ateliers de Lili</h2><div class="hero"><svg aria-label="Lili" class="mascot" role="img" viewbox="0 0 110 180"><rect fill="#fff" height="176" rx="18" width="106" x="2" y="2"></rect><rect fill="#6e927d" height="80" rx="5" width="100" x="5" y="25"></rect><ellipse cx="55" cy="63" fill="#8c5948" rx="29" ry="34"></ellipse><circle cx="55" cy="69" fill="#f9c8a9" r="24"></circle><path d="M31 61Q32 26 58 32Q82 32 80 61Q68 43 56 46Q45 56 31 61" fill="#a36b56"></path><circle cx="46" cy="68" r="3"></circle><circle cx="65" cy="68" r="3"></circle><path d="M48 80Q55 87 64 80" fill="none" stroke="#a65061" stroke-width="2"></path><path d="M41 96L69 96L80 143L30 143Z" fill="#b9a1d7"></path><path d="M44 144L42 166M66 144L69 166" stroke="#f9c8a9" stroke-linecap="round" stroke-width="9"></path></svg><div class="bubble">💬 Tu progresses ! Je t'ai préparé <b>quatre jeux</b>. Choisis un jeu, lis bien les phrases et essaie de trouver tout seul !</div></div>
+<div class="grid2" style="margin-top:16px"><button class="choice" onclick="showGame('write')">✍️ 1. J'écris le verbe</button><button class="choice" onclick="showGame('find')">🔎 2. Je trouve le verbe</button><button class="choice" onclick="showGame('pair')">🧩 3. J'associe les cartes</button><button class="choice" onclick="showGame('change')">🔄 4. Je change le pronom</button></div><div class="atelier-zone"><div aria-live="polite" id="gamescreen"></div><aside class="memo-conj" aria-label="Conjugaison de être et avoir"><div class="memo etre"><h3>😊 ÊTRE</h3><ul><li>je <b>suis</b></li><li>tu <b>es</b></li><li>il / elle <b>est</b></li><li>nous <b>sommes</b></li><li>vous <b>êtes</b></li><li>ils / elles <b>sont</b></li></ul></div><div class="memo avoir"><h3>🎒 AVOIR</h3><ul><li>j’ <b>ai</b></li><li>tu <b>as</b></li><li>il / elle <b>a</b></li><li>nous <b>avons</b></li><li>vous <b>avez</b></li><li>ils / elles <b>ont</b></li></ul></div></aside></div></section>
+<section class="mission lavender"><h2>🎣 La pêche aux verbes (18 questions)</h2><p>Choisis le bon poisson pour compléter chaque phrase avec ÊTRE ou AVOIR.</p><iframe class="gameframe" loading="lazy" src="jeu_peche_verbes.html" title="La pêche aux verbes — 18 questions"></iframe><p><a href="jeu_peche_verbes.html" rel="noopener" target="_blank">Ouvrir le jeu en plein écran</a></p></section>
+<section class="mission yellow"><h2>🎈 Les ballons des verbes</h2>
+<div class="bubble">💬 Lili : « Attrape uniquement les ballons qui contiennent une forme du verbe demandé. Attention aux intrus ! »</div>
+<div class="balloon-area"><div class="game-prompt" id="balloonPrompt"></div><div class="balloon-row" id="balloonChoices"></div><div aria-live="polite" class="game-feedback" id="balloonFeedback"></div><div class="game-count" id="balloonCount"></div></div></section>
+<section class="mission green"><h2>🚂 Le train des pronoms</h2>
+<div class="bubble">💬 Lili : « Aide le train à partir ! Choisis le bon wagon-verbe pour le pronom affiché. »</div>
+<div class="train-area"><div class="game-prompt" id="trainPrompt"></div><div class="train-row" id="trainChoices"></div><div aria-live="polite" class="game-feedback" id="trainFeedback"></div><div class="game-count" id="trainCount"></div></div></section>
+<section class="mission lavender"><h2>🏰 Le Royaume des verbes (20 questions)</h2><p>Choisis le bon bloc pour compléter la phrase et construire le royaume.</p><iframe class="gameframe" loading="lazy" src="jeu_royaume_verbes.html" title="Le Royaume des verbes — 20 questions"></iframe><p><a href="jeu_royaume_verbes.html" rel="noopener" target="_blank">Ouvrir le jeu en plein écran</a></p></section>
+<section class="mission green"><h2>🎯 Le jeu des flèches</h2><div class="hero"><svg aria-label="Lili, enseignante souriante" class="mascot" role="img" viewbox="0 0 110 180"><rect fill="#fff" height="176" rx="18" width="106" x="2" y="2"></rect><rect fill="#6e927d" height="80" rx="5" width="100" x="5" y="25"></rect><path d="M5 25H105" stroke="#8b634c" stroke-width="5"></path><ellipse cx="55" cy="63" fill="#8c5948" rx="29" ry="34"></ellipse><circle cx="55" cy="69" fill="#f9c8a9" r="24"></circle><path d="M31 61Q32 26 58 32Q82 32 80 61Q68 43 56 46Q45 56 31 61" fill="#a36b56"></path><circle cx="46" cy="68" fill="#493a4c" r="2.6"></circle><circle cx="65" cy="68" fill="#493a4c" r="2.6"></circle><path d="M48 80Q55 87 64 80" fill="none" stroke="#a65061" stroke-width="2"></path><circle cx="38" cy="76" fill="#f1a8a8" opacity=".8" r="4"></circle><circle cx="72" cy="76" fill="#f1a8a8" opacity=".8" r="4"></circle><path d="M41 96L69 96L80 143L30 143Z" fill="#b9a1d7" stroke="#8065a6" stroke-width="2"></path><path d="M35 103L18 119L10 113M75 103L91 119" stroke="#f9c8a9" stroke-linecap="round" stroke-width="9"></path><rect fill="#f2a9b2" height="29" rx="2" stroke="#845c9e" stroke-width="2" transform="rotate(-12 67 119)" width="24" x="55" y="105"></rect><path d="M44 144L42 166M66 144L69 166" stroke="#f9c8a9" stroke-linecap="round" stroke-width="9"></path><path d="M29 168Q42 160 49 168M62 168Q74 160 82 168" stroke="#725079" stroke-linecap="round" stroke-width="7"></path></svg><div class="bubble">💬 Bravo ! Tu as appris les pronoms, lu les exemples et pratiqué les conjugaisons. Maintenant, relie <b>pronom → verbe → complément</b> avec des flèches colorées !</div></div><div class="actions"><a class="linkbtn" href="etape8_association.html">🎯 Commencer le jeu des associations →</a></div></section>
+<section class="mission yellow"><h2>📝 Le petit devoir</h2><div class="bubble">💬 Lili : « Tu as joué avec ÊTRE et AVOIR. Montre-moi ce que tu as appris ! Attention aux mots qui se disent pareil : est et et, a et à, sont et son, ont et on. »</div><div class="actions"><a class="linkbtn" href="etape8-devoir.html">📝 Faire le petit devoir →</a></div></section>
+<nav aria-label="Navigation entre les missions" class="missionNav"><div aria-live="polite" class="status" id="missionStatus">Jeu 1 sur 7</div><div aria-hidden="true" class="bar"><div id="missionProgress" style="width:14%"></div></div><div class="navrow"><button id="missionBack" type="button">⬅ RETOUR</button><span class="help">Une seule mission à la fois 🌟</span><button id="missionForward" type="button">SUIVANT ➡</button></div></nav>
+</div><p class="retour-etapes"><a class="linkbtn" href="index.html">⬅ Retour aux étapes</a></p><p class="small">La voix démarre uniquement après un clic. Les réponses restent dans ce navigateur.</p></div></main>
+<script src="voix.js"></script><script src="menu8.js"></script>
+<script>
+const missionPanels=[...document.querySelectorAll('#onglet-jeux section.mission')];
+let activeMission=0;
+function displayMission(index,depuisAdresse){
+ activeMission=Math.max(0,Math.min(index,missionPanels.length-1));
+ if(!depuisAdresse&&location.hash!=='#jeu-'+(activeMission+1))history.replaceState(null,'','#jeu-'+(activeMission+1));
+ if(window.MENU8_MARQUER)MENU8_MARQUER();
+ missionPanels.forEach((panel,i)=>{panel.classList.toggle('current',i===activeMission);panel.setAttribute('aria-hidden',i===activeMission?'false':'true')});
+ document.getElementById('missionStatus').textContent='Jeu '+(activeMission+1)+' sur '+missionPanels.length+' — '+missionPanels[activeMission].querySelector('h2').textContent.replace(/^\S+\s*/,'');
+ document.getElementById('missionProgress').style.width=((activeMission+1)/missionPanels.length*100)+'%';
+ document.getElementById('missionBack').disabled=activeMission===0;
+ document.getElementById('missionForward').disabled=activeMission===missionPanels.length-1;
+ document.getElementById('missionForward').textContent=activeMission===missionPanels.length-2?'SUIVANT ➡':'SUIVANT ➡';
+ if(!document.getElementById('onglet-jeux').hidden)window.scrollTo({top:document.getElementById('onglet-jeux').offsetTop-10,behavior:'smooth'});
+}
+document.getElementById('missionBack').onclick=()=>displayMission(activeMission-1);
+document.getElementById('missionForward').onclick=()=>displayMission(activeMission+1);
+
+function speak(s){if(!('speechSynthesis' in window))return;window.speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(s);u.lang='fr-CA';u.rate=.8;window.speechSynthesis.speak(u)}
+function el(tag,cls,text){const x=document.createElement(tag);if(cls)x.className=cls;if(text!==undefined)x.textContent=text;return x}
+const WRITE=[['Je ___ content 😊.','suis','être'],['Tu ___ un ballon ⚽.','as','avoir'],['Elle ___ à l’école 🏫.','est','être'],['Nous ___ des livres 📚.','avons','avoir'],['Vous ___ gentils 💛.','êtes','être'],['Ils ___ des vélos 🚲.','ont','avoir'],['Elles ___ heureuses 😄.','sont','être'],['J’___ huit ans 🎂.','ai','avoir'],['Il ___ un chien 🐶.','a','avoir'],['Nous ___ prêts ⭐.','sommes','être'],['Vous ___ soif 🥤.','avez','avoir'],['Tu ___ mon ami 🤝.','es','être']];
+const FIND=[['Nous sommes heureux 😊.','sommes','être'],['Tu as un chat 🐱.','as','avoir'],['Elles ont des fleurs 🌸.','ont','avoir'],['Il est gentil 💛.','est','être'],['Vous êtes à l’école 🏫.','êtes','être'],['J’ai un livre 📘.','ai','avoir'],['Ils sont au parc 🌳.','sont','être'],['Elle a un vélo 🚲.','a','avoir']];
+const PAIRS=[['Je','suis'],['Tu','as'],['Il','est'],['Nous','avons'],['Vous','êtes'],['Elles','ont'],['Ils','sont'],['Elle','a']];
+const CHANGE=[['Je suis content 😊.','Nous','sommes','Nous sommes contents 😊.'],['Tu as un ballon ⚽.','Vous','avez','Vous avez un ballon ⚽.'],['Il est gentil 💛.','Ils','sont','Ils sont gentils 💛.'],['Nous avons des livres 📚.','Elle','a','Elle a des livres 📚.'],['Vous êtes à l’école 🏫.','Je','suis','Je suis à l’école 🏫.'],['Elles ont des fleurs 🌸.','Tu','as','Tu as des fleurs 🌸.']];
+let gameType='write',gameIndex=0,gameDone=false,pairFirst=null,pairSolved=new Set();
+function showGame(t){gameType=t;gameIndex=0;gameDone=false;pairFirst=null;pairSolved=new Set();renderGame()}
+function gameFrame(title,total,fini){const root=document.getElementById('gamescreen');root.replaceChildren();let b=el('div','question');b.append(el('h2','',title));if(!fini)b.append(el('p','counter','Défi '+(gameIndex+1)+' sur '+total));const ec=BOUTON_ECOUTE(()=>b.dataset.dire||b.innerText,'choice ecoute');b.append(ec);root.append(b);return b}
+function gameMessage(b,msg,good){let m=b.querySelector('.game-feedback');if(!m){m=el('p','game-feedback');m.setAttribute('role','status');b.append(m)}m.className='game-feedback '+(good?'successnote':'errornote');m.textContent=msg}
+function gameNext(b,total){const n=el('button','','Suivant →');n.onclick=()=>{gameIndex++;renderGame()};b.append(n)}
+function gameFinished(){let b=gameFrame('🏆 Bravo ! Atelier terminé !',gameIndex,true);b.dataset.dire='Bravo ! Atelier terminé !';b.append(el('p','','Lili : « Tu as bien travaillé ! Tu peux refaire ce jeu ou essayer un autre atelier. »'));let r=el('button','','🔁 Rejouer');r.onclick=()=>showGame(gameType);b.append(r)}
+function renderGame(){let total=gameType==='write'?WRITE.length:gameType==='find'?FIND.length:gameType==='pair'?PAIRS.length:CHANGE.length;if(gameIndex>=total){gameFinished();return}if(gameType==='write')renderWrite();else if(gameType==='find')renderFind();else if(gameType==='pair')renderPairs();else renderChange()}
+function renderWrite(){let [q,a,verb]=WRITE[gameIndex],b=gameFrame('✍️ Complète la phrase',WRITE.length);b.dataset.dire='Écris la forme du verbe '+verb+'. '+q;b.append(el('p','','Lili : « Écris la forme du verbe '+verb.toUpperCase()+' au présent. »'));{const ex=el('p','exline');const [av,ap]=q.split('___');ex.append(document.createTextNode(av));const cs=el('span','case');cs.setAttribute('aria-label','mot manquant');ex.append(cs,document.createTextNode(ap));b.append(ex)}let inp=el('input','answer');inp.type='text';inp.autocomplete='off';inp.setAttribute('aria-label','Écris le verbe manquant');b.append(inp);let check=el('button','','✔️ Vérifier');check.style.marginLeft='8px';function verify(){if(inp.value.trim().toLocaleLowerCase('fr').normalize('NFC')===a){gameMessage(b,'🌟 Bravo ! La bonne réponse est « '+a+' ».',true);LIRE(q.replace('___',a).replace('’ ','’'));GLISSER(inp,b.querySelector('.exline .case'),a);inp.disabled=true;check.disabled=true;gameNext(b,WRITE.length)}else gameMessage(b,'💬 Lili : « Regarde le pronom et réessaie ! »',false)}check.onclick=verify;inp.onkeydown=e=>{if(e.key==='Enter')verify()};b.append(check)}
+function renderFind(){let [sentence,correct,verb]=FIND[gameIndex],b=gameFrame('🔎 Cherche le verbe caché',FIND.length);b.dataset.dire='Clique sur le verbe. '+sentence;b.append(el('p','','Lili : « Clique sur le verbe conjugué dans la phrase. »'));
+/* Words become buttons; "J’ai" is split into "J’" and "ai"; the emoji and the final point are plain text. */
+let row=el('div','wordlist');sentence.split(/\s+/).forEach(chunk=>{const m=/^([\p{L}’'-]*?)([^\p{L}’'-]*)$/u.exec(chunk)||[chunk,chunk,''];let mot=m[1],reste=m[2];const parts=/^(j’|j'|l’|l'|d’|d')(.+)$/i.test(mot)?[mot.slice(0,2),mot.slice(2)]:mot?[mot]:[];parts.forEach(word=>{let btn=el('button','choice',word);btn.onclick=()=>{if(word.toLowerCase()===correct){btn.classList.add('good');row.querySelectorAll('button').forEach(x=>x.disabled=true);gameMessage(b,'⭐ Oui ! « '+correct+' » est une forme du verbe '+verb.toUpperCase()+'.',true);LIRE(sentence);gameNext(b,FIND.length)}else{btn.classList.add('bad');setTimeout(()=>btn.classList.remove('bad'),700);gameMessage(b,'💬 « '+word+' » n’est pas le verbe. Essaie encore !',false)}};row.append(btn)});if(reste)row.append(el('span','fin-phrase',reste))});b.append(row)}
+/* Pairs game: each correct pair gets its own colour. Any correct pair is accepted (il a, elle est…). */
+const PAIR_COLORS=[['#ffd6d6','#d45757'],['#d6f4df','#3f9e5c'],['#d8e6ff','#3e6fc7'],['#fff0c2','#c99a1c'],['#ecd9ff','#8a55c9'],['#ffe0c7','#d9772a'],['#cdf3f1','#2a9b93'],['#ffd8ef','#c04b8e']];
+let pairLinks=[];
+const FORMES={je:['suis','ai'],'j’':['suis','ai'],tu:['es','as'],il:['est','a'],elle:['est','a'],nous:['sommes','avons'],vous:['êtes','avez'],ils:['sont','ont'],elles:['sont','ont']};
+function renderPairs(){if(pairSolved.size===0)pairLinks=[];let b=gameFrame('🧩 Associe le pronom au verbe',PAIRS.length);b.dataset.dire='Choisis un pronom à gauche, puis sa forme verbale à droite.';b.append(el('p','','Lili : « Choisis un pronom à gauche, puis sa forme verbale à droite. »'));let left=PAIRS.map((x,i)=>({t:x[0],i})),right=PAIRS.map((x,i)=>({t:x[1],i}));right=[right[4],right[1],right[7],right[0],right[5],right[3],right[6],right[2]];let grid=el('div','grid2');let cols=[left,right];
+const lien=(side,i)=>pairLinks.find(l=>l[side]===i);
+cols.forEach((items,side)=>{let c=el('div','card white');c.append(el('p','',side===0?'Pronoms':'Verbes'));items.forEach(x=>{let bt=el('button','choice',x.t);bt.style.display='block';bt.style.width='100%';bt.style.marginBottom='8px';const l=lien(side,x.i);if(l){const [fond,bord]=PAIR_COLORS[l[2]%PAIR_COLORS.length];bt.disabled=true;bt.style.opacity='1';bt.style.background=fond;bt.style.borderColor=bord;bt.style.borderWidth='3px';bt.style.color='#2b2140'}else if(side===0&&pairFirst===x.i)bt.classList.add('selectedpair');if(!l)bt.addEventListener('click',()=>{if(side===0)LIRE(x.t)});
+bt.onclick=()=>{if(side===0){pairFirst=x.i;c.querySelectorAll('button').forEach(y=>y.classList.remove('selectedpair'));bt.classList.add('selectedpair');gameMessage(b,'Choisis maintenant le verbe à droite.',true)}else if(pairFirst===null){gameMessage(b,'Commence par choisir un pronom à gauche.',false)}else if((FORMES[PAIRS[pairFirst][0].toLowerCase()]||[]).includes(x.t)){pairLinks.push([pairFirst,x.i,pairLinks.length]);LIRE(PAIRS[pairFirst][0]+' '+x.t);pairSolved.add(pairFirst);gameIndex=pairSolved.size;pairFirst=null;renderGame()}else{gameMessage(b,'💬 « '+PAIRS[pairFirst][0]+' '+x.t+' » ne va pas. Regarde la conjugaison et réessaie !',false)}};c.append(bt)});grid.append(c)});b.append(grid);b.append(el('p','counter','Associations réussies : '+pairSolved.size+' / '+PAIRS.length))}
+function renderChange(){let [old,pronoun,answer,full]=CHANGE[gameIndex],b=gameFrame('🔄 Change le pronom',CHANGE.length);b.dataset.dire='Phrase de départ : '+old+' Nouveau pronom : '+pronoun+'.';b.append(el('p','','Lili : « Change le sujet et trouve la nouvelle forme du verbe. »'));b.append(el('p','exline','Phrase de départ : '+old));b.append(el('p','exline','Nouveau pronom : '+pronoun));const AUTRES={"sommes": ["avons", "êtes", "sont"], "avez": ["êtes", "avons", "ont"], "sont": ["ont", "son", "est", "sommes"], "a": ["est", "à", "as", "ont"], "suis": ["ai", "es", "est", "sommes"], "as": ["es", "a", "ai", "est"]};let opts=[answer].concat(AUTRES[answer].slice(0,3)).sort(()=>Math.random()-.5);let row=el('div','wordlist');opts.forEach(v=>{let bt=el('button','choice',v);bt.onclick=()=>{if(v===answer){row.querySelectorAll('button').forEach(x=>x.disabled=true);bt.classList.add('good');gameMessage(b,'🌟 '+full,true);LIRE(full);gameNext(b,CHANGE.length)}else gameMessage(b,'💬 Observe le nouveau pronom. Essaie encore !',false)};row.append(bt)});b.append(row)}
+showGame('write');
+
+const balloonData=[
+["ÊTRE",["suis","es","est","sommes","êtes","sont"],["ai","as","avons","ont","avez","a"]],
+["AVOIR",["ai","as","a","avons","avez","ont"],["suis","est","sommes","sont","êtes","es"]]
+];
+const trainData=[
+["Je", "suis", "être", ["suis", "as", "est", "ai"]],
+["Elle", "a", "avoir", ["a", "est", "ont", "à"]],
+["Nous", "sommes", "être", ["sommes", "avons", "sont", "êtes"]],
+["Vous", "avez", "avoir", ["êtes", "avez", "ont", "avons"]],
+["Ils", "sont", "être", ["sont", "ont", "est", "son"]],
+["Elles", "ont", "avoir", ["ont", "sont", "avons", "on"]]
+];
+function newGameButton(text,cls,fn){const b=document.createElement('button');b.type='button';b.className=cls;b.textContent=text;b.addEventListener('click',fn);return b}
+function renderGameStatus(prefix,i,total,success){document.getElementById(prefix+'Count').textContent=success?'🌟 Mission réussie !':`Défi ${i+1} sur ${total}`}
+function gameRestart(area,cb){area.append(newGameButton('🔁 Rejouer','choice',cb))}
+let balloonStage=0,balloonFound=new Set();
+function drawBalloons(){
+ const choices=document.getElementById('balloonChoices'),feedback=document.getElementById('balloonFeedback');
+ choices.replaceChildren();feedback.textContent='';
+ if(balloonStage===2){document.getElementById('balloonPrompt').textContent='🎉 Tous les bons ballons ont été trouvés !';renderGameStatus('balloon',0,0,true);gameRestart(choices,()=>{balloonStage=0;balloonFound.clear();drawBalloons()});return}
+ const [name,good,bad]=balloonData[balloonStage];document.getElementById('balloonPrompt').textContent='Trouve les 6 formes du verbe '+name+' !';choices.append(BOUTON_ECOUTE('Trouve les 6 formes du verbe '+name.toLowerCase(),'choice ecoute'));
+ document.getElementById('balloonCount').textContent=balloonFound.size+' / 6 bons ballons trouvés';
+ const mixed=[good[0],bad[0],good[1],good[2],bad[1],good[3],good[4],bad[2],good[5]];
+ mixed.forEach(v=>{if(balloonFound.has(v))return;choices.append(newGameButton(v,'balloon-option',()=>{
+ if(!good.includes(v)){feedback.textContent='💬 Lili : Ce ballon appartient à un autre verbe !';return}
+ balloonFound.add(v);LIRE(v);feedback.textContent='⭐ Oui, « '+v+' » appartient au verbe '+name+' !';
+ if(balloonFound.size===6){choices.replaceChildren();choices.append(newGameButton('Jeu suivant →','choice',()=>{balloonStage++;balloonFound.clear();drawBalloons()}));document.getElementById('balloonCount').textContent='6 / 6 !'}else{drawBalloons();feedback.textContent='⭐ Bien joué ! Continue !'}
+ }))});
+}
+let trainIndex=0;
+function drawTrain(){
+ const choices=document.getElementById('trainChoices'),feedback=document.getElementById('trainFeedback');
+ choices.replaceChildren();feedback.textContent='';
+ if(trainIndex===trainData.length){document.getElementById('trainPrompt').textContent='🚂 Tchou-tchou ! Le train est arrivé !';renderGameStatus('train',0,0,true);gameRestart(choices,()=>{trainIndex=0;drawTrain()});return}
+ const [pronoun,good,verb,opts]=trainData[trainIndex];document.getElementById('trainPrompt').textContent='🚂 '+pronoun+' + verbe '+verb.toUpperCase()+' = ?';
+ renderGameStatus('train',trainIndex,trainData.length,false);choices.append(BOUTON_ECOUTE(pronoun+', avec le verbe '+verb+'. Quel wagon ?','choice ecoute'));
+ opts.forEach(v=>choices.append(newGameButton(v,'train-option',()=>{
+ if(v!==good){feedback.textContent='💬 Lili : Essaie un autre wagon !';return}
+ feedback.textContent='🌟 Exact ! '+pronoun+' '+good+' !';LIRE(pronoun+' '+good);
+ choices.querySelectorAll('button').forEach(b=>b.disabled=true);
+ choices.append(newGameButton('Wagon suivant →','choice',()=>{trainIndex++;drawTrain()}));
+ })));
+}
+drawBalloons();drawTrain();
+
+</script><script>
+// Which part is shown comes from the address: nothing = start (être and avoir), #jeu-1 … #jeu-7 = one game.
+(function(){const etre=document.getElementById('onglet-etre'),avoir=document.getElementById('onglet-avoir'),jeux=document.getElementById('onglet-jeux');
+function router(){const m=/^#jeu-(\d)$/.exec(location.hash);const h=location.hash.slice(1);
+ etre.hidden=!!m||h==='avoir'||h==='jeux';avoir.hidden=!!m||h==='etre'||h==='jeux';jeux.hidden=!(m||h==='jeux');
+ if(!jeux.hidden){displayMission(m?Number(m[1])-1:0,true)}else window.scrollTo(0,0);
+ if(window.MENU8_MARQUER)MENU8_MARQUER()}
+window.addEventListener('hashchange',router);router()})();
+</script></body></html>
