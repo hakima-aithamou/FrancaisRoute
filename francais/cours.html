@@ -1,0 +1,1447 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Cours de français · FrançaisRoute</title>
+<link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Lexend:wght@400;500;600&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+/* Layout: one reading column; the texts sit on a cream "page", the interface stays on a calm slate background.
+   4 steps in order (read, understand, correct, write); each mistake is explained in a bubble coloured by its kind. */
+:root{
+  --fond:#1e2b38; --carte:#253545; --carte2:#2b3d4f; --ligne:#3f5568; --texte:#eef3f6; --doux:#bccbd6;
+  --page:#253545; --encre:#eef3f6; --page-ligne:#e8c774;
+  --or:#e8c774; --sauge:#7fb59e; --sauge-f:#3f7a64; --corail:#e58f7b; --lavande:#b3a5d8; --bleu:#8fb3d6;
+  --surligne:#ffe08a;
+  --titre:"Baloo 2","Atkinson Hyperlegible",Arial,sans-serif; --lecture:"Lexend","Atkinson Hyperlegible",Arial,sans-serif; --ui:"Atkinson Hyperlegible",Arial,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fond);color:var(--texte);font-family:var(--ui);font-size:18px;line-height:1.5}
+.wrap{max-width:860px;margin:0 auto;padding-block:20px 60px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:18px}
+h1,h2,h3{font-family:var(--titre);font-weight:800;margin:0;text-wrap:balance}
+h1{font-size:36px;display:inline-block;background:var(--sauge-f);border:2px solid var(--sauge);color:#fff;border-radius:14px;padding:2px 18px;box-shadow:0 3px 8px rgba(0,0,0,.35)}
+h2{font-size:26px}
+.intro{margin:2px 0 0;color:var(--doux)}
+button{font:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible,textarea:focus-visible,input:focus-visible{outline:3px solid var(--or);outline-offset:2px}
+/* Themes */
+.themes{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+.themes .theme{flex-direction:column;text-align:center;justify-content:center;gap:2px;padding:8px 6px;min-height:76px}
+.themes .theme b{font-size:15px}
+.textes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.texte-btn{display:flex;align-items:center;gap:10px;padding:8px 12px;min-height:58px;border-radius:14px;border:2px solid var(--ligne);background:var(--carte);color:var(--texte);text-align:left;box-shadow:0 2px 0 #142029}
+.texte-btn .niv{flex:none;color:var(--or);font-size:15px;letter-spacing:1px}
+.texte-btn .tt{min-width:0}
+.texte-btn b{display:block;font-size:16px;line-height:1.2}
+.texte-btn small{color:var(--doux);font-size:13px}
+.texte-btn[aria-pressed="true"]{background:var(--sauge-p,#284a40);border-color:var(--sauge)}
+.theme{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:14px;border:2px solid var(--ligne);background:var(--carte);color:var(--texte);text-align:left;min-height:64px}
+.theme .ico{font-size:28px}
+.theme b{display:block;font-size:17px}
+.theme small{color:var(--doux);font-size:13px}
+.theme{box-shadow:0 2px 0 #142029}
+.theme[aria-pressed="true"]{outline:3px solid var(--or);outline-offset:2px;background:var(--carte2)}
+/* Steps */
+.etapes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:6px;border-radius:16px;background:var(--carte);border:2px solid var(--ligne)}
+.etape{display:flex;align-items:center;justify-content:center;gap:8px;padding:10px 6px;border-radius:12px;border:0;background:transparent;color:var(--doux);font-weight:700;font-size:16px}
+.etape .num{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;border:2px solid currentColor;font-size:14px;flex:none}
+.etape[aria-current="step"]{background:var(--sauge-f);color:#fff}
+.etape.fait .num{background:var(--sauge);border-color:var(--sauge);color:#13261f}
+/* Panneaux */
+.panneau{display:flex;flex-direction:column;gap:16px}
+.barre{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.btn{box-shadow:0 2px 0 #142029;display:inline-flex;align-items:center;gap:8px;padding:10px 18px;min-height:48px;border-radius:12px;border:2px solid var(--ligne);background:var(--carte2);color:var(--texte);font-weight:700;font-size:17px}
+.btn:hover{border-color:var(--or)}
+.btn.vert{background:var(--sauge-f);border-color:var(--sauge);color:#fff;box-shadow:0 3px 0 #23463a}
+.btn:active{transform:translateY(2px);box-shadow:none}
+.btn.petit{min-height:40px;padding:6px 12px;font-size:15px}
+.consigne{margin:0;color:var(--doux)}
+/* The reading page */
+.page{background:var(--page);color:var(--encre);border:2px solid var(--ligne);border-radius:6px 18px 18px 6px;padding:26px 30px;box-shadow:0 8px 24px rgba(0,0,0,.35);border-left:8px solid var(--page-ligne)}
+.page h3{font-size:26px;margin-bottom:10px;color:var(--or)}
+.lecture{font-family:var(--lecture);font-size:22px;line-height:1.85;letter-spacing:.01em;max-width:62ch;margin:0}
+.lecture .m{border-radius:4px;transition:background .15s}
+.lecture .m.lu{background:var(--surligne);color:#1e2b38}
+.lecture .indice{background:#fff1b8;color:#1e2b38;box-shadow:0 0 0 3px #fff1b8;border-radius:4px}
+.vitesse{display:inline-flex;border:2px solid var(--ligne);border-radius:12px;overflow:hidden}
+.vitesse button{border:0;background:var(--carte2);color:var(--doux);padding:8px 14px;font-weight:700}
+.vitesse button[aria-pressed="true"]{background:var(--sauge-f);color:#fff}
+/* Questions */
+body.large .wrap{max-width:1240px}
+.deux-col{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:20px;align-items:start}
+.col-q{display:flex;flex-direction:column;gap:16px;min-width:0}
+.texte-fixe{position:sticky;top:calc(12px + env(safe-area-inset-top,0px));max-height:calc(100vh - 24px);overflow:auto}
+.texte-fixe .lecture{font-size:20px}
+@media (max-width:860px){.deux-col{grid-template-columns:1fr}.texte-fixe{top:env(safe-area-inset-top,0px);max-height:38vh;z-index:2;padding:14px 16px}.texte-fixe h3{font-size:20px;margin-bottom:4px}.texte-fixe .lecture{font-size:18px;line-height:1.7}}
+.question{background:var(--carte);border:2px solid var(--ligne);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.question.juste{border-color:var(--sauge)}
+.q-tete{display:flex;gap:10px;align-items:flex-start;justify-content:space-between}
+.q-tete p{margin:0;font-family:var(--lecture);font-size:20px;font-weight:500}
+.lire{flex:none;width:44px;height:44px;border-radius:50%;border:2px solid var(--ligne);background:var(--carte2);color:var(--texte);font-size:20px;display:grid;place-items:center}
+textarea::placeholder,input::placeholder{color:#8ea2b1}
+textarea{width:100%;min-height:84px;resize:vertical;padding:12px 14px;border-radius:12px;border:2px solid var(--ligne);background:var(--page);color:var(--encre);font-family:var(--lecture);font-size:19px;line-height:1.6}
+.rep-juste{margin:0;color:var(--sauge);font-weight:700}
+/* Error bubbles: one colour per family of errors */
+.bulles{display:flex;flex-direction:column;gap:8px}
+.bulle{position:relative;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;align-items:start;padding:10px 14px;border-radius:14px;background:var(--carte2);border:2px solid var(--c,var(--corail));margin-top:8px}
+.bulle::before{content:"";position:absolute;top:-9px;left:26px;width:14px;height:14px;background:var(--carte2);border-left:2px solid var(--c,var(--corail));border-top:2px solid var(--c,var(--corail));transform:rotate(45deg)}
+.bulle .sorte{grid-column:1/-1;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.bulle .etiq{font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:2px 10px;border-radius:999px;background:var(--c,var(--corail));color:#1e2b38}
+.bulle .mot{font-family:var(--lecture);font-weight:600}
+.bulle p{grid-column:1/-1;margin:0}
+.bulle .capsule-btn{grid-column:1/-1;justify-self:start;border:0;background:transparent;color:var(--or);font-weight:700;padding:2px 0;text-decoration:underline;text-underline-offset:3px}
+.bulle.bravo{--c:var(--sauge)}
+.famille-forme{--c:var(--bleu)}      /* majuscule, ponctuation */
+.famille-accord{--c:var(--corail)}   /* pluriel, verbe, adjectif */
+.famille-homo{--c:var(--lavande)}    /* a/à, et/est… */
+.famille-ortho{--c:var(--or)}        /* orthographe, accent */
+.famille-sens{--c:var(--sauge)}      /* comprehension */
+/* Correcting the text */
+.page.corriger .lecture .mot-c{cursor:pointer;border-bottom:2px dotted transparent;padding:0 1px}
+.page.corriger .lecture .mot-c:hover{border-bottom-color:var(--doux)}
+.mot-c.trouve{background:#d9f5df;color:#1f6334;border-radius:4px}
+.mot-c.ouvert{background:#fff1b8;color:#1e2b38;border-radius:4px}
+.compteur{font-family:var(--titre);font-size:20px}
+.editeur{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:12px;border-radius:14px;background:var(--carte);border:2px solid var(--or)}
+.editeur input{flex:1 1 200px;min-width:0;min-height:48px;padding:8px 12px;border-radius:10px;border:2px solid var(--ligne);background:var(--page);color:var(--encre);font-family:var(--lecture);font-size:20px}
+/* Capsules */
+.capsules{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:6px 12px;border-radius:999px;border:2px solid var(--c,var(--ligne));background:var(--carte2);color:var(--texte);font-size:15px;font-weight:700}
+dialog{border:0;border-radius:18px;padding:0;max-width:min(560px,calc(100% - 32px));background:var(--carte);color:var(--texte);box-shadow:0 20px 50px rgba(0,0,0,.5)}
+dialog::backdrop{background:rgba(10,16,24,.6)}
+.cap{padding:22px 24px;display:flex;flex-direction:column;gap:12px;border-top:8px solid var(--c,var(--or));border-radius:18px}
+.cap h3{font-size:24px}
+.cap p{margin:0}
+.cap .ex{background:var(--page);color:var(--encre);border-radius:12px;padding:12px 16px;font-family:var(--lecture);font-size:19px;line-height:1.7}
+.cap .ex b{color:var(--sauge)}
+.cap .ex s{color:var(--corail)}
+/* Writing */
+.compte-mots{font-variant-numeric:tabular-nums;color:var(--doux)}
+.compte-mots.ok{color:var(--sauge)}
+.apercu{font-family:var(--lecture);font-size:20px;line-height:1.9}
+.apercu mark{background:transparent;border-bottom:3px solid var(--c);color:inherit;cursor:pointer;padding:0 1px;border-radius:3px}
+.apercu mark.actif{background:#fff1b8;color:#1e2b38}
+.note{font-size:14px;color:var(--doux);margin:0}
+@media (max-width:640px){
+  h1{font-size:28px}
+  .themes{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .textes{grid-template-columns:1fr}
+  .texte-btn{min-height:50px}
+  .etapes{grid-template-columns:repeat(2,1fr)}
+  .page{padding:18px 18px}
+  .lecture{font-size:20px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.retour-site{color:var(--doux);font-weight:700;text-decoration:none}
+.retour-site:hover{color:var(--texte)}
+
+[hidden]{display:none!important}
+/* Lesson */
+.tete-lecon{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+.chip-c{padding:4px 12px;border-radius:999px;background:var(--carte);border:2px solid var(--ligne);font-weight:700;font-size:15px}
+.onglets.deux{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;padding:6px;border-radius:16px;background:var(--carte);border:2px solid var(--ligne)}
+.ongl-c{display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;border:0;border-radius:12px;background:transparent;color:var(--doux);font-weight:700;font-size:17px}
+.ongl-c[aria-selected="true"]{background:var(--sauge-f);color:#fff}
+.regle{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:14px;background:var(--carte);border-left:6px solid var(--or);font-family:var(--lecture);font-size:20px;line-height:1.7}
+.regle b{color:var(--or)}
+.regle s{color:var(--corail)}
+.regle .lire{margin-left:auto}
+.exemples{display:flex;flex-direction:column;gap:8px}
+.exemple{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:baseline;padding:10px 14px;border-radius:12px;background:var(--carte2);border:1px solid var(--ligne)}
+.exemple .fr{font-family:var(--lecture);font-size:20px;font-weight:500}
+.exemple .ex{color:var(--doux);font-size:16px}
+/* Exercices */
+.exo{background:var(--carte);border:2px solid var(--ligne);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:14px}
+.pastilles{display:flex;gap:6px;flex-wrap:wrap}
+.pastilles i{width:16px;height:16px;border-radius:50%;border:2px solid var(--ligne)}
+.pastilles i.ok{background:var(--sauge);border-color:var(--sauge)}
+.pastilles i.non{background:var(--corail);border-color:var(--corail)}
+.pastilles i.ici{border-color:var(--or);background:var(--or)}
+.q-c{font-family:var(--lecture);font-size:24px;font-weight:500;line-height:1.5;display:flex;gap:12px;align-items:flex-start}
+.q-c .lire{margin-left:auto}
+.choix{display:flex;flex-direction:column;gap:10px}
+.choix button{min-height:56px;padding:10px 16px;border-radius:14px;border:2px solid var(--ligne);background:var(--carte2);color:var(--texte);font-family:var(--lecture);font-size:21px;text-align:left}
+.choix button:hover:not([disabled]){border-color:var(--bleu)}
+.choix button.juste{border-color:var(--sauge);background:var(--sauge-p)}
+.choix button.faux{border-color:var(--corail);opacity:.75;text-decoration:line-through}
+.ecrire{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.ecrire input{flex:1 1 220px;min-width:0;min-height:56px;padding:8px 14px;border-radius:12px;border:2px solid var(--ligne);background:var(--fond);color:var(--texte);font-family:var(--lecture);font-size:22px}
+.bul-c{position:relative;padding:12px 16px;border-radius:14px;background:var(--carte2);border:2px solid var(--c,var(--corail));font-size:18px}
+.bul-c::before{content:"";position:absolute;top:-9px;left:26px;width:14px;height:14px;background:var(--carte2);border-left:2px solid var(--c,var(--corail));border-top:2px solid var(--c,var(--corail));transform:rotate(45deg)}
+.bul-c .etiq{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:2px 10px;border-radius:999px;background:var(--c,var(--corail));color:#1e2b38;margin-right:8px;margin-bottom:4px}
+.bul-c.ok{--c:var(--sauge)} .bul-c.info{--c:var(--bleu)}
+.fin-x{align-items:center;text-align:center}
+.fin-x .etoiles-g{font-size:56px;letter-spacing:6px;color:var(--or)}
+.bas{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;padding-top:18px;margin-top:6px;border-top:2px dashed var(--ligne)}
+
+/* Three menus one under the other */
+.menu-textes{display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+.menu-textes .mt{width:min(460px,100%)}
+.menu-textes .mt-btn{width:100%;justify-content:space-between;text-align:left}
+.menu-textes .mt:hover,.menu-textes .mt.ouvert,.menu-textes .mt:focus-within{z-index:30}
+@media (min-width:1100px){.menu-textes .mt-cat{top:0;left:calc(100% + 6px)} .menu-textes .mt-cat::before{left:-10px;top:0;bottom:0;width:10px;height:auto;right:auto}}
+@media (max-width:1099px){.menu-textes .mt-cat{position:static;margin-top:6px} .menu-textes .mt-sous{position:static;box-shadow:none;border:0;padding:0 0 4px 22px;min-width:0;max-height:none} .menu-textes .mt-li:hover>.mt-sous{display:none} .menu-textes .mt-li.ouvert>.mt-sous{display:block} .menu-textes .mt:hover .mt-cat{display:none} .menu-textes .mt.ouvert .mt-cat{display:block}}
+.mt{z-index:20}
+.mt-dom{padding:8px 12px 2px;font-size:13px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--doux);list-style:none}
+.mt-cat-btn small{display:block;font-weight:400;color:var(--doux);font-size:14px}
+.mt-lec{display:flex;align-items:center;gap:10px;width:100%;min-height:46px;padding:8px 12px;border:0;border-radius:10px;background:transparent;color:var(--texte);font-weight:700;font-size:17px;text-align:left}
+.mt-lec:hover,.mt-lec:focus-visible{background:var(--carte2)}
+.mt-lec .niv{flex:none;color:var(--or);font-size:15px;min-width:44px}
+.mt-lec .tx b{display:block;line-height:1.2}
+.mt-lec .tx small{color:var(--doux);font-weight:400;font-size:14px}
+.mt-lec .etoiles{margin-left:auto;color:var(--or);font-size:14px;white-space:nowrap}
+.mt-sous{max-height:75vh;overflow:auto;min-width:340px}
+.intro-menus{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:6px}
+/* Writing */
+.redac-col{grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr)}
+.plan-r{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:6px;font-family:var(--lecture)}
+.mots-r{display:flex;flex-wrap:wrap;gap:6px}
+.mot-r{padding:5px 12px;border-radius:999px;border:2px solid var(--ligne);background:var(--carte2);color:var(--texte);font-family:var(--lecture);font-size:16px}
+.mot-r:hover{border-color:var(--or)}
+.texte-r{min-height:340px}
+.liste-r{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.liste-r li{display:flex;gap:10px;align-items:baseline;color:var(--doux)}
+.liste-r li span{color:var(--corail);font-weight:800}
+.liste-r li.ok{color:var(--texte)} .liste-r li.ok span{color:var(--sauge)}
+@media (max-width:860px){.redac-col{grid-template-columns:1fr}}
+
+.voix-zone{font-size:16px;color:var(--doux)}
+.voix-zone select{min-height:44px;max-width:min(360px,100%);padding:6px 10px;border-radius:10px;border:2px solid var(--ligne);background:var(--carte);color:var(--texte);font:inherit;font-size:15px}
+/* "Texts" menu: categories then texts, on hover (or touch) */
+.menu-textes{position:relative;z-index:20}
+.mt{position:relative;display:inline-block}
+.mt-btn{display:inline-flex;align-items:center;gap:10px;min-height:56px;padding:8px 22px;border-radius:14px;border:2px solid var(--sauge);background:var(--sauge-f);color:#fff;font-family:var(--titre);font-weight:800;font-size:24px;box-shadow:0 3px 0 #23463a}
+.mt-cat,.mt-sous{list-style:none;margin:0;padding:6px;background:var(--carte);border:2px solid var(--ligne);border-radius:14px;box-shadow:0 12px 28px rgba(0,0,0,.45);display:none;min-width:250px}
+.mt-cat{position:absolute;top:calc(100% + 6px);left:0}
+.mt:hover .mt-cat,.mt:focus-within .mt-cat,.mt.ouvert .mt-cat{display:block}
+.mt-cat::before{content:"";position:absolute;left:0;right:0;top:-10px;height:10px}
+.mt-li{position:relative}
+.mt-cat-btn,.mt-texte{display:flex;align-items:center;gap:10px;width:100%;min-height:50px;padding:8px 12px;border:0;border-radius:10px;background:transparent;color:var(--texte);font-weight:700;font-size:18px;text-align:left}
+.mt-cat-btn .ico{font-size:24px}
+.mt-cat-btn .fl{margin-left:auto;color:var(--doux)}
+.mt-cat-btn:hover,.mt-li:focus-within>.mt-cat-btn,.mt-li.ouvert>.mt-cat-btn,.mt-texte:hover,.mt-texte:focus-visible{background:var(--carte2)}
+.mt-sous{position:absolute;left:calc(100% + 4px);top:-8px;min-width:300px}
+.mt-li:hover>.mt-sous,.mt-li:focus-within>.mt-sous,.mt-li.ouvert>.mt-sous{display:block}
+.mt-texte .niv{flex:none;color:var(--or);font-size:15px;min-width:44px}
+.mt-texte b{display:block;line-height:1.2}
+.mt-texte small{color:var(--doux);font-weight:400;font-size:14px}
+.accueil-textes{display:flex;flex-direction:column;gap:12px;padding:24px;border-radius:18px;border:2px dashed var(--ligne);margin-top:4px}
+.grand{font-size:22px}
+/* Chosen text: title and Read, Listen, Understand, Correct tabs */
+.etapes-zone{display:flex;flex-direction:column;gap:12px}
+.titre-texte{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.titre-texte h2{font-size:32px}
+.chip-theme{padding:4px 12px;border-radius:999px;background:var(--carte);border:2px solid var(--ligne);font-weight:700;font-size:15px}
+.niv-txt{color:var(--or);font-weight:700}
+.onglets{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:6px;border-radius:16px;background:var(--carte);border:2px solid var(--ligne)}
+.bas-texte{display:flex;justify-content:center;padding-top:18px;margin-top:18px;border-top:2px dashed var(--ligne)}
+#pageTexte,#pagePhrase{user-select:none;-webkit-user-select:none}
+.phrase-c{font-size:28px;line-height:2.1}
+.mot-c.non{background:#f3c1b5;color:#1e2b38;border-radius:4px;animation:secoue .35s}
+@keyframes secoue{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.pastilles-c{display:flex;gap:6px}
+.pastilles-c i{width:16px;height:16px;border-radius:50%;border:2px solid var(--ligne)}
+.pastilles-c i.ok{background:var(--sauge);border-color:var(--sauge)}
+.pastilles-c i.ici{background:var(--or);border-color:var(--or)}
+.fin-c{align-items:center;text-align:center;padding:30px 10px}
+.grand-ico{font-size:80px;line-height:1}
+@media (max-width:700px){
+  .mt-sous{position:static;box-shadow:none;border:0;padding:0 0 4px 30px;min-width:0}
+  .mt-li:hover>.mt-sous{display:none}
+  .mt-li.ouvert>.mt-sous{display:block}
+  .mt-cat{min-width:min(320px,calc(100vw - 32px))}
+  .onglets{grid-template-columns:repeat(2,1fr)}
+  .titre-texte h2{font-size:26px}
+  .phrase-c{font-size:23px}
+}
+@media (prefers-reduced-motion:reduce){.mot-c.non{animation:none}}
+.niveau-sup{margin:4px 0 0;font-size:17px;font-weight:700}.niveau-sup a{color:inherit}</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <a class="retour-site" href="../index.html">⬅ Retour à l’accueil</a><br>
+    <h1>Cours de français</h1>
+    <p class="niveau-sup">🎓 Niveau supérieur · Tu débutes ? Commence par le <a href="../parcours/index.html">Parcours en 17 étapes</a>.</p>
+  </header>
+  <nav class="menu-textes" id="menuTextes" aria-label="Menus du cours"></nav>
+  <nav class="etapes-zone" id="etapes" aria-label="Étapes" hidden></nav>
+  <main id="contenu"></main>
+</div>
+
+<dialog id="capsule"><div class="cap" id="capContenu"></div></dialog>
+
+<script>
+"use strict";
+const $ = s => document.querySelector(s);
+const sansAccent = s => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+const propre = s => s.replace(/’/g, "'").trim();
+const memo = { lire(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch (e) { return d; } }, ecrire(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} } };
+
+/* French course content: 4 levels, 6 lessons per level.
+   Each lesson: a short explanation (rules + examples), then corrected exercises.
+   "choix" exercise: o = choices, r = index of the right answer. "ecrire" exercise: r = accepted answers.
+   pourquoi = the explanation shown after the answer. */
+const NIVEAUX = [
+  { n: 1, nom: "Niveau 1", sous: "Débutant", ico: "🌱", txt: "Premiers mots et premières phrases en français." },
+  { n: 2, nom: "Niveau 2", sous: "1re à 3e année", ico: "🌿", txt: "Lire et écrire des phrases simples, sans fautes." },
+  { n: 3, nom: "Niveau 3", sous: "4e à 6e année", ico: "🌳", txt: "Accords, temps des verbes et homophones." },
+  { n: 4, nom: "Niveau 4", sous: "7e à 9e année", ico: "🏔️", txt: "Classes de mots, compléments, temps et accords avancés." }
+];
+const DOMAINES = { vocab: ["📗", "Vocabulaire"], gram: ["📘", "Grammaire"], conj: ["📙", "Conjugaison"], orth: ["📕", "Orthographe"] };
+const C_ = (q, o, r, pourquoi) => ({ t: "choix", q, o, r, pourquoi });
+const E_ = (q, r, pourquoi, aide) => ({ t: "ecrire", q, r: [].concat(r), pourquoi, aide });
+
+const LECONS = [
+/* ===================== LEVEL 1: BEGINNER ===================== */
+{ id: "n1-v1", n: 1, d: "vocab", titre: "Se présenter et saluer",
+  regles: ["Pour <b>saluer</b> : <b>Bonjour</b> (le jour), <b>Bonsoir</b> (le soir), <b>Salut</b> (avec un ami). Pour partir : <b>Au revoir</b>, <b>À demain</b>.",
+    "Pour <b>se présenter</b> : <b>Je m'appelle</b> Sam. <b>J'ai</b> huit <b>ans</b>. <b>J'habite à</b> Ottawa.",
+    "Pour <b>demander</b> : <b>Comment tu t'appelles ?</b> · <b>Quel âge as-tu ?</b> · <b>Comment ça va ?</b> — <b>Ça va bien, merci !</b>"],
+  exemples: [["— Bonjour ! Comment tu t'appelles ?", "On pose la question."], ["— Je m'appelle Léa. J'ai neuf ans.", "On répond avec « Je m'appelle » et « J'ai … ans »."], ["— Au revoir, Léa ! À demain !", "On dit au revoir."]],
+  exos: [
+    C_("Le matin, tu arrives à l'école. Tu dis :", ["Bonjour !", "Bonsoir !", "Au revoir !"], 0, "Le jour, on dit « Bonjour »."),
+    C_("Je ___ Mia.", ["m'appelle", "suis appelle", "appelle"], 0, "On dit « Je m'appelle » + son prénom."),
+    C_("J'___ neuf ans.", ["ai", "suis", "a"], 0, "Pour l'âge, on utilise le verbe avoir : « J'ai neuf ans »."),
+    C_("— Comment ça va ? — ___", ["Ça va bien, merci !", "Je m'appelle Noah.", "J'ai sept ans."], 0, "À « Comment ça va ? », on répond comment on se sent."),
+    C_("Tu pars de l'école à la fin de la journée. Tu dis :", ["Au revoir !", "Bonjour !", "Merci !"], 0, "Quand on part, on dit « Au revoir » ou « À demain »."),
+    E_("Écris le mot qui manque : Je m'___ Sam.", ["appelle"], "« Je m'appelle » s'écrit avec deux l.", "app…"),
+    E_("Écris le mot qui manque : J'ai dix ___.", ["ans"], "Pour l'âge, on écrit « ans » avec un s."),
+    E_("Écris le mot qui manque : J'habite ___ Ottawa.", ["à"], "Devant une ville, on écrit « à », avec un accent.", "un seul petit mot")
+  ] },
+{ id: "n1-v2", n: 1, d: "vocab", titre: "Les objets de la classe",
+  regles: ["Dans la classe, il y a des <b>objets</b>. Devant chaque objet, on met <b>un</b> (masculin) ou <b>une</b> (féminin).",
+    "📕 un livre · 📒 un cahier · ✏️ un crayon · 🖊️ un stylo · 🎒 un sac · 💻 un ordinateur · 🖼️ un tableau",
+    "📏 une règle · ✂️ une paire de ciseaux · 🧽 une gomme · 🪑 une chaise · 🟫 une table · 🖍️ une craie"],
+  exemples: [["J'ai un crayon et une règle.", "crayon → un ; règle → une"], ["Le livre est dans mon sac.", "On peut aussi dire le (masculin) ou la (féminin)."]],
+  exos: [
+    C_("✏️ C'est ___ crayon.", ["un", "une"], 0, "On dit « un crayon »."),
+    C_("📏 C'est ___ règle.", ["un", "une"], 1, "On dit « une règle »."),
+    C_("🎒 Quel est cet objet ?", ["un sac", "une chaise", "un livre"], 0, "🎒 C'est un sac."),
+    C_("🪑 Quel est cet objet ?", ["une table", "une chaise", "une gomme"], 1, "🪑 C'est une chaise."),
+    C_("📕 Je lis ___ livre.", ["un", "une"], 0, "On dit « un livre »."),
+    C_("🧽 J'efface avec ___ gomme.", ["un", "une"], 1, "On dit « une gomme »."),
+    E_("📒 Écris le nom de l'objet : un ___", ["cahier"], "📒 C'est un cahier."),
+    E_("💻 Écris le nom de l'objet : un ___", ["ordinateur"], "💻 C'est un ordinateur.", "ordi…")
+  ] },
+{ id: "n1-v3", n: 1, d: "vocab", titre: "Les couleurs et les nombres",
+  regles: ["Les <b>couleurs</b> : 🔴 rouge · 🔵 bleu · 🟢 vert · 🟡 jaune · ⚫ noir · ⚪ blanc · 🟠 orange · 🟣 violet · 🩷 rose · 🟤 brun.",
+    "La couleur se place <b>après</b> le nom : un sac <b>bleu</b>, une pomme <b>rouge</b>.",
+    "Les <b>nombres</b> : 1 un · 2 deux · 3 trois · 4 quatre · 5 cinq · 6 six · 7 sept · 8 huit · 9 neuf · 10 dix · 11 onze · 12 douze · 15 quinze · 20 vingt."],
+  exemples: [["J'ai un crayon vert.", "La couleur après le nom."], ["Il y a trois chaises.", "Le nombre avant le nom."]],
+  exos: [
+    C_("🔴 De quelle couleur est la pomme ?", ["rouge", "bleue", "verte"], 0, "🔴 C'est rouge."),
+    C_("🟡 Le soleil est…", ["jaune", "noir", "violet"], 0, "🟡 Le soleil est jaune."),
+    C_("Comment écrit-on 3 ?", ["trois", "troi", "trios"], 0, "3 s'écrit « trois », avec un s."),
+    C_("Comment écrit-on 6 ?", ["six", "sis", "cise"], 0, "6 s'écrit « six »."),
+    C_("Où met-on la couleur ?", ["un sac bleu", "un bleu sac"], 0, "En français, la couleur se met après le nom."),
+    E_("🟢 Écris la couleur : un arbre ___", ["vert"], "🟢 c'est vert."),
+    E_("Écris le nombre 10 en lettres.", ["dix"], "10 s'écrit « dix »."),
+    E_("Écris le nombre 4 en lettres.", ["quatre"], "4 s'écrit « quatre »."),
+  ] },
+{ id: "n1-g1", n: 1, d: "gram", titre: "Le, la, les — un, une, des",
+  regles: ["Devant un nom, on met un <b>déterminant</b>.",
+    "<b>Masculin</b> (un garçon, un chien) : <b>le</b> ou <b>un</b>. <b>Féminin</b> (une fille, une chatte) : <b>la</b> ou <b>une</b>.",
+    "<b>Pluriel</b> (plusieurs) : <b>les</b> ou <b>des</b>, et le nom prend souvent un <b>s</b> : les chats, des fleurs.",
+    "Devant une voyelle (a, e, i, o, u) ou un h muet, <b>le</b> et <b>la</b> deviennent <b>l'</b> : l'ami, l'école, l'hiver."],
+  exemples: [["le chat · la table · les livres", "le = masculin, la = féminin, les = pluriel"], ["un ami · une amie · des amis", "un, une, des"], ["l'arbre · l'orange", "voyelle → l'"]],
+  exos: [
+    C_("___ chat dort.", ["Le", "La", "Les"], 0, "« chat » est masculin et au singulier : le chat."),
+    C_("___ maison est grande.", ["Le", "La", "Les"], 1, "« maison » est féminin : la maison."),
+    C_("___ enfants jouent.", ["Le", "La", "Les"], 2, "« enfants » est au pluriel : les enfants."),
+    C_("J'ai ___ pomme.", ["un", "une", "des"], 1, "« pomme » est féminin : une pomme."),
+    C_("Il y a ___ crayons sur la table.", ["un", "une", "des"], 2, "« crayons » est au pluriel : des crayons."),
+    C_("Je vais à ___ école.", ["le", "la", "l'"], 2, "« école » commence par une voyelle : l'école."),
+    E_("Écris le déterminant (le, la ou l') : ___ arbre", ["l'"], "« arbre » commence par une voyelle : l'arbre.", "voyelle"),
+    E_("Écris le déterminant (un ou une) : ___ fille", ["une"], "« fille » est féminin : une fille.")
+  ] },
+{ id: "n1-c1", n: 1, d: "conj", titre: "Être et avoir au présent",
+  regles: ["<b>Être</b> : je <b>suis</b>, tu <b>es</b>, il/elle/on <b>est</b>, nous <b>sommes</b>, vous <b>êtes</b>, ils/elles <b>sont</b>.",
+    "<b>Avoir</b> : j'<b>ai</b>, tu <b>as</b>, il/elle/on <b>a</b>, nous <b>avons</b>, vous <b>avez</b>, ils/elles <b>ont</b>.",
+    "On utilise <b>être</b> pour dire comment on est (content, grand) et <b>avoir</b> pour ce qu'on possède ou l'âge."],
+  exemples: [["Je suis content.", "être : comment je suis"], ["J'ai un chien.", "avoir : ce que je possède"], ["Ils ont dix ans.", "avoir : l'âge"]],
+  exos: [
+    C_("Je ___ grand.", ["suis", "ai", "est"], 0, "Être avec je : je suis."),
+    C_("Tu ___ un vélo.", ["as", "es", "a"], 0, "Avoir avec tu : tu as."),
+    C_("Elle ___ contente.", ["est", "a", "es"], 0, "Être avec elle : elle est."),
+    C_("Nous ___ un chat.", ["avons", "sommes", "ont"], 0, "Avoir avec nous : nous avons."),
+    C_("Vous ___ gentils.", ["êtes", "avez", "sont"], 0, "Être avec vous : vous êtes."),
+    C_("Ils ___ huit ans.", ["ont", "sont", "a"], 0, "L'âge avec avoir, et ils : ils ont."),
+    E_("Écris le verbe être : Nous ___ à l'école.", ["sommes"], "Être avec nous : nous sommes."),
+    E_("Écris le verbe avoir : J'___ faim.", ["ai"], "Avoir avec je : j'ai.")
+  ] },
+{ id: "n1-o1", n: 1, d: "orth", titre: "La majuscule et le point",
+  regles: ["Une phrase commence par une <b>majuscule</b> : <b>L</b>e chat dort.",
+    "Une phrase se termine par un <b>point</b> (.), un point d'interrogation (?) pour une question, ou un point d'exclamation (!) pour une émotion.",
+    "Les <b>noms propres</b> prennent toujours une majuscule : <b>L</b>éa, <b>O</b>ttawa, <b>C</b>anada."],
+  exemples: [["Mon ami s'appelle Noah.", "Majuscule au début, à Noah ; point à la fin."], ["Où est ma tuque ?", "Une question → ?"], ["Bravo !", "Une émotion → !"]],
+  exos: [
+    C_("Quelle phrase est bien écrite ?", ["Le chien court.", "le chien court.", "Le chien court"], 0, "Majuscule au début et point à la fin."),
+    C_("Quel mot prend toujours une majuscule ?", ["Ottawa", "maison", "chat"], 0, "Ottawa est le nom d'une ville : c'est un nom propre."),
+    C_("Comment tu t'appelles ___", ["?", ".", "!"], 0, "C'est une question : on met un point d'interrogation."),
+    C_("Quelle phrase est bien écrite ?", ["Sam habite à Toronto.", "sam habite à toronto.", "Sam habite à toronto."], 0, "Sam et Toronto sont des noms propres : majuscules."),
+    C_("Wow, c'est super ___", ["!", "?", ","], 0, "On exprime une émotion : point d'exclamation."),
+    E_("Recopie la phrase correctement : le soleil brille", ["Le soleil brille."], "Majuscule au début : Le ; point à la fin."),
+    E_("Recopie correctement : léa a un chat", ["Léa a un chat."], "Léa est un nom propre (majuscule) et la phrase finit par un point."),
+    E_("Écris le signe qui manque : Quel âge as-tu ___", ["?"], "C'est une question.")
+  ] },
+
+/* ===================== LEVEL 2: GRADES 1 TO 3 ===================== */
+{ id: "n2-v1", n: 2, d: "vocab", titre: "Les jours, les mois et les saisons",
+  regles: ["Les <b>jours</b> : lundi, mardi, mercredi, jeudi, vendredi, samedi, dimanche. Ils s'écrivent avec une <b>minuscule</b>.",
+    "Les <b>mois</b> : janvier, février, mars, avril, mai, juin, juillet, août, septembre, octobre, novembre, décembre (minuscule aussi).",
+    "Les <b>saisons</b> : le printemps, l'été, l'automne, l'hiver. On dit <b>au</b> printemps, mais <b>en</b> été, <b>en</b> automne, <b>en</b> hiver."],
+  exemples: [["Aujourd'hui, c'est lundi.", "jour → minuscule"], ["Mon anniversaire est en mars.", "mois → minuscule"], ["En hiver, il neige.", "en hiver, au printemps"]],
+  exos: [
+    C_("Quel jour vient après mardi ?", ["mercredi", "jeudi", "lundi"], 0, "lundi, mardi, mercredi…"),
+    C_("Quel mois vient après juin ?", ["juillet", "mai", "août"], 0, "… mai, juin, juillet, août…"),
+    C_("Quelle saison vient après l'hiver ?", ["le printemps", "l'été", "l'automne"], 0, "Hiver, puis printemps, puis été, puis automne."),
+    C_("___ printemps, les fleurs poussent.", ["Au", "En"], 0, "On dit « au printemps »."),
+    C_("___ été, il fait chaud.", ["Au", "En"], 1, "On dit « en été »."),
+    C_("Quelle phrase est bien écrite ?", ["Je joue au soccer le samedi.", "Je joue au soccer le Samedi."], 0, "Les jours s'écrivent avec une minuscule."),
+    E_("Écris le jour qui vient avant samedi.", ["vendredi"], "… jeudi, vendredi, samedi."),
+    E_("Écris le premier mois de l'année.", ["janvier"], "Janvier est le premier mois.")
+  ] },
+{ id: "n2-g1", n: 2, d: "gram", titre: "Le féminin des adjectifs",
+  regles: ["L'<b>adjectif</b> décrit le nom : un chat <b>noir</b>, une maison <b>grande</b>.",
+    "Au <b>féminin</b>, on ajoute souvent un <b>e</b> : petit → petit<b>e</b>, grand → grand<b>e</b>, content → content<b>e</b>.",
+    "Si l'adjectif finit déjà par <b>e</b>, il ne change pas : un sac rouge, une robe rouge.",
+    "Attention : beau → <b>belle</b>, blanc → <b>blanche</b>, gentil → <b>gentille</b>, heureux → <b>heureuse</b>."],
+  exemples: [["un garçon content → une fille contente", "+ e"], ["un livre rouge → une pomme rouge", "déjà un e : pas de changement"], ["un beau jour → une belle journée", "forme spéciale"]],
+  exos: [
+    C_("Une ___ fille.", ["petit", "petite"], 1, "« fille » est féminin : petite."),
+    C_("Une voiture ___.", ["vert", "verte"], 1, "« voiture » est féminin : verte."),
+    C_("Une chemise ___.", ["rouge", "rougee"], 0, "rouge finit déjà par e : il ne change pas."),
+    C_("Une ___ fleur.", ["beau", "belle", "beaue"], 1, "beau devient belle au féminin."),
+    C_("Ma sœur est ___.", ["gentil", "gentile", "gentille"], 2, "gentil devient gentille (deux l)."),
+    C_("La neige est ___.", ["blanc", "blanche", "blance"], 1, "blanc devient blanche."),
+    E_("Écris l'adjectif au féminin : (grand) une ___ tour", ["grande"], "grand + e = grande."),
+    E_("Écris l'adjectif au féminin : (heureux) une fille ___", ["heureuse"], "heureux devient heureuse.")
+  ] },
+{ id: "n2-g2", n: 2, d: "gram", titre: "Le pluriel des noms",
+  regles: ["Au <b>pluriel</b> (plusieurs), la plupart des noms prennent un <b>s</b> : un chat → des chat<b>s</b>.",
+    "Les noms en <b>-eau</b> et <b>-eu</b> prennent un <b>x</b> : un bateau → des bateau<b>x</b>, un jeu → des jeu<b>x</b>.",
+    "Les noms en <b>-al</b> deviennent <b>-aux</b> : un cheval → des chev<b>aux</b>, un animal → des anim<b>aux</b>.",
+    "Les noms qui finissent par <b>s, x, z</b> ne changent pas : un nez → des nez, une souris → des souris."],
+  exemples: [["une fleur → des fleurs", "+ s"], ["un gâteau → des gâteaux", "-eau → x"], ["un journal → des journaux", "-al → -aux"]],
+  exos: [
+    C_("Des ___", ["livre", "livres", "livrex"], 1, "Pluriel : on ajoute s."),
+    C_("Des ___", ["oiseaus", "oiseaux", "oiseau"], 1, "-eau prend un x : oiseaux."),
+    C_("Des ___", ["chevals", "chevaux", "chevauxs"], 1, "-al devient -aux : chevaux."),
+    C_("Des ___", ["souris", "sourisx", "souriss"], 0, "souris finit par s : il ne change pas."),
+    C_("Des ___", ["jeus", "jeux", "jeu"], 1, "-eu prend un x : jeux."),
+    C_("Les ___ jouent dans la cour.", ["enfant", "enfants"], 1, "« les » → pluriel : enfants."),
+    E_("Écris au pluriel : un animal → des ___", ["animaux"], "-al devient -aux."),
+    E_("Écris au pluriel : un bateau → des ___", ["bateaux"], "-eau prend un x.")
+  ] },
+{ id: "n2-c1", n: 2, d: "conj", titre: "Les verbes en -er au présent",
+  regles: ["Les verbes qui finissent par <b>-er</b> (jouer, manger, aimer) ont les mêmes terminaisons au présent.",
+    "je jou<b>e</b> · tu jou<b>es</b> · il/elle/on jou<b>e</b> · nous jou<b>ons</b> · vous jou<b>ez</b> · ils/elles jou<b>ent</b>",
+    "Les terminaisons <b>-e, -es, -ent</b> ne se prononcent pas : il joue et ils jouent se disent pareil, mais s'écrivent différemment !"],
+  exemples: [["Je parle français.", "je → -e"], ["Nous chantons ensemble.", "nous → -ons"], ["Les élèves écoutent.", "ils (les élèves) → -ent"]],
+  exos: [
+    C_("Tu ___ au ballon.", ["joue", "joues", "jouent"], 1, "tu → -es : tu joues."),
+    C_("Nous ___ une pomme.", ["mangons", "mangeons", "mangez"], 1, "Avec manger, on garde le e : nous mangeons."),
+    C_("Vous ___ bien.", ["chantez", "chantent", "chantons"], 0, "vous → -ez : vous chantez."),
+    C_("Les enfants ___ la télé.", ["regarde", "regardes", "regardent"], 2, "les enfants = ils → -ent."),
+    C_("Elle ___ les chats.", ["aime", "aimes", "aiment"], 0, "elle → -e : elle aime."),
+    C_("Je ___ à ma mère.", ["parle", "parles", "parlons"], 0, "je → -e : je parle."),
+    E_("Écris le verbe : Ils (danser) ___.", ["dansent"], "ils → -ent : ils dansent."),
+    E_("Écris le verbe : Nous (écouter) ___.", ["écoutons"], "nous → -ons : nous écoutons.")
+  ] },
+{ id: "n2-o1", n: 2, d: "orth", titre: "a ou à ? — et ou est ?",
+  regles: ["<b>a</b> (sans accent) = le verbe <b>avoir</b>. Truc : on peut dire <b>avait</b>. Il <b>a</b> un chien → Il avait un chien ✔.",
+    "<b>à</b> (avec accent) = un petit mot pour un lieu ou un moment : Je vais <b>à</b> l'école.",
+    "<b>est</b> = le verbe <b>être</b>. Truc : on peut dire <b>était</b>. Le ciel <b>est</b> bleu → Le ciel était bleu ✔.",
+    "<b>et</b> = pour ajouter. Truc : on peut dire <b>et puis</b>. Léa <b>et</b> Sam jouent."],
+  exemples: [["Sam a faim.", "Sam avait faim ✔ → a"], ["Il va à Ottawa.", "Il va avait Ottawa ✘ → à"], ["Le chat est noir et blanc.", "était noir ✔ → est ; et puis blanc ✔ → et"]],
+  exos: [
+    C_("Mia ___ un vélo rouge.", ["a", "à"], 0, "Mia avait un vélo ✔ → a."),
+    C_("Je vais ___ la piscine.", ["a", "à"], 1, "On ne peut pas dire « avait » : à."),
+    C_("Le gâteau ___ délicieux.", ["et", "est"], 1, "Le gâteau était délicieux ✔ → est."),
+    C_("J'aime les pommes ___ les poires.", ["et", "est"], 0, "On ajoute : et (et puis)."),
+    C_("Il ___ dix ans.", ["a", "à"], 0, "Il avait dix ans ✔ → a."),
+    C_("Noah ___ malade.", ["et", "est"], 1, "Noah était malade ✔ → est."),
+    E_("Écris a ou à : Elle habite ___ Montréal.", ["à"], "On ne peut pas dire « avait » : à."),
+    E_("Écris et ou est : Mon frère ___ grand.", ["est"], "Mon frère était grand ✔ → est.")
+  ] },
+{ id: "n2-o2", n: 2, d: "orth", titre: "son ou sont ? — on ou ont ?",
+  regles: ["<b>sont</b> = le verbe <b>être</b> avec ils/elles. Truc : on peut dire <b>étaient</b>. Ils <b>sont</b> contents.",
+    "<b>son</b> = « à lui » ou « à elle ». Truc : on peut dire <b>mon</b>. Sam prend <b>son</b> sac.",
+    "<b>ont</b> = le verbe <b>avoir</b> avec ils/elles. Truc : on peut dire <b>avaient</b>. Ils <b>ont</b> faim.",
+    "<b>on</b> = quelqu'un ou nous. Truc : on peut dire <b>il</b>. <b>On</b> va au parc."],
+  exemples: [["Les chats sont gris.", "étaient gris ✔ → sont"], ["Léa lave son vélo.", "mon vélo ✔ → son"], ["Ils ont gagné. On a gagné.", "avaient ✔ → ont ; il a ✔ → on"]],
+  exos: [
+    C_("Les filles ___ au parc.", ["son", "sont"], 1, "étaient au parc ✔ → sont."),
+    C_("Il range ___ cahier.", ["son", "sont"], 0, "mon cahier ✔ → son."),
+    C_("Mes amis ___ un chien.", ["on", "ont"], 1, "avaient un chien ✔ → ont."),
+    C_("___ joue dehors ?", ["On", "Ont"], 0, "Il joue dehors ✔ → on."),
+    C_("Ils ___ fatigués.", ["son", "sont"], 1, "étaient fatigués ✔ → sont."),
+    C_("Les élèves ___ fini.", ["on", "ont"], 1, "avaient fini ✔ → ont."),
+    E_("Écris son ou sont : Elle cherche ___ crayon.", ["son"], "mon crayon ✔ → son."),
+    E_("Écris on ou ont : Nos voisins ___ une piscine.", ["ont"], "avaient une piscine ✔ → ont.")
+  ] },
+
+/* ===================== LEVEL 3: GRADES 4 TO 6 ===================== */
+{ id: "n3-v1", n: 3, d: "vocab", titre: "Synonymes et antonymes",
+  regles: ["Un <b>synonyme</b> est un mot qui veut dire <b>presque la même chose</b> : content = heureux ; maison = demeure.",
+    "Un <b>antonyme</b> est un mot de sens <b>contraire</b> : grand ≠ petit ; ouvrir ≠ fermer.",
+    "On peut créer des antonymes avec un préfixe : <b>in</b>connu, <b>im</b>possible, <b>dés</b>agréable, <b>mal</b>heureux."],
+  exemples: [["rapide → vite, prompt", "synonymes"], ["chaud ≠ froid", "antonymes"], ["possible ≠ impossible", "préfixe im-"]],
+  exos: [
+    C_("Un synonyme de « joyeux » :", ["content", "triste", "fâché"], 0, "joyeux et content veulent dire presque la même chose."),
+    C_("Le contraire de « monter » :", ["descendre", "grimper", "sauter"], 0, "monter ≠ descendre."),
+    C_("Un synonyme de « commencer » :", ["débuter", "finir", "arrêter"], 0, "commencer = débuter."),
+    C_("Le contraire de « possible » :", ["impossible", "dépossible", "malpossible"], 0, "Avec le préfixe im- : impossible."),
+    C_("Le contraire de « heureux » :", ["malheureux", "inheureux", "désheureux"], 0, "Avec le préfixe mal- : malheureux."),
+    C_("Un synonyme de « peur » :", ["frayeur", "courage", "joie"], 0, "la peur, la frayeur."),
+    E_("Écris le contraire de « jour ».", ["nuit", "la nuit"], "jour ≠ nuit."),
+    E_("Écris le contraire de « connu » (avec un préfixe).", ["inconnu"], "in + connu = inconnu.")
+  ] },
+{ id: "n3-g1", n: 3, d: "gram", titre: "L'accord du verbe avec le sujet",
+  regles: ["Le <b>sujet</b> fait l'action. Pour le trouver : <b>« C'est … qui »</b> + verbe. C'est <b>Léa</b> qui chante.",
+    "Le verbe s'accorde avec son sujet : sujet au <b>singulier</b> → verbe au singulier ; sujet au <b>pluriel</b> → verbe au pluriel.",
+    "Attention : un sujet <b>loin</b> du verbe, ou <b>deux sujets</b> ensemble : Le chien <b>de mes voisins</b> aboie. <b>Mia et Sam</b> jouent."],
+  exemples: [["Les oiseaux chantent.", "C'est les oiseaux qui chantent → pluriel → -ent"], ["Le chat des voisins dort.", "C'est le chat qui dort (pas les voisins)"], ["Ma sœur et moi allons au parc.", "ma sœur et moi = nous → allons"]],
+  exos: [
+    C_("Les élèves ___ leurs livres.", ["ouvre", "ouvrent"], 1, "C'est les élèves qui ouvrent → pluriel."),
+    C_("Le chien de mes voisins ___ fort.", ["aboie", "aboient"], 0, "C'est le chien qui aboie (pas les voisins)."),
+    C_("Léa et Noah ___ au soccer.", ["joue", "jouent"], 1, "Deux sujets = ils → jouent."),
+    C_("Chaque matin, mon père ___ le café.", ["prépare", "préparent"], 0, "C'est mon père qui prépare → singulier."),
+    C_("Les fleurs du jardin ___.", ["pousse", "poussent"], 1, "C'est les fleurs qui poussent → pluriel."),
+    C_("Toi et moi ___ amis.", ["sommes", "sont", "êtes"], 0, "toi et moi = nous → sommes."),
+    E_("Écris le verbe au présent : Les nuages (cacher) ___ le soleil.", ["cachent"], "Les nuages = ils → -ent."),
+    E_("Écris le verbe au présent : Le frère de mes amies (parler) ___ fort.", ["parle"], "C'est le frère qui parle → singulier.")
+  ] },
+{ id: "n3-g2", n: 3, d: "gram", titre: "Les types de phrases et la négation",
+  regles: ["Phrase <b>déclarative</b> : elle donne une information. Elle finit par un point. Il pleut.",
+    "Phrase <b>interrogative</b> : elle pose une question. Elle finit par ?. Est-ce qu'il pleut ? · Pleut-il ?",
+    "Phrase <b>exclamative</b> : elle montre une émotion (!). Qu'il pleut fort ! · Phrase <b>impérative</b> : elle donne un ordre ou un conseil. Prends ton parapluie.",
+    "<b>Négation</b> : on entoure le verbe avec <b>ne … pas</b> (ou ne … jamais, ne … plus, ne … rien). Je <b>ne</b> mange <b>pas</b>. Devant une voyelle : <b>n'</b> : Il <b>n'</b>aime <b>pas</b>."],
+  exemples: [["Tu viens au parc.", "déclarative"], ["Viens-tu au parc ?", "interrogative"], ["Viens au parc !", "impérative"], ["Je ne viens pas au parc.", "négative"]],
+  exos: [
+    C_("« Ferme la porte. » est une phrase…", ["déclarative", "interrogative", "impérative"], 2, "Elle donne un ordre : impérative."),
+    C_("« Quelle belle journée ! » est une phrase…", ["exclamative", "interrogative", "déclarative"], 0, "Elle montre une émotion : exclamative."),
+    C_("« As-tu fini ? » est une phrase…", ["déclarative", "interrogative", "impérative"], 1, "Elle pose une question : interrogative."),
+    C_("Mets à la forme négative : « J'aime le brocoli. »", ["Je n'aime pas le brocoli.", "Je aime pas le brocoli.", "Je ne aime pas le brocoli."], 0, "Devant une voyelle, ne devient n' : Je n'aime pas."),
+    C_("Mets à la forme négative : « Il joue. »", ["Il ne joue pas.", "Il joue pas.", "Il pas joue."], 0, "ne … pas entoure le verbe."),
+    C_("Quelle question est bien écrite ?", ["Est-ce que tu viens ?", "Est ce que tu viens ?", "Est-ce que tu viens."], 0, "Est-ce que avec un trait d'union, et un ? à la fin."),
+    E_("Mets à la forme négative avec « jamais » : Elle mange. → Elle ___ mange ___.", ["ne jamais", "ne ... jamais", "ne…jamais"], "ne … jamais entoure le verbe : Elle ne mange jamais.", "deux mots, séparés par un espace"),
+    E_("Écris le signe de ponctuation : Range ta chambre ___", [".", "!"], "Phrase impérative : un point (ou un ! si on insiste).")
+  ] },
+{ id: "n3-c1", n: 3, d: "conj", titre: "Le passé composé",
+  regles: ["Le <b>passé composé</b> dit une action <b>terminée</b>. Il a deux mots : l'auxiliaire <b>avoir</b> ou <b>être</b> au présent + le <b>participe passé</b>.",
+    "Participes : verbes en -er → <b>-é</b> (manger → mangé) ; finir → fini ; prendre → pris ; faire → fait ; voir → vu ; être → été ; avoir → eu.",
+    "La plupart des verbes utilisent <b>avoir</b> : J'<b>ai mangé</b>. Les verbes de mouvement (aller, venir, arriver, partir, tomber, rester…) utilisent <b>être</b> : Je <b>suis allé</b>.",
+    "Avec <b>être</b>, le participe s'accorde avec le sujet : Elle est allé<b>e</b>. Ils sont parti<b>s</b>."],
+  exemples: [["Hier, j'ai joué au soccer.", "avoir + joué"], ["Nous avons fini nos devoirs.", "avoir + fini"], ["Léa est arrivée en retard.", "être + arrivée (accord avec Léa)"]],
+  exos: [
+    C_("Hier, nous ___ un film.", ["avons regardé", "sommes regardé", "avons regarder"], 0, "regarder → avoir + regardé."),
+    C_("Elle ___ à la bibliothèque.", ["est allée", "a allé", "est allé"], 0, "aller → être, et accord au féminin : allée."),
+    C_("J'___ mes devoirs.", ["ai fini", "ai finé", "suis fini"], 0, "finir → fini, avec avoir."),
+    C_("Ils ___ tard.", ["sont arrivés", "ont arrivé", "sont arrivé"], 0, "arriver → être, et accord au pluriel : arrivés."),
+    C_("Tu ___ ton lunch ?", ["as pris", "as prendu", "es pris"], 0, "prendre → pris, avec avoir."),
+    C_("Nous ___ un gâteau.", ["avons fait", "avons faire", "sommes fait"], 0, "faire → fait, avec avoir."),
+    E_("Écris le participe passé : J'ai (manger) ___ une pomme.", ["mangé"], "Verbe en -er → -é : mangé."),
+    E_("Écris au passé composé : Les filles (partir) → Les filles ___ ___.", ["sont parties"], "partir → être + parti, accordé au féminin pluriel : parties.", "2 mots")
+  ] },
+{ id: "n3-c2", n: 3, d: "conj", titre: "L'imparfait",
+  regles: ["L'<b>imparfait</b> raconte une action <b>qui durait</b> ou une <b>habitude</b> dans le passé : Quand j'étais petit, je jouais au parc.",
+    "Terminaisons pour tous les verbes : je -<b>ais</b>, tu -<b>ais</b>, il/elle -<b>ait</b>, nous -<b>ions</b>, vous -<b>iez</b>, ils/elles -<b>aient</b>.",
+    "On part de « nous » au présent sans -ons : nous jou<s>ons</s> → je jou<b>ais</b> ; nous finiss<s>ons</s> → je finiss<b>ais</b>. Exception : être → j'<b>étais</b>."],
+  exemples: [["Avant, nous habitions à Montréal.", "habitude passée"], ["Il pleuvait pendant toute la journée.", "action qui dure"], ["Les enfants dormaient quand je suis arrivé.", "ils → -aient"]],
+  exos: [
+    C_("Quand j'étais petit, je ___ du vélo.", ["faisais", "faisait", "faisaient"], 0, "je → -ais : je faisais."),
+    C_("Avant, mes parents ___ à Toronto.", ["habitait", "habitaient", "habitions"], 1, "ils → -aient."),
+    C_("Nous ___ souvent au parc.", ["allions", "allaient", "allons"], 0, "nous → -ions : nous allions."),
+    C_("Tu ___ content.", ["étais", "était", "été"], 0, "être avec tu : tu étais."),
+    C_("Vous ___ beaucoup.", ["mangiez", "mangeiez", "mangeaient"], 0, "nous mangeons → mange- ; vous → -iez : mangiez (pas de e devant i)."),
+    C_("Il ___ froid.", ["faisait", "faisais", "faisaient"], 0, "il → -ait : il faisait."),
+    E_("Écris à l'imparfait : Elle (chanter) ___ tous les soirs.", ["chantait"], "elle → -ait : chantait."),
+    E_("Écris à l'imparfait : Ils (finir) ___ leurs devoirs.", ["finissaient"], "nous finissons → finiss- + aient.")
+  ] },
+{ id: "n3-o1", n: 3, d: "orth", titre: "ces, ses, c'est, s'est — ou, où",
+  regles: ["<b>ces</b> = pour montrer (ces livres-là). <b>ses</b> = « à lui / à elle » (ses livres à elle).",
+    "<b>c'est</b> = cela est : <b>C'est</b> mon ami. <b>s'est</b> = devant un verbe, avec « il s'est », « elle s'est » : Elle <b>s'est</b> levée.",
+    "<b>où</b> (avec accent) = un lieu ou un moment : <b>Où</b> vas-tu ? · <b>ou</b> = un choix, on peut dire « ou bien » : Pomme <b>ou</b> poire ?"],
+  exemples: [["Ces fleurs sont belles.", "on montre → ces"], ["Sam range ses jouets.", "à lui → ses"], ["C'est l'heure. Il s'est trompé.", "cela est → c'est ; il s'est"], ["Où est ton sac, ici ou là ?", "lieu → où ; choix → ou"]],
+  exos: [
+    C_("Léa a perdu ___ mitaines.", ["ces", "ses"], 1, "Ses mitaines à elle → ses."),
+    C_("Regarde ___ nuages !", ["ces", "ses"], 0, "On montre les nuages → ces."),
+    C_("___ un beau dessin.", ["C'est", "S'est"], 0, "Cela est un beau dessin → c'est."),
+    C_("Il ___ blessé au genou.", ["c'est", "s'est"], 1, "Il s'est blessé (devant un verbe)."),
+    C_("___ habites-tu ?", ["Ou", "Où"], 1, "On parle d'un lieu → où."),
+    C_("Tu veux du jus ___ du lait ?", ["ou", "où"], 0, "Un choix (ou bien) → ou."),
+    E_("Écris ces ou ses : Mon frère prête ___ jeux.", ["ses"], "Ses jeux à lui → ses."),
+    E_("Écris ou ou où : Je ne sais pas ___ est ma tuque.", ["où"], "On parle d'un lieu → où.")
+  ] },
+
+/* ===================== LEVEL 4: GRADES 7 TO 9 ===================== */
+{ id: "n4-v1", n: 4, d: "vocab", titre: "Préfixes, suffixes et familles de mots",
+  regles: ["Un <b>préfixe</b> se place <b>avant</b> le radical : <b>re</b>faire (encore), <b>dé</b>faire (le contraire), <b>pré</b>voir (avant), <b>in</b>visible (pas).",
+    "Un <b>suffixe</b> se place <b>après</b> : lav<b>age</b> (action), boulang<b>er</b> (métier), chat<b>on</b> (petit), lent<b>ement</b> (adverbe), lav<b>able</b> (qu'on peut).",
+    "Les mots d'une même <b>famille</b> ont le même radical : terre, terrain, enterrer, terrestre, territoire."],
+  exemples: [["relire = lire encore", "préfixe re-"], ["doucement = d'une manière douce", "suffixe -ment"], ["dent, dentiste, dentaire, dentifrice", "famille de « dent »"]],
+  exos: [
+    C_("Que veut dire « prévoir » ?", ["voir avant", "voir encore", "ne pas voir"], 0, "pré- = avant."),
+    C_("Quel mot veut dire « que l'on peut manger » ?", ["mangeable", "mangeur", "remanger"], 0, "-able = que l'on peut."),
+    C_("Quel mot n'est pas de la famille de « fleur » ?", ["fleuve", "fleuriste", "fleurir"], 0, "fleuve vient de l'eau, pas de la fleur."),
+    C_("« rapidement » est formé avec…", ["le suffixe -ment", "le préfixe ra-", "le suffixe -ide"], 0, "rapide + ment."),
+    C_("Le contraire de « coller » avec un préfixe :", ["décoller", "recoller", "précoller"], 0, "dé- = le contraire."),
+    C_("Un petit chat s'appelle un…", ["chaton", "chatier", "chatement"], 0, "-on = petit : chaton."),
+    E_("Écris l'adverbe formé avec « lent » + ment.", ["lentement"], "lente + ment = lentement (on part du féminin)."),
+    E_("Écris le mot qui veut dire « faire encore » (préfixe re-).", ["refaire"], "re- = encore.")
+  ] },
+{ id: "n4-g1", n: 4, d: "gram", titre: "Les classes de mots",
+  regles: ["<b>Nom</b> : personne, animal, chose, idée (Léa, chien, liberté). <b>Déterminant</b> : devant le nom (le, une, mes, ce, trois).",
+    "<b>Adjectif</b> : décrit le nom (grand, rouge). <b>Verbe</b> : action ou état, se conjugue (courir, être).",
+    "<b>Pronom</b> : remplace un nom (il, elle, ils, le, lui, qui). <b>Adverbe</b> : invariable, précise le verbe ou l'adjectif (vite, très, hier, bien).",
+    "<b>Préposition</b> : invariable, relie des mots (à, de, dans, sur, avec, pour). <b>Conjonction</b> : relie (et, mais, ou, donc, car, que, quand)."],
+  exemples: [["Le petit chien court vite dans le parc.", "Le (dét.) petit (adj.) chien (nom) court (verbe) vite (adverbe) dans (prép.) le (dét.) parc (nom)"], ["Elle mange une pomme et elle sourit.", "Elle (pronom) … et (conjonction)"]],
+  exos: [
+    C_("Dans « Le chat noir dort », « noir » est…", ["un adjectif", "un nom", "un verbe"], 0, "noir décrit le chat : adjectif."),
+    C_("Dans « Il court vite », « vite » est…", ["un adverbe", "un adjectif", "une préposition"], 0, "vite précise le verbe et ne s'accorde pas : adverbe."),
+    C_("Dans « Elle chante », « Elle » est…", ["un pronom", "un déterminant", "un nom"], 0, "Elle remplace un nom : pronom."),
+    C_("Dans « le livre sur la table », « sur » est…", ["une préposition", "un adverbe", "une conjonction"], 0, "sur relie des mots : préposition."),
+    C_("Dans « Il pleut mais je sors », « mais » est…", ["une conjonction", "une préposition", "un adverbe"], 0, "mais relie deux idées : conjonction."),
+    C_("Dans « mes amis », « mes » est…", ["un déterminant", "un pronom", "un adjectif"], 0, "mes est devant le nom : déterminant."),
+    E_("Écris la classe du mot : « La liberté est importante. » → liberté = ___", ["nom", "un nom"], "liberté est une idée : un nom."),
+    E_("Écris la classe du mot : « Nous partons demain. » → demain = ___", ["adverbe", "un adverbe"], "demain précise le verbe (quand) et est invariable : adverbe.")
+  ] },
+{ id: "n4-g2", n: 4, d: "gram", titre: "Les compléments : direct, indirect, de phrase",
+  regles: ["Le <b>complément direct (CD)</b> répond à <b>qui ?</b> ou <b>quoi ?</b> après le verbe, sans préposition : Léa mange <b>une pomme</b>.",
+    "Le <b>complément indirect (CI)</b> répond à <b>à qui ? à quoi ? de qui ? de quoi ?</b> : Léa parle <b>à son frère</b>.",
+    "Le <b>complément de phrase</b> dit <b>où, quand, comment, pourquoi</b>. On peut le <b>déplacer</b> ou l'<b>enlever</b> : <b>Ce matin</b>, Léa mange une pomme."],
+  exemples: [["Sam lit un roman.", "lit quoi ? un roman → CD"], ["Sam téléphone à sa grand-mère.", "téléphone à qui ? → CI"], ["Dans le parc, Sam lit un roman.", "où ? On peut l'enlever → complément de phrase"]],
+  exos: [
+    C_("« Noah regarde un film. » — « un film » est…", ["un complément direct", "un complément indirect", "un complément de phrase"], 0, "regarde quoi ? un film, sans préposition : CD."),
+    C_("« Elle pense à ses vacances. » — « à ses vacances » est…", ["un complément direct", "un complément indirect", "un complément de phrase"], 1, "pense à quoi ? → CI (avec à)."),
+    C_("« Hier, nous avons joué. » — « Hier » est…", ["un complément direct", "un complément indirect", "un complément de phrase"], 2, "Il dit quand et on peut le déplacer : complément de phrase."),
+    C_("« Mia écrit une lettre à son ami. » — « à son ami » est…", ["un CD", "un CI", "un complément de phrase"], 1, "écrit à qui ? → CI."),
+    C_("Quel complément peut-on enlever ou déplacer ?", ["le complément de phrase", "le complément direct", "le complément indirect"], 0, "Le complément de phrase est mobile et effaçable."),
+    C_("« Le chat attrape la souris dans la cuisine. » — le CD est…", ["la souris", "dans la cuisine", "Le chat"], 0, "attrape quoi ? la souris."),
+    E_("Écris le CD : « Les élèves écoutent la musique. » → ___", ["la musique"], "écoutent quoi ? la musique."),
+    E_("Écris le CI : « Je parle à mon enseignante. » → ___", ["à mon enseignante"], "parle à qui ? à mon enseignante.")
+  ] },
+{ id: "n4-c1", n: 4, d: "conj", titre: "Le futur simple et le conditionnel présent",
+  regles: ["<b>Futur simple</b> : ce qui <b>arrivera</b>. Infinitif + <b>-ai, -as, -a, -ons, -ez, -ont</b> : je jouer<b>ai</b>, nous finir<b>ons</b>.",
+    "<b>Conditionnel présent</b> : un souhait, une politesse ou une condition. Même radical que le futur + <b>-ais, -ais, -ait, -ions, -iez, -aient</b> : je jouer<b>ais</b>.",
+    "Radicaux irréguliers : être → <b>ser</b>-, avoir → <b>aur</b>-, aller → <b>ir</b>-, faire → <b>fer</b>-, pouvoir → <b>pourr</b>-, voir → <b>verr</b>-, venir → <b>viendr</b>-.",
+    "Avec « si » : <b>Si</b> + imparfait → conditionnel. Si j'<b>avais</b> le temps, je <b>viendrais</b>."],
+  exemples: [["Demain, nous irons au musée.", "futur de aller"], ["J'aimerais un verre d'eau, s'il vous plaît.", "conditionnel de politesse"], ["Si tu étudiais, tu réussirais.", "si + imparfait → conditionnel"]],
+  exos: [
+    C_("Demain, je ___ mes amis.", ["verrai", "voirai", "verrais"], 0, "voir → verr- ; futur avec je : -ai."),
+    C_("Si j'étais riche, j'___ un grand voyage.", ["ferais", "ferai", "faisais"], 0, "si + imparfait → conditionnel : je ferais."),
+    C_("L'an prochain, ils ___ en 8e année.", ["seront", "seraient", "sont"], 0, "être → ser- ; ils : -ont."),
+    C_("Pourriez-vous m'aider ? « Pourriez » est au…", ["conditionnel", "futur", "présent"], 0, "Politesse : conditionnel (-iez)."),
+    C_("Nous ___ demain matin.", ["partirons", "partirions", "partons"], 0, "Futur avec nous : -ons."),
+    C_("Tu ___ si tu pouvais.", ["viendrais", "viendras", "venirais"], 0, "si + imparfait → conditionnel : tu viendrais."),
+    E_("Écris au futur : Nous (avoir) ___ un examen.", ["aurons"], "avoir → aur- + ons."),
+    E_("Écris au conditionnel : J'(aimer) ___ un chocolat chaud.", ["aimerais"], "aimer + ais : j'aimerais.")
+  ] },
+{ id: "n4-c2", n: 4, d: "conj", titre: "L'accord du participe passé",
+  regles: ["Avec <b>être</b>, le participe s'accorde avec le <b>sujet</b> : Elles sont arrivé<b>es</b>.",
+    "Avec <b>avoir</b>, le participe <b>ne s'accorde pas</b> avec le sujet : Elles ont mang<b>é</b>.",
+    "Mais avec avoir, il s'accorde avec le <b>complément direct placé avant</b> le verbe : Les pommes que j'ai mangé<b>es</b>. (j'ai mangé quoi ? que = les pommes, placé avant)",
+    "Le participe passé employé <b>seul</b> s'accorde comme un adjectif : des portes fermé<b>es</b>."],
+  exemples: [["Ma sœur est partie.", "être → accord avec ma sœur"], ["Ma sœur a fini.", "avoir, pas de CD avant → pas d'accord"], ["La lettre ? Je l'ai écrite.", "l' (la lettre) est placé avant → écrite"]],
+  exos: [
+    C_("Mes cousines sont ___.", ["venu", "venues", "venus"], 1, "être → accord avec cousines (féminin pluriel)."),
+    C_("Les filles ont ___ un gâteau.", ["mangé", "mangées", "mangés"], 0, "avoir, et le CD (un gâteau) est après → pas d'accord."),
+    C_("Les chansons que nous avons ___ étaient belles.", ["chanté", "chantées", "chantés"], 1, "que = les chansons, CD placé avant → chantées."),
+    C_("Il est ___ à l'heure.", ["arrivé", "arrivée", "arrivés"], 0, "être → accord avec il (masculin singulier)."),
+    C_("Ta lettre, je l'ai ___ hier.", ["reçu", "reçue", "reçus"], 1, "l' = ta lettre, CD placé avant → reçue."),
+    C_("Des fenêtres ___.", ["ouvert", "ouvertes", "ouverts"], 1, "Participe seul → comme un adjectif : ouvertes."),
+    E_("Écris le participe : Nous (les garçons) sommes (tomber) ___.", ["tombés"], "être → accord avec nous (garçons) : tombés."),
+    E_("Écris le participe : Elle a (prendre) ___ le bus.", ["pris"], "avoir, CD après → pas d'accord : pris.")
+  ] },
+{ id: "n4-o1", n: 4, d: "orth", titre: "Le son « é » à la fin du verbe : -er, -é, -ez, -ait",
+  regles: ["<b>-er</b> (infinitif) : après une préposition (à, de, pour, sans) ou un autre verbe. Truc : remplace par <b>mordre</b>. Je vais mang<b>er</b> → Je vais mordre ✔.",
+    "<b>-é</b> (participe passé) : après avoir ou être. Truc : remplace par <b>mordu</b>. J'ai mang<b>é</b> → J'ai mordu ✔.",
+    "<b>-ez</b> : avec <b>vous</b>. Vous mang<b>ez</b>. · <b>-ais / -ait / -aient</b> : l'imparfait. Il mange<b>ait</b> → Il mordait ✔."],
+  exemples: [["Il faut travailler.", "il faut mordre ✔ → -er"], ["Il a travaillé.", "il a mordu ✔ → -é"], ["Vous travaillez. Il travaillait.", "vous → -ez ; imparfait → -ait"]],
+  exos: [
+    C_("Je vais ___ mon vélo.", ["réparer", "réparé", "réparez"], 0, "Je vais mordre ✔ → réparer."),
+    C_("Nous avons ___ la vaisselle.", ["laver", "lavé", "lavez"], 1, "Nous avons mordu ✔ → lavé."),
+    C_("Vous ___ très bien.", ["dansé", "danser", "dansez"], 2, "Avec vous → -ez."),
+    C_("Avant, il ___ à pied.", ["marché", "marchait", "marcher"], 1, "Imparfait avec il → -ait."),
+    C_("Elle aime ___ des histoires.", ["raconter", "raconté", "racontez"], 0, "Elle aime mordre ✔ → raconter."),
+    C_("Le gâteau est ___.", ["décoré", "décorer", "décorez"], 0, "Le gâteau est mordu ✔ → décoré."),
+    E_("Écris la bonne finale : Il est parti sans (parler) ___.", ["parler"], "sans mordre ✔ → infinitif : parler."),
+    E_("Écris la bonne finale : J'ai (oublier) ___ mon lunch.", ["oublié"], "j'ai mordu ✔ → participe : oublié.")
+  ] }
+];
+
+const texteBrut = h => h.replace(/<[^>]+>/g, "").replace(/·/g, ",");
+const lisible = t => t.replace(/___/g, " … ").replace(/→/g, ", ").replace(/≠/g, " contraire de ").replace(/[«»()]/g, "").replace(/\s-(\w)/g, " $1");
+
+/* ---------- Progress (on this device) ---------- */
+const resultat = id => memo.lire("cours-" + id, null);
+const etoilesDe = r => r ? (r.pc >= 90 ? 3 : r.pc >= 70 ? 2 : r.pc >= 50 ? 1 : 0) : -1;
+const txtEtoiles = n => n < 0 ? "" : "★".repeat(n) + "☆".repeat(3 - n);
+
+/* ---------- One lesson ---------- */
+let L = null, vue = "lecon";
+function ouvrirLecon(id) { L = LECONS.find(l => l.id === id); if (!L) return; memo.ecrire("fr-dernier", ["lecon", id]); vue = "lecon"; mode = "lecon"; document.body.classList.remove("large"); montrerMenus(false); afficher(); window.scrollTo(0, 0); }
+function entete() {
+  const N = NIVEAUX.find(n => n.n === L.n), D = DOMAINES[L.d];
+  return `<div class="tete-lecon"><span class="chip-c">${N.ico} ${N.nom}</span><span class="chip-c">${D[0]} ${D[1]}</span></div><h2>${esc(L.titre)}</h2>
+    <div class="onglets deux" role="tablist"><button type="button" role="tab" class="ongl-c" data-vue="lecon" aria-selected="${vue === "lecon"}">📘 La leçon</button><button type="button" role="tab" class="ongl-c" data-vue="exos" aria-selected="${vue === "exos"}">✏️ Les exercices (${L.exos.length})</button></div>`;
+}
+function bas() { const i = LECONS.indexOf(L), s = LECONS[i + 1]; return `<div class="bas">${s ? `<button type="button" class="btn" id="suivLecon">Leçon suivante : ${esc(s.titre)} →</button>` : ""}<button type="button" class="btn" id="autre">📚 Choisir une autre leçon</button></div>`; }
+function brancherBas() { if ($("#suivLecon")) $("#suivLecon").onclick = () => ouvrirLecon(LECONS[LECONS.indexOf(L) + 1].id); $("#autre").onclick = () => vueMenu("lecons"); document.querySelectorAll("[data-vue]").forEach(b => b.onclick = () => { taire(); vue = b.dataset.vue; afficher(); }); }
+function afficher() { taire(); vue === "lecon" ? lecon() : exercices(); }
+function lecon() {
+  $("#contenu").innerHTML = `<section class="accueil">${entete()}
+    <div class="barre"><span class="doux" style="font-size:15px">Voix :</span><span class="vitesse" role="group" aria-label="Vitesse">${VITESSES.map(([v, n]) => `<button type="button" data-v="${v}" aria-pressed="${vitesse === v}">${n}</button>`).join("")}</span></div>
+    ${L.regles.map((r, i) => `<div class="regle"><span>${r}</span><button type="button" class="lire" data-lire="${i}" aria-label="Écouter">🔊</button></div>`).join("")}
+    <h3>Exemples</h3><div class="exemples">${L.exemples.map(([fr, ex]) => `<div class="exemple"><span class="fr">${esc(fr)}</span><span class="ex">${esc(ex)}</span></div>`).join("")}</div>
+    <div><button type="button" class="btn vert" id="versExos">J'ai compris → Les exercices</button></div>${bas()}</section>`;
+  document.querySelectorAll("[data-lire]").forEach(b => b.onclick = () => parler(lisible(texteBrut(L.regles[+b.dataset.lire]))));
+  document.querySelectorAll("[data-v]").forEach(b => b.onclick = () => { vitesse = +b.dataset.v; memo.ecrire("lee-vitesse2", vitesse); document.querySelectorAll("[data-v]").forEach(x => x.setAttribute("aria-pressed", String(x === b))); });
+  $("#versExos").onclick = () => { vue = "exos"; afficher(); window.scrollTo(0, 0); };
+  brancherBas();
+}
+
+/* ---------- Exercises: one at a time, two attempts ---------- */
+let S = null;
+const norm = s => s.replace(/[’`]/g, "'").replace(/\s+/g, " ").replace(/\s*…\s*|\s*\.\.\.\s*/g, " ").trim();
+function compare(rep, attendues) {
+  const r = norm(rep);
+  for (const a of attendues) {
+    const A = norm(a), garderCasse = /[A-ZÀ-Ý]/.test(A) || /[.!?]$/.test(A) && A.length > 2;
+    const x = garderCasse ? r : r.toLowerCase().replace(/[.!]$/, ""), y = garderCasse ? A : A.toLowerCase().replace(/[.!]$/, "");
+    if (x === y) return "juste";
+  }
+  for (const a of attendues) { if (norm(rep).toLowerCase().replace(/[.!?]$/, "") === norm(a).toLowerCase().replace(/[.!?]$/, "")) return "forme"; }
+  for (const a of attendues) { if (sansAccent(norm(rep)).toLowerCase().replace(/[.!?]$/, "") === sansAccent(norm(a)).toLowerCase().replace(/[.!?]$/, "")) return "accent"; }
+  return "faux";
+}
+function exercices() {
+  S = { i: 0, essais: 0, res: [] };
+  unExo();
+}
+function unExo() {
+  const q = L.exos[S.i];
+  $("#contenu").innerHTML = `<section class="accueil">${entete()}
+    <div class="barre"><span class="pastilles">${L.exos.map((_, k) => `<i class="${k < S.i ? (S.res[k] ? "ok" : "non") : k === S.i ? "ici" : ""}"></i>`).join("")}</span><span class="doux" style="font-size:15px">Question ${S.i + 1} sur ${L.exos.length}</span></div>
+    <div class="exo"><p class="q-c"><span>${esc(q.q)}</span><button type="button" class="lire" id="lireQ" aria-label="Écouter la question">🔊</button></p>
+      ${q.t === "choix" ? `<div class="choix">${q.o.map((o, k) => `<button type="button" data-o="${k}">${esc(o)}</button>`).join("")}</div>`
+        : `<div class="ecrire"><input id="rep" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Ta réponse" placeholder="Écris ta réponse"><button type="button" class="btn vert" id="verif">Vérifier</button></div>`}
+      <div id="bulle" aria-live="polite"></div>
+      <div id="nav" hidden><button type="button" class="btn vert" id="suiv">${S.i + 1 < L.exos.length ? "Question suivante →" : "Voir mon résultat"}</button></div>
+    </div>${bas()}</section>`;
+  brancherBas();
+  $("#lireQ").onclick = () => parler(lisible(q.q + (q.t === "choix" ? ". " + q.o.join(". ") : "")));
+  S.essais = 0;
+  const fini = (juste) => { S.res[S.i] = juste && S.essais === 1; $("#nav").hidden = false; $("#suiv").focus(); };
+  if (q.t === "choix") {
+    document.querySelectorAll("[data-o]").forEach(b => b.onclick = () => {
+      S.essais++; const k = +b.dataset.o;
+      if (k === q.r) { son("juste"); b.classList.add("juste"); document.querySelectorAll("[data-o]").forEach(x => x.disabled = true); $("#bulle").innerHTML = `<div class="bul-c ok"><span class="etiq">${S.essais === 1 ? "Bravo" : "Oui, c'est ça"}</span>${esc(q.pourquoi)}</div>`; fini(true); }
+      else { son("faux"); b.classList.add("faux"); b.disabled = true;
+        if (S.essais >= 2) { document.querySelectorAll("[data-o]").forEach(x => { x.disabled = true; if (+x.dataset.o === q.r) x.classList.add("juste"); }); $("#bulle").innerHTML = `<div class="bul-c"><span class="etiq">La bonne réponse</span>« ${esc(q.o[q.r])} » — ${esc(q.pourquoi)}</div>`; fini(false); }
+        else $("#bulle").innerHTML = `<div class="bul-c"><span class="etiq">Pas tout à fait</span>Relis la question et essaie encore une fois.</div>`; }
+    });
+  } else {
+    const inp = $("#rep"); inp.focus();
+    const verif = () => {
+      if (!inp.value.trim()) { $("#bulle").innerHTML = `<div class="bul-c info"><span class="etiq">Pas de réponse</span>Écris ta réponse dans l'espace.</div>`; return; }
+      S.essais++; const c = compare(inp.value, q.r);
+      if (c === "juste") { son("juste"); inp.disabled = true; $("#verif").disabled = true; $("#bulle").innerHTML = `<div class="bul-c ok"><span class="etiq">${S.essais === 1 ? "Bravo" : "Oui, c'est ça"}</span>${esc(q.pourquoi)}</div>`; fini(true); return; }
+      son("faux");
+      if (S.essais >= 2) { inp.disabled = true; $("#verif").disabled = true; $("#bulle").innerHTML = `<div class="bul-c"><span class="etiq">La bonne réponse</span>« ${esc(q.r[0])} » — ${esc(q.pourquoi)}</div>`; fini(false); return; }
+      const msg = c === "accent" ? ["Attention aux accents", "Les lettres sont bonnes, mais il manque un accent ou il y en a un de trop."] : c === "forme" ? ["Presque !", "Vérifie la majuscule et la ponctuation."] : ["Pas tout à fait", "Relis la leçon et essaie encore une fois."];
+      $("#bulle").innerHTML = `<div class="bul-c"><span class="etiq">${msg[0]}</span>${msg[1]}${q.aide ? ` Indice : <b>${esc(q.aide)}</b>.` : ""}</div>`; inp.select();
+    };
+    $("#verif").onclick = verif; inp.onkeydown = e => { if (e.key === "Enter" && !inp.disabled) verif(); };
+  }
+  $("#suiv").onclick = () => { taire(); S.i++; if (S.i < L.exos.length) unExo(); else finExos(); };
+}
+function finExos() {
+  const n = S.res.filter(Boolean).length, pc = Math.round(100 * n / L.exos.length), av = resultat(L.id);
+  if (!av || pc >= av.pc) memo.ecrire("cours-" + L.id, { pc, date: Date.now() });
+  const e = etoilesDe({ pc });
+  $("#contenu").innerHTML = `<section class="accueil">${entete()}<div class="exo fin-x"><div class="etoiles-g" aria-label="${e} étoiles sur 3">${txtEtoiles(e)}</div>
+    <h3>${pc >= 90 ? "Excellent travail !" : pc >= 70 ? "Très bien !" : pc >= 50 ? "C'est un bon début !" : "Continue, tu vas y arriver !"}</h3>
+    <p>${n} bonnes réponses du premier coup sur ${L.exos.length}.</p>
+    <div class="barre" style="justify-content:center">${pc < 70 ? `<button type="button" class="btn" id="relire">📘 Relire la leçon</button>` : ""}<button type="button" class="btn vert" id="refaire">↻ Refaire les exercices</button></div></div>${bas()}</section>`;
+  brancherBas();
+  if ($("#relire")) $("#relire").onclick = () => { vue = "lecon"; afficher(); };
+  $("#refaire").onclick = () => exercices();
+}
+
+/* ===================== TEXT WRITING: 3 levels ===================== */
+const CONNECTEURS = ["d'abord", "ensuite", "puis", "après", "enfin", "finalement", "premièrement", "deuxièmement", "troisièmement", "de plus", "aussi", "parce que", "car", "donc", "alors", "mais", "cependant", "pourtant", "par exemple", "en conclusion", "pour conclure", "bref", "quand", "pendant que", "à la fin", "le lendemain", "soudain", "tout à coup"];
+const REDAC = [
+  { n: 1, nom: "Niveau 1", sous: "Écrire des phrases", ico: "✏️", min: 25, phrases: 3, liens: 0, paragraphes: 1,
+    txt: "Écris 3 à 5 phrases simples. Commence chaque phrase par une majuscule et termine-la par un point.",
+    sujets: [
+      { id: "r1-animal", titre: "Mon animal préféré", sujet: "Présente ton animal préféré. Comment s'appelle-t-il ? À quoi ressemble-t-il ? Que mange-t-il ?", plan: ["Nomme l'animal : « Mon animal préféré est… »", "Décris-le : « Il est… Il a… »", "Dis ce qu'il fait : « Il mange… Il aime… »"], mots: ["Mon animal préféré est", "Il s'appelle", "Il est", "Il a", "Il aime", "Il mange", "petit", "grand", "doux", "rapide", "des poils", "des plumes", "une longue queue"] },
+      { id: "r1-famille", titre: "Ma famille", sujet: "Présente ta famille. Qui sont les personnes de ta famille ? Que faites-vous ensemble ?", plan: ["Dis combien vous êtes : « Dans ma famille, nous sommes… »", "Présente chaque personne : « Ma mère s'appelle… Mon frère a… ans. »", "Dis ce que vous aimez faire ensemble."], mots: ["Dans ma famille", "nous sommes", "ma mère", "mon père", "mon frère", "ma sœur", "mes grands-parents", "il a … ans", "elle aime", "ensemble"] },
+      { id: "r1-repas", titre: "Mon repas préféré", sujet: "Quel est ton repas préféré ? Qu'est-ce qu'il y a dedans ? Quand le manges-tu ?", plan: ["Nomme ton repas : « Mon repas préféré est… »", "Dis ce qu'il y a dedans : « Il y a… »", "Dis quand tu le manges et pourquoi tu l'aimes."], mots: ["Mon repas préféré est", "Il y a", "des pâtes", "du riz", "du poulet", "des légumes", "du fromage", "délicieux", "le soir", "parce que"] },
+      { id: "r1-ecole", titre: "Ma journée à l'école", sujet: "Raconte ta journée à l'école. Qu'est-ce que tu fais le matin ? Et l'après-midi ?", plan: ["Le matin : « Le matin, je… »", "À la récréation : « À la récréation, je joue… »", "L'après-midi : « L'après-midi, nous… »"], mots: ["Le matin", "À la récréation", "L'après-midi", "je lis", "j'écris", "je joue", "nous faisons", "mon enseignante", "mes amis", "la classe"] },
+      { id: "r1-jeu", titre: "Mon jeu préféré", sujet: "Quel est ton jeu préféré ? Avec qui joues-tu ? Pourquoi l'aimes-tu ?", plan: ["Nomme ton jeu : « Mon jeu préféré est… »", "Dis avec qui et où tu joues.", "Dis pourquoi tu l'aimes : « J'aime ce jeu parce que… »"], mots: ["Mon jeu préféré est", "Je joue avec", "dehors", "à la maison", "parce que", "c'est amusant", "je gagne", "mes amis"] },
+      { id: "r1-meteo", titre: "Le temps aujourd'hui", sujet: "Quel temps fait-il aujourd'hui ? Comment es-tu habillé ? Que peux-tu faire dehors ?", plan: ["Dis le temps : « Aujourd'hui, il fait… »", "Dis tes vêtements : « Je porte… »", "Dis ce que tu peux faire dehors."], mots: ["Aujourd'hui", "il fait beau", "il fait froid", "il pleut", "il neige", "je porte", "un manteau", "une tuque", "des bottes", "je peux"] }
+    ] },
+  { n: 2, nom: "Niveau 2", sous: "Écrire un paragraphe", ico: "📝", min: 60, phrases: 5, liens: 2, paragraphes: 1,
+    txt: "Écris un paragraphe avec un début, un milieu et une fin. Utilise des mots de liaison : d'abord, ensuite, puis, enfin, parce que…",
+    sujets: [
+      { id: "r2-sortie", titre: "Raconte une sortie", sujet: "Raconte une sortie que tu as faite (au parc, au musée, chez des amis…). Où es-tu allé ? Qu'as-tu fait ? Qu'as-tu aimé ?", plan: ["Début : où, quand et avec qui ? « Samedi, je suis allé… avec… »", "Milieu : ce que vous avez fait, dans l'ordre. « D'abord… Ensuite… Puis… »", "Fin : ce que tu as aimé et pourquoi. « Enfin… J'ai aimé… parce que… »"], mots: ["Samedi dernier", "je suis allé", "avec ma famille", "d'abord", "ensuite", "puis", "enfin", "nous avons vu", "j'ai aimé", "parce que"] },
+      { id: "r2-ami", titre: "Mon meilleur ami", sujet: "Décris ton meilleur ami ou ta meilleure amie. Comment est-il ou elle ? Que faites-vous ensemble ?", plan: ["Présente ton ami : nom, âge, où vous vous êtes connus.", "Décris son physique et son caractère : « Il est… Il a… »", "Dis ce que vous faites ensemble et pourquoi c'est ton meilleur ami."], mots: ["Mon meilleur ami s'appelle", "il a … ans", "il est gentil", "drôle", "généreux", "il a les cheveux", "nous jouons", "ensemble", "parce que", "aussi"] },
+      { id: "r2-neige", titre: "Une journée de neige", sujet: "Raconte une journée où il a beaucoup neigé. Qu'as-tu fait ? Comment te sentais-tu ?", plan: ["Début : le matin, tu vois la neige.", "Milieu : ce que tu fais dehors (bonhomme de neige, glissade…).", "Fin : comment la journée se termine et ce que tu ressens."], mots: ["Ce matin-là", "il y avait", "beaucoup de neige", "j'ai mis", "ma tuque", "mes mitaines", "un bonhomme de neige", "nous avons glissé", "ensuite", "enfin", "j'étais content"] },
+      { id: "r2-recette", titre: "Ma recette préférée", sujet: "Explique comment préparer un plat ou une collation que tu aimes. Donne les étapes dans l'ordre.", plan: ["Nomme la recette et les ingrédients : « Pour faire…, il faut… »", "Donne les étapes : « D'abord… Ensuite… Puis… »", "Termine : « Enfin… C'est prêt ! »"], mots: ["Pour faire", "il faut", "d'abord", "ensuite", "puis", "enfin", "mélange", "coupe", "ajoute", "fais cuire", "c'est délicieux"] },
+      { id: "r2-sport", titre: "Mon sport préféré", sujet: "Quel est ton sport préféré ? Explique comment on y joue et pourquoi tu l'aimes.", plan: ["Présente ton sport : « Mon sport préféré est… »", "Explique comment on joue : équipes, ballon, règles.", "Dis pourquoi tu l'aimes : « J'aime ce sport parce que… »"], mots: ["Mon sport préféré est", "on joue avec", "deux équipes", "il faut", "marquer", "un but", "parce que", "aussi", "mais", "je m'amuse"] },
+      { id: "r2-souvenir", titre: "Mon plus beau souvenir", sujet: "Raconte ton plus beau souvenir. Que s'est-il passé ? Pourquoi est-ce un beau souvenir ?", plan: ["Début : quand et où ?", "Milieu : ce qui s'est passé, dans l'ordre.", "Fin : pourquoi c'est ton plus beau souvenir."], mots: ["Mon plus beau souvenir", "quand j'avais … ans", "nous sommes allés", "d'abord", "ensuite", "tout à coup", "enfin", "j'étais heureux", "parce que"] }
+    ] },
+  { n: 3, nom: "Niveau 3", sous: "Écrire un texte", ico: "📄", min: 120, phrases: 8, liens: 3, paragraphes: 3,
+    txt: "Écris un texte en 3 paragraphes : une introduction, un développement et une conclusion. Laisse une ligne vide entre les paragraphes. Utilise des mots de liaison variés.",
+    sujets: [
+      { id: "r3-devoirs", titre: "Faut-il des devoirs à la maison ?", sujet: "Donne ton opinion : les élèves devraient-ils avoir des devoirs à la maison ? Donne au moins deux arguments.", plan: ["Introduction : présente le sujet et donne ton opinion. « À mon avis… »", "Développement : deux arguments avec des exemples. « Premièrement… Deuxièmement… De plus… »", "Conclusion : redis ton opinion en une ou deux phrases. « En conclusion… »"], mots: ["À mon avis", "je pense que", "premièrement", "deuxièmement", "de plus", "par exemple", "parce que", "cependant", "en conclusion", "c'est pourquoi"] },
+      { id: "r3-metier", titre: "Le métier de mes rêves", sujet: "Présente le métier que tu aimerais faire plus tard. Que fait-on dans ce métier ? Pourquoi te plaît-il ?", plan: ["Introduction : nomme le métier.", "Développement : ce qu'on fait dans ce métier, et pourquoi il te plaît (2 raisons).", "Conclusion : ce que tu dois faire pour y arriver (études, qualités)."], mots: ["Plus tard, j'aimerais être", "ce métier consiste à", "aider les gens", "premièrement", "de plus", "parce que", "il faut", "étudier", "en conclusion", "mon rêve"] },
+      { id: "r3-aventure", titre: "Une aventure inventée", sujet: "Invente une histoire d'aventure. Un personnage a un problème et doit le résoudre.", plan: ["Début : présente le personnage, le lieu et le moment. « Il était une fois… / Un jour… »", "Milieu : le problème arrive (« Soudain… »), puis ce que le personnage essaie de faire.", "Fin : comment le problème est résolu et comment se sent le personnage."], mots: ["Un jour", "il était une fois", "soudain", "tout à coup", "alors", "ensuite", "heureusement", "finalement", "il avait peur", "il était soulagé"] },
+      { id: "r3-lettre", titre: "Lettre à un ami", sujet: "Écris une lettre à un ami qui habite loin. Raconte-lui ce que tu as fait ce mois-ci et pose-lui des questions.", plan: ["Introduction : « Cher… / Chère… », salue ton ami et demande de ses nouvelles.", "Développement : raconte deux choses que tu as faites, avec des détails.", "Conclusion : pose une question, dis au revoir et signe. « À bientôt, … »"], mots: ["Cher", "Chère", "Comment vas-tu ?", "ce mois-ci", "j'ai fait", "d'abord", "ensuite", "et toi", "j'ai hâte de", "à bientôt", "ton ami"] },
+      { id: "r3-planete", titre: "Comment protéger la planète ?", sujet: "Explique ce que les élèves peuvent faire pour protéger l'environnement. Donne au moins trois actions.", plan: ["Introduction : pourquoi il faut protéger la planète.", "Développement : trois actions concrètes, avec un exemple pour chacune.", "Conclusion : un message pour encourager les autres."], mots: ["la planète", "l'environnement", "recycler", "les déchets", "économiser l'eau", "marcher", "premièrement", "deuxièmement", "enfin", "par exemple", "en conclusion"] },
+      { id: "r3-ecrans", titre: "Les écrans : bons ou mauvais ?", sujet: "Les écrans (tablettes, jeux vidéo, téléphones) sont-ils bons ou mauvais pour les jeunes ? Donne les avantages, les inconvénients et ton opinion.", plan: ["Introduction : présente le sujet.", "Développement : un paragraphe pour les avantages, puis les inconvénients (« Cependant… »).", "Conclusion : ton opinion avec une raison."], mots: ["aujourd'hui", "les écrans", "un avantage", "un inconvénient", "d'un côté", "d'un autre côté", "cependant", "par exemple", "à mon avis", "en conclusion"] }
+    ] }
+];
+let R_ = null; // { niveau, sujet }
+function ouvrirRedac(id) {
+  for (const N of REDAC) { const s = N.sujets.find(x => x.id === id); if (s) R_ = { N, s }; }
+  if (!R_) return; memo.ecrire("fr-dernier", ["redac", id]); mode = "redac"; montrerMenus(false); redaction(); window.scrollTo(0, 0);
+}
+function redaction() {
+  const { N, s } = R_, brouillon = memo.lire("redac-" + s.id, "");
+  $("#contenu").innerHTML = `<section class="panneau">
+    <div class="titre-texte"><span class="chip-theme">${N.ico} ${N.nom} · ${N.sous}</span><h2>${esc(s.titre)}</h2></div>
+    <div class="question"><div class="q-tete"><p>✍️ ${esc(s.sujet)}</p><button type="button" class="lire" id="lireSujet" aria-label="Écouter le sujet">🔊</button></div>
+      <p class="consigne">${N.txt} Au moins <b>${N.min} mots</b>.</p></div>
+    <div class="deux-col redac-col">
+      <div class="col-q">
+        <div class="question"><h3>📋 Mon plan</h3><ol class="plan-r">${s.plan.map(p => `<li>${esc(p)}</li>`).join("")}</ol></div>
+        <div class="question"><h3>🧰 Mots utiles</h3><p class="note">Touche un mot pour l'ajouter dans ton texte.</p><div class="mots-r">${s.mots.map(m => `<button type="button" class="mot-r" data-mot="${esc(m)}">${esc(m)}</button>`).join("")}</div></div>
+      </div>
+      <div class="col-q">
+        <label for="monTexte" hidden>Mon texte</label><textarea id="monTexte" class="texte-r" placeholder="Écris ton texte ici…" autocomplete="off">${esc(brouillon)}</textarea>
+        <div class="barre"><span class="compte-mots" id="compteMots"></span><button type="button" class="btn vert" id="verifTexte">✓ Vérifier mon texte</button><button type="button" class="btn petit" id="ecouterTexte">🔊 Écouter mon texte</button></div>
+      </div>
+    </div>
+    <div id="resultat" class="panneau"></div>
+    <p class="note">La vérification trouve les erreurs fréquentes (majuscules, points, accords, homophones, mots mal écrits), mais pas toutes. Montre ton texte à ton enseignante.</p></section>`;
+  $("#contenu").insertAdjacentHTML("beforeend", `<div class="bas-texte"><button type="button" class="btn" id="autreRedac">✍️ Choisir un autre sujet</button></div>`);
+  $("#autreRedac").onclick = () => vueMenu("redac");
+  const ta = $("#monTexte");
+  ["paste", "drop"].forEach(ev => ta.addEventListener(ev, e => { e.preventDefault(); $("#resultat").innerHTML = `<div class="bulle famille-sens"><div class="sorte"><span class="etiq">Pas de copier-coller</span></div><p>Écris ton texte toi-même : c'est comme ça qu'on progresse !</p></div>`; }));
+  const compter = () => { const n = verifier(ta.value).nbMots, c = $("#compteMots"); c.textContent = n + " / " + N.min + " mots"; c.classList.toggle("ok", n >= N.min); };
+  ta.oninput = () => { memo.ecrire("redac-" + s.id, ta.value); compter(); }; compter();
+  document.querySelectorAll("[data-mot]").forEach(b => b.onclick = () => {
+    const m = b.dataset.mot, d = ta.selectionStart ?? ta.value.length, avant = ta.value.slice(0, d), apres = ta.value.slice(ta.selectionEnd ?? d);
+    const ajout = (avant && !/\s$/.test(avant) ? " " : "") + m + (apres && !/^\s/.test(apres) ? " " : "");
+    ta.value = avant + ajout + apres; ta.focus(); const p = (avant + ajout).length; ta.setSelectionRange(p, p); ta.oninput();
+  });
+  $("#lireSujet").onclick = () => parler(s.sujet);
+  $("#ecouterTexte").onclick = () => parler(ta.value || "Ton texte est vide.");
+  $("#verifTexte").onclick = () => verifierRedac(ta.value);
+  if (brouillon.trim()) verifierRedac(brouillon, true);
+}
+function verifierRedac(t, silencieux) {
+  const { N, s } = R_, v = verifier(t), r = $("#resultat");
+  if (!t.trim()) { r.innerHTML = bulle("vide", "Écris ton texte dans l'espace."); brancherCapsules(r); return; }
+  const ortho = orthographe(t, v.erreurs.map(e => e.mot), s.sujet + " " + s.mots.join(" ") + " " + s.plan.join(" "));
+  // the spelling mistakes found are placed in the text
+  ortho.forEach(o => { const re = new RegExp("(^|[^A-Za-zÀ-ÿ'’])(" + o.mot.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + ")(?![A-Za-zÀ-ÿ])"); const m = re.exec(t); if (m) { const d = m.index + m[1].length; if (!v.erreurs.some(e => e.d === d)) v.erreurs.push({ d, f: d + o.mot.length, mot: o.mot, t: o.t, conseil: o.conseil, sugg: o.sugg }); } });
+  v.erreurs.sort((a, b) => a.d - b.d);
+  const nbPhrases = (t.match(/[^.!?]+[.!?]+/g) || []).length, bas = sansAccent(t.toLowerCase().replace(/’/g, "'"));
+  const liens = CONNECTEURS.filter(c => new RegExp("(^|[^a-z])" + sansAccent(c).replace(/'/g, "'") + "([^a-z]|$)").test(bas));
+  const paras = t.split(/\n\s*\n/).filter(x => x.trim()).length;
+  const forme = v.erreurs.filter(e => ["majuscule", "ponctuation"].includes(e.t)).length, autres = v.erreurs.length - forme;
+  const liste = [
+    [v.nbMots >= N.min, `Au moins ${N.min} mots (tu en as ${v.nbMots})`],
+    [nbPhrases >= N.phrases, `Au moins ${N.phrases} phrases (tu en as ${nbPhrases})`],
+    [forme === 0, "Une majuscule au début et un point à la fin de chaque phrase"],
+    ...(N.liens ? [[liens.length >= N.liens, `Au moins ${N.liens} mots de liaison différents${liens.length ? " (" + liens.join(", ") + ")" : ""}`]] : []),
+    ...(N.paragraphes > 1 ? [[paras >= N.paragraphes, `${N.paragraphes} paragraphes séparés par une ligne vide (tu en as ${paras})`]] : []),
+    [autres === 0, "Pas d'erreur d'accord, d'homophone ou d'orthographe trouvée"]
+  ];
+  const tout = liste.every(x => x[0]);
+  let html = "", pos = 0;
+  v.erreurs.forEach((e, k) => { html += esc(t.slice(pos, e.d)) + `<mark class="${famille(e.t)}" data-e="${k}" tabindex="0">${esc(t.slice(e.d, e.f))}</mark>`; pos = e.f; }); html += esc(t.slice(pos));
+  r.innerHTML = `<div class="question"><h3>✅ Ma liste de vérification</h3><ul class="liste-r">${liste.map(([ok, txt]) => `<li class="${ok ? "ok" : ""}"><span aria-hidden="true">${ok ? "✔" : "○"}</span>${esc(txt)}</li>`).join("")}</ul></div>`
+    + (v.erreurs.length ? `<h2>${v.erreurs.length} erreur${v.erreurs.length > 1 ? "s" : ""} à corriger</h2><article class="page"><p class="apercu">${html.replace(/\n/g, "<br>")}</p></article><p class="consigne">Touche un mot souligné pour voir sa bulle. Corrige ton texte plus haut, puis vérifie encore.</p>` : "")
+    + `<div class="bulles" id="bullesT">${v.erreurs.map(e => bulle(e.t, e.conseil, e.mot, e.sugg)).join("")}</div>`
+    + (tout ? bravo("Bravo, ton texte respecte toute la liste !", "Relis-le une dernière fois, puis montre-le à ton enseignante.") : "");
+  if (tout) { const f = memo.lire("redac-faits", []); if (!f.includes(s.id)) { f.push(s.id); memo.ecrire("redac-faits", f); } if (!silencieux) son("juste"); }
+  r.querySelectorAll("mark[data-e]").forEach(mk => { mk.onclick = mk.onkeydown = ev => { if (ev.type === "keydown" && ev.key !== "Enter") return; r.querySelectorAll("mark.actif").forEach(x => x.classList.remove("actif")); mk.classList.add("actif"); const b = r.querySelectorAll("#bullesT .bulle")[+mk.dataset.e]; if (b) { b.scrollIntoView({ block: "nearest", behavior: "smooth" }); } }; });
+  brancherCapsules(r);
+}
+
+/* ---------- Kinds of errors and their grammar capsules ---------- */
+const SORTES = {
+  majuscule: { f: "forme", nom: "Majuscule", cap: "La majuscule", txt: "Une phrase commence toujours par une majuscule. Les noms de personnes, d'animaux et de villes aussi.", ex: "<s>le</s> soir → <b>Le</b> soir<br><s>pompon</s> dort. → <b>Pompon</b> dort." },
+  ponctuation: { f: "forme", nom: "Ponctuation", cap: "Le point à la fin", txt: "Une phrase se termine par un point (.), un point d'interrogation (?) ou un point d'exclamation (!).", ex: "Le chat dort<s> </s> → Le chat dort<b>.</b><br>Où est ma tuque<b> ?</b>" },
+  pluriel: { f: "accord", nom: "Pluriel", cap: "Le pluriel des noms", txt: "Après les, des, deux, mes, ces, plusieurs… le nom prend souvent un s à la fin. On ne l'entend pas, mais on l'écrit !", ex: "un chat → deux chat<b>s</b><br>une mitaine → des mitaine<b>s</b>" },
+  singulier: { f: "accord", nom: "Singulier", cap: "Quand le nom reste au singulier", txt: "Dans certaines expressions, le nom reste au singulier : on parle de la matière, pas de plusieurs choses.", ex: "un bonhomme de <s>neiges</s> → un bonhomme de <b>neige</b><br>un jus d'<b>orange</b>" },
+  adjectif: { f: "accord", nom: "Accord de l'adjectif", cap: "L'accord de l'adjectif", txt: "L'adjectif (le mot qui décrit) prend le même genre et le même nombre que le nom : -e au féminin, -s au pluriel.", ex: "un élève content → des élèves content<b>s</b><br>une fille content<b>e</b>" },
+  verbeIls: { f: "accord", nom: "Accord du verbe", cap: "Le verbe avec ils, elles", txt: "Avec ils, elles ou plusieurs personnes (les enfants, Mia et Sam), le verbe finit souvent par -ent. Le -ent ne se prononce pas !", ex: "ils jou<b>ent</b> · les enfants mett<b>ent</b><br>Mia et Sam regard<b>ent</b>" },
+  verbeTu: { f: "accord", nom: "Accord du verbe", cap: "Le verbe avec tu", txt: "Avec tu, le verbe finit par s.", ex: "tu joue<b>s</b> · tu mange<b>s</b> · tu as" },
+  verbeNous: { f: "accord", nom: "Accord du verbe", cap: "Le verbe avec nous", txt: "Avec nous, le verbe finit par -ons (sauf nous sommes).", ex: "nous jou<b>ons</b> · nous mange<b>ons</b>" },
+  verbeVous: { f: "accord", nom: "Accord du verbe", cap: "Le verbe avec vous", txt: "Avec vous, le verbe finit par -ez (sauf vous êtes, vous faites, vous dites).", ex: "vous jou<b>ez</b> · vous mang<b>ez</b>" },
+  aA: { f: "homo", nom: "a ou à", cap: "a ou à ?", txt: "a, c'est le verbe avoir : on peut le remplacer par « avait ». à, c'est un petit mot qui montre un lieu ou un moment : on ne peut pas dire « avait ».", ex: "Il <b>a</b> une tache. (Il avait une tache.)<br>Il va <b>à</b> l'école." },
+  etEst: { f: "homo", nom: "et ou est", cap: "et ou est ?", txt: "est, c'est le verbe être : on peut le remplacer par « était ». et sert à ajouter : on peut dire « et puis ».", ex: "Pompon <b>est</b> blanc. (Pompon était blanc.)<br>Léa <b>et</b> Sam jouent." },
+  sonSont: { f: "homo", nom: "son ou sont", cap: "son ou sont ?", txt: "sont, c'est le verbe être : on peut dire « étaient ». son veut dire « à lui » ou « à elle » : on peut dire « mon ».", ex: "Ils <b>sont</b> rentrés. (Ils étaient rentrés.)<br>Sam prend <b>son</b> sac." },
+  onOnt: { f: "homo", nom: "on ou ont", cap: "on ou ont ?", txt: "ont, c'est le verbe avoir : on peut dire « avaient ». on veut dire « quelqu'un » ou « nous » : on peut dire « il ».", ex: "Ils <b>ont</b> mangé. (Ils avaient mangé.)<br><b>On</b> va au parc." },
+  ouOu: { f: "homo", nom: "ou ou où", cap: "ou ou où ?", txt: "où avec un accent parle d'un lieu : « Où vas-tu ? ». ou sans accent montre un choix : on peut dire « ou bien ».", ex: "<b>Où</b> est ma tuque ?<br>Un chat <b>ou</b> un chien ?" },
+  saCa: { f: "homo", nom: "sa ou ça", cap: "sa ou ça ?", txt: "ça veut dire « cela ». sa veut dire « à lui » ou « à elle » : on peut dire « ma ».", ex: "<b>Ça</b> va bien.<br>Léa prend <b>sa</b> tuque." },
+  cestSes: { f: "homo", nom: "c'est, ces ou ses", cap: "c'est, ces ou ses ?", txt: "c'est = cela est. ces montre des choses (ces livres-là). ses veut dire « à lui » ou « à elle » (ses mitaines).", ex: "<b>C'est</b> un beau jour.<br><b>Ses</b> bottes sont rouges." },
+  accent: { f: "ortho", nom: "Accent", cap: "Les accents", txt: "Certains mots ont un accent sur le e (é, è, ê) ou sur une autre lettre. Sans accent, le mot change de son ou de sens.", ex: "<s>ecole</s> → <b>é</b>cole · <s>tres</s> → tr<b>è</b>s · <s>fete</s> → f<b>ê</b>te" },
+  orthographe: { f: "ortho", nom: "Orthographe", cap: "Écrire les mots correctement", txt: "Ce mot ne s'écrit pas comme ça. Regarde bien comment il est écrit dans le texte ou dans le dictionnaire.", ex: "<s>parceque</s> → <b>parce que</b><br><s>beaucou</s> → <b>beaucoup</b>" },
+  apostrophe: { f: "ortho", nom: "Apostrophe", cap: "L'apostrophe", txt: "Devant une voyelle, le, la, je, de… perdent leur dernière lettre et on met une apostrophe.", ex: "<s>jai</s> → <b>j'ai</b> · <s>lécole</s> → <b>l'école</b>" },
+  repete: { f: "forme", nom: "Mot répété", cap: "Le mot en double", txt: "Tu as écrit le même mot deux fois de suite. Enlève-en un.", ex: "le <s>le</s> chat → le chat" },
+  reponse: { f: "sens", nom: "Réponse incomplète", cap: "Trouver la réponse dans le texte", txt: "Relis la question, cherche les mots importants, puis trouve la phrase du texte qui en parle. Ta réponse doit dire cette information.", ex: "Question : De quelle couleur est Pompon ?<br>Texte : Pompon est tout <b>blanc</b>.<br>Réponse : Pompon est <b>blanc</b>." },
+  phrase: { f: "sens", nom: "Phrase complète", cap: "Répondre par une phrase", txt: "Réponds avec une phrase complète : reprends des mots de la question.", ex: "Comment s'appelle le chat ?<br><s>Pompon</s> → <b>Le chat s'appelle Pompon.</b>" },
+  vide: { f: "sens", nom: "Pas de réponse", cap: "Écrire sa réponse", txt: "Écris ta réponse dans l'espace sous la question.", ex: "" },
+  longueur: { f: "sens", nom: "Texte trop court", cap: "Allonger son texte", txt: "Ajoute des phrases : dis qui, où, quand, comment, et ce que tu ressens.", ex: "J'aime l'hiver. → J'aime l'hiver <b>parce que je fais du patin avec mon frère</b>." },
+  dejaJuste: { f: "forme", nom: "Ce mot était juste", cap: "", txt: "", ex: "" }
+};
+const famille = t => "famille-" + (SORTES[t] ? SORTES[t].f : "forme");
+
+/* ---------- The themes: text, questions, text to correct, writing topic ---------- */
+/* Data: each theme has 3 texts of increasing difficulty (★ short, ★★ medium, ★★★ longer with an inference question).
+   Question: [question, accepted keywords separated by |, model answer, text passage to highlight, minimum number of keywords].
+   Text to correct: each error is written [wrong word|right answer|kind of error]. */
+const T = (titre, texte, questions, corriger, sujet, min, exemple) => ({ titre, texte, questions: questions.map(([q, c, modele, ind, mn]) => ({ q, cles: [c.split("|")], modele, ind, min: mn })), corriger: corriger.split(/(\[[^\]]+\])/).filter(Boolean).map(s => s[0] === "[" ? (([f, c, t]) => ({ f, c, t }))(s.slice(1, -1).split("|")) : s), ecrire: { sujet, min, exemple: exemple || "" } });
+const THEMES = [
+  { id: "animaux", ico: "🐱", nom: "Les animaux", textes: [
+    T("Pompon, le chat de Léa", "Léa a un petit chat. Il s'appelle Pompon. Pompon est tout blanc avec une tache noire sur le nez. Le matin, il dort sur le lit de Léa. Quand Léa se lève, Pompon miaule parce qu'il a faim. Léa lui donne des croquettes et de l'eau fraîche. L'après-midi, Pompon joue avec une balle rouge dans le jardin. Il aime aussi grimper dans le grand arbre. Le soir, Léa et Pompon regardent les étoiles par la fenêtre. Léa dit que Pompon est son meilleur ami.",
+      [["Comment s'appelle le chat de Léa ?", "pompon", "Le chat de Léa s'appelle Pompon.", "Il s'appelle"],
+       ["De quelle couleur est Pompon ?", "blanc", "Pompon est tout blanc avec une tache noire sur le nez.", "tout blanc"],
+       ["Pourquoi Pompon miaule-t-il le matin ?", "faim", "Pompon miaule parce qu'il a faim.", "faim"],
+       ["Que fait Pompon l'après-midi ?", "joue|jouer|balle|grimpe|grimper|arbre", "Pompon joue avec une balle rouge dans le jardin.", "balle rouge"]],
+      "Léa a deux [chat|chats|pluriel]. Ils [joue|jouent|verbeIls] souvent dans le jardin. Pompon [et|est|etEst] tout blanc. Il [à|a|aA] une tache noire sur le nez. [le|Le|majuscule] soir, les deux chats dorment sur le lit de Léa.",
+      "Décris un animal que tu aimes. Comment s'appelle-t-il ? À quoi ressemble-t-il ? Que fait-il ?", 30,
+      "Mon chien s'appelle Biscuit. il est brun et blanc. Il a des grande oreilles. Le matin, il mange ses croquettes. Il aime courir dans le parc avec moi. Ils joue souvent ensemble. c'est mon meilleur ami"),
+    T("Le renard de la forêt", "Au bord de la forêt vit un jeune renard roux. Il a une longue queue touffue et des oreilles pointues. Le jour, il dort dans son terrier, sous les racines d'un vieux chêne. La nuit, il sort pour chercher sa nourriture. Il mange des souris, des insectes et parfois des petits fruits. En hiver, le renard écoute sous la neige. Quand il entend une souris, il saute très haut et plonge la tête dans la neige ! Le renard est rusé et très prudent. Il se cache dès qu'il sent un humain.",
+      [["Où dort le renard pendant le jour ?", "terrier|chene|racine", "Le jour, le renard dort dans son terrier, sous les racines d'un vieux chêne.", "terrier"],
+       ["Nomme deux choses que mange le renard.", "souris|insecte|fruit", "Le renard mange des souris, des insectes et des petits fruits.", "Il mange", 2],
+       ["Comment le renard attrape-t-il une souris en hiver ?", "saute|plonge|ecoute", "Il écoute sous la neige, puis il saute très haut et plonge la tête dans la neige.", "saute très haut"],
+       ["Pourquoi le renard se cache-t-il ?", "humain|prudent|peur", "Il se cache quand il sent un humain, car il est prudent.", "se cache"]],
+      "Le renard a une longue queue. Ses oreilles [son|sont|sonSont] pointues. La nuit, les renards [cherche|cherchent|verbeIls] des souris. Ils mangent aussi des [insecte|insectes|pluriel]. En hiver, le renard [à|a|aA] froid, mais il [et|est|etEst] patient.",
+      "Choisis un animal sauvage. Où vit-il ? Que mange-t-il ? Comment se protège-t-il ?", 40),
+    T("Le voyage des oies", "Chaque automne, Noah regarde le ciel avec son grand-père. De longues lignes d'oies passent au-dessus de la maison en criant. Elles volent en forme de V. Grand-père explique que l'oiseau en avant travaille le plus fort, car il coupe le vent pour les autres. Quand il est fatigué, il recule et un autre oiseau prend sa place. Les oies quittent le Canada parce que l'hiver arrive. Le lac va geler et elles ne pourront plus trouver de nourriture. Elles partent vers le sud, où il fait plus chaud. Au printemps, elles reviendront pour faire leur nid. Noah sourit : « Elles s'entraident, comme une équipe ! »",
+      [["Quelle forme font les oies quand elles volent ?", "de v|en v|un v", "Les oies volent en forme de V.", "forme de V"],
+       ["Pourquoi l'oiseau en avant travaille-t-il le plus fort ?", "vent", "Il travaille le plus fort parce qu'il coupe le vent pour les autres.", "coupe le vent"],
+       ["Pourquoi les oies quittent-elles le Canada ?", "hiver|geler|gele|nourriture|froid", "Elles partent parce que l'hiver arrive : le lac va geler et elles ne trouveront plus de nourriture.", "quittent le Canada"],
+       ["Pourquoi Noah dit-il que les oies sont comme une équipe ?", "aide|entraide|ensemble|remplace|place|tour|chacune", "Les oies s'aident : elles prennent chacune leur tour en avant pour couper le vent.", "recule"]],
+      "Les oies [vole|volent|verbeIls] en forme de V. Elles [on|ont|onOnt] un long voyage à faire. L'oiseau en avant [et|est|etEst] fatigué. Il recule [a|à|aA] la fin de la ligne. Au printemps, les [oie|oies|pluriel] reviennent.",
+      "Raconte ce que tu vois dans la nature à l'automne. Écris au moins trois phrases et utilise des mots qui décrivent.", 50)] },
+  { id: "ecole", ico: "🏫", nom: "L'école", textes: [
+    T("Le premier jour", "C'est le premier jour d'école. Mia a un sac à dos neuf. Il est bleu avec des étoiles. Dans la classe, elle voit son amie Zoé. Les deux filles s'assoient ensemble. L'enseignant s'appelle Monsieur Karim. Il lit une histoire drôle à la classe. Mia rit beaucoup. À la récréation, elle joue au ballon avec Zoé.",
+      [["Comment est le sac à dos de Mia ?", "bleu|etoile|neuf", "Le sac à dos de Mia est neuf, bleu avec des étoiles.", "bleu"],
+       ["Qui Mia voit-elle dans la classe ?", "zoe", "Mia voit son amie Zoé.", "voit son amie"],
+       ["Que fait l'enseignant ?", "lit|histoire", "L'enseignant lit une histoire drôle à la classe.", "histoire drôle"],
+       ["Que fait Mia à la récréation ?", "ballon|joue", "À la récréation, Mia joue au ballon avec Zoé.", "récréation"]],
+      "Mia [et|est|etEst] contente. Elle [à|a|aA] un sac neuf. Les [ami|amis|pluriel] de Mia sont dans la classe. [zoé|Zoé|majuscule] rit beaucoup. Les filles [joue|jouent|verbeIls] ensemble.",
+      "Raconte ta journée préférée à l'école.", 30),
+    T("La sortie au musée", "Aujourd'hui, la classe de Mme Léa va au musée des sciences. Les élèves montent dans l'autobus jaune à neuf heures. Sam s'assoit à côté de Noah. Au musée, ils voient un grand squelette de dinosaure. Mia pose une question au guide : « Est-ce qu'il mangeait de la viande ? » Le guide répond que oui. Ensuite, les élèves dînent dans le parc. À deux heures, tout le monde rentre à l'école. Noah dit : « C'était la meilleure journée de l'année ! »",
+      [["Où va la classe de Mme Léa ?", "musee", "La classe va au musée des sciences.", "musée des sciences"],
+       ["À quelle heure les élèves montent-ils dans l'autobus ?", "neuf|9", "Les élèves montent dans l'autobus à neuf heures.", "neuf heures"],
+       ["Qu'est-ce que les élèves voient au musée ?", "squelette|dinosaure", "Ils voient un grand squelette de dinosaure.", "squelette"],
+       ["Où les élèves dînent-ils ?", "parc", "Les élèves dînent dans le parc.", "dînent"]],
+      "Les élèves sont [content|contents|adjectif]. Mia et Sam [regarde|regardent|verbeIls] le dinosaure. Noah a un peu peur. Ils [on|ont|onOnt] mangé dans le parc. À deux heures, ils [son|sont|sonSont] rentrés à [l'école|l'école.|ponctuation]",
+      "Raconte une sortie que tu as faite avec ta classe ou ta famille. Où es-tu allé ? Qu'as-tu vu ? Qu'as-tu aimé ?", 40),
+    T("Le jardin de la classe", "Au printemps, la classe de 4e année décide de faire un jardin derrière l'école. D'abord, les élèves font un plan sur une grande feuille. Ils choisissent des tomates, des carottes et des tournesols. Ensuite, chaque équipe reçoit une tâche. L'équipe de Sam creuse la terre. L'équipe d'Aya plante les graines. Pendant un mois, il ne pleut presque pas. Les petites plantes commencent à jaunir. Aya a une idée : chaque élève va apporter une bouteille d'eau le matin pour arroser. En juin, les tournesols sont plus grands que les enfants ! Les élèves sont fiers, car le jardin a poussé grâce à leur travail d'équipe.",
+      [["Que font les élèves en premier ?", "plan", "D'abord, les élèves font un plan sur une grande feuille.", "un plan"],
+       ["Que fait l'équipe d'Aya ?", "plante|graine", "L'équipe d'Aya plante les graines.", "plante les graines"],
+       ["Pourquoi les plantes commencent-elles à jaunir ?", "pleut|pluie|eau|sec", "Les plantes jaunissent parce qu'il ne pleut presque pas pendant un mois.", "ne pleut"],
+       ["Pourquoi les élèves sont-ils fiers ?", "equipe|travail|ensemble|pousse", "Ils sont fiers parce que le jardin a poussé grâce à leur travail d'équipe.", "fiers"]],
+      "Les élèves [plante|plantent|verbeIls] des graines. Les [tournesol|tournesols|pluriel] poussent vite. Aya [à|a|aA] une bonne idée. Les enfants [son|sont|sonSont] fiers de leur jardin. [le|Le|majuscule] jardin est très beau.",
+      "Imagine un projet que ta classe pourrait faire ensemble. Explique les étapes avec les mots d'abord, ensuite et enfin.", 50)] },
+  { id: "hiver", ico: "❄️", nom: "L'hiver", textes: [
+    T("La tuque perdue", "Ce matin, il neige. Sam veut aller jouer dehors. Il met son manteau et ses bottes. Mais où est sa tuque ? Sam cherche partout. Il regarde sous le lit et dans le placard. Enfin, il trouve sa tuque dans la gueule du chien ! Sam rit et sort jouer dans la neige avec son chien.",
+      [["Quel temps fait-il ce matin ?", "neige", "Ce matin, il neige.", "il neige"],
+       ["Que cherche Sam ?", "tuque", "Sam cherche sa tuque.", "Sam cherche"],
+       ["Où Sam regarde-t-il ?", "lit|placard", "Il regarde sous le lit et dans le placard.", "sous le lit"],
+       ["Où Sam trouve-t-il sa tuque ?", "chien|gueule", "Il trouve sa tuque dans la gueule du chien.", "gueule"]],
+      "Sam met ses [botte|bottes|pluriel]. [ou|Où|ouOu] est ma tuque ? Le chien [à|a|aA] la tuque. Sam et le chien [joue|jouent|verbeIls] dans la neige. [il|Il|majuscule] fait froid.",
+      "Raconte une journée de neige.", 30),
+    T("L'hiver à Ottawa", "En hiver, il fait très froid à Ottawa. La neige tombe et couvre les rues. Les enfants mettent un manteau chaud, une tuque, des mitaines et des bottes. Sur le canal Rideau, beaucoup de gens patinent. Le canal devient une très grande patinoire ! Après le patin, Sam et sa sœur boivent un chocolat chaud. Le samedi, ils font un bonhomme de neige dans la cour. Ils lui donnent une carotte pour le nez. Quand le printemps arrive, la neige fond.",
+      [["Quel temps fait-il en hiver à Ottawa ?", "froid", "En hiver, il fait très froid à Ottawa.", "très froid"],
+       ["Nomme deux vêtements que les enfants mettent.", "manteau|tuque|mitaine|botte", "Les enfants mettent un manteau, une tuque, des mitaines et des bottes.", "manteau", 2],
+       ["Que boivent Sam et sa sœur après le patin ?", "chocolat", "Ils boivent un chocolat chaud.", "chocolat"],
+       ["Que se passe-t-il quand le printemps arrive ?", "fond|fondre", "Quand le printemps arrive, la neige fond.", "neige fond"]],
+      "En hiver, les enfants [mette|mettent|verbeIls] des mitaines. Les rues [son|sont|sonSont] blanches. Le chocolat chaud [et|est|etEst] délicieux. Sam fait un bonhomme de [neiges|neige|singulier]. [ou|Où|ouOu] est ma tuque ?",
+      "Qu'est-ce que tu aimes faire en hiver ? Écris au moins 4 phrases.", 35),
+    T("La tempête de verglas", "Un soir de janvier, une pluie froide tombe sur le village. En touchant le sol, elle se transforme en glace. C'est du verglas. Le lendemain matin, les arbres brillent comme du cristal, mais plusieurs branches sont cassées. Il n'y a plus d'électricité dans la maison de Léo. La maison devient froide et sombre. Papa allume des bougies et toute la famille dort près du foyer, sous des couvertures. Les voisins viennent aider à ramasser les branches. Après trois jours, les lumières se rallument enfin. Léo dit qu'il a eu un peu peur, mais qu'il n'a jamais été seul.",
+      [["Qu'est-ce que le verglas ?", "glace", "Le verglas, c'est une pluie froide qui se transforme en glace en touchant le sol.", "se transforme en glace"],
+       ["Pourquoi la maison de Léo devient-elle froide et sombre ?", "electricite|courant|lumiere", "Elle devient froide et sombre parce qu'il n'y a plus d'électricité.", "électricité"],
+       ["Comment la famille reste-t-elle au chaud ?", "foyer|couverture|bougie", "La famille dort près du foyer, sous des couvertures.", "foyer"],
+       ["Pourquoi Léo dit-il qu'il n'a jamais été seul ?", "famille|voisin|aide|ensemble", "Sa famille était avec lui et les voisins sont venus aider.", "voisins"]],
+      "Les [arbre|arbres|pluriel] brillent. Les branches [son|sont|sonSont] cassées. La famille [et|est|etEst] près du foyer. Les voisins [aide|aident|verbeIls] Léo. Il [à|a|aA] eu peur.",
+      "Raconte une tempête ou une journée de mauvais temps. Que s'est-il passé ? Comment t'es-tu senti ?", 50)] },
+  { id: "famille", ico: "🏠", nom: "La famille", textes: [
+    T("Le gâteau de mamie", "Dimanche, c'est l'anniversaire de mamie. Elle a soixante-dix ans. Lina et son papa font un gâteau au chocolat. Lina casse les œufs. Papa mélange la farine et le sucre. Le gâteau cuit dans le four. Le soir, toute la famille chante pour mamie. Mamie souffle les bougies et sourit.",
+      [["Quel jour est l'anniversaire de mamie ?", "dimanche", "L'anniversaire de mamie est dimanche.", "Dimanche"],
+       ["Quel âge a mamie ?", "soixante-dix|soixante dix|70", "Mamie a soixante-dix ans.", "soixante-dix"],
+       ["Que fait Lina pour aider ?", "casse|oeuf|œuf", "Lina casse les œufs.", "casse les œufs"],
+       ["Que fait la famille le soir ?", "chante", "Le soir, toute la famille chante pour mamie.", "chante"]],
+      "Lina [et|est|etEst] contente. Elle casse deux [œuf|œufs|pluriel]. Papa [à|a|aA] un tablier. [mamie|Mamie|majuscule] souffle les bougies. Les enfants [chante|chantent|verbeIls] pour elle.",
+      "Décris une fête dans ta famille.", 30),
+    T("Le nouveau bébé", "Depuis une semaine, il y a un nouveau bébé chez Adam. C'est sa petite sœur, Nour. Elle est minuscule et elle pleure souvent la nuit. Au début, Adam est un peu jaloux, car ses parents s'occupent beaucoup du bébé. Un jour, maman demande à Adam de l'aider. Il apporte les couches et il chante une chanson à Nour. Le bébé arrête de pleurer et serre son doigt. Adam est fier. Maintenant, il dit qu'il est le meilleur grand frère du monde.",
+      [["Comment s'appelle la sœur d'Adam ?", "nour", "La sœur d'Adam s'appelle Nour.", "petite sœur"],
+       ["Pourquoi Adam est-il jaloux au début ?", "occupe|attention|beaucoup", "Il est jaloux parce que ses parents s'occupent beaucoup du bébé.", "jaloux"],
+       ["Comment Adam aide-t-il maman ?", "couche|chante|chanson", "Il apporte les couches et il chante une chanson à Nour.", "couches"],
+       ["Comment se sent Adam à la fin ?", "fier|content|heureux", "À la fin, Adam est fier : il se sent le meilleur grand frère du monde.", "fier"]],
+      "Nour [et|est|etEst] petite. Ses parents [son|sont|sonSont] fatigués. Adam apporte les [couche|couches|pluriel]. Le bébé [à|a|aA] souri. Les parents [remercie|remercient|verbeIls] Adam.",
+      "Présente une personne de ta famille. Qui est-elle ? Que faites-vous ensemble ?", 40),
+    T("Le déménagement", "La famille d'Inès déménage de Montréal à Ottawa. Le camion est plein de boîtes. Inès est triste de quitter sa meilleure amie, Rosa. Avant de partir, Rosa lui donne un bracelet rouge et bleu. Dans la nouvelle maison, la chambre d'Inès est vide et silencieuse. Le premier soir, elle n'arrive pas à dormir. Le lendemain, une fille du voisinage frappe à la porte avec un ballon. Elle s'appelle Maya et elle cherche quelqu'un pour jouer. Inès hésite, puis elle sort. Le soir, elle appelle Rosa pour lui raconter sa journée. Elle porte toujours son bracelet.",
+      [["Dans quelle ville la famille d'Inès déménage-t-elle ?", "ottawa", "La famille d'Inès déménage à Ottawa.", "déménage"],
+       ["Pourquoi Inès est-elle triste ?", "rosa|amie|quitter", "Elle est triste de quitter sa meilleure amie, Rosa.", "triste"],
+       ["Qui frappe à la porte ?", "maya|fille|voisin", "C'est Maya, une fille du voisinage, qui frappe à la porte.", "frappe"],
+       ["Pourquoi Inès porte-t-elle toujours son bracelet, selon toi ?", "rosa|amie|souvenir|pense|oublier", "Elle le porte pour penser à Rosa, son amie : c'est un souvenir.", "bracelet rouge"]],
+      "Les [boîte|boîtes|pluriel] sont dans le camion. Inès [et|est|etEst] triste. Maya [à|a|aA] un ballon. Les deux filles [joue|jouent|verbeIls] dehors. [ou|Où|ouOu] est mon bracelet ?",
+      "Imagine que tu arrives dans un nouveau quartier. Raconte ta première journée.", 50)] },
+  { id: "sports", ico: "⚽", nom: "Les sports", textes: [
+    T("Le match de soccer", "Samedi, Omar joue au soccer. Son équipe porte un chandail vert. Omar court vite avec le ballon. Il fait une passe à Tom. Tom tire et marque un but ! Les parents crient de joie. À la fin, l'équipe verte gagne trois à deux.",
+      [["De quelle couleur est le chandail de l'équipe ?", "vert", "Le chandail de l'équipe est vert.", "chandail"],
+       ["À qui Omar fait-il une passe ?", "tom", "Omar fait une passe à Tom.", "passe"],
+       ["Qui marque un but ?", "tom", "C'est Tom qui marque un but.", "marque"],
+       ["Quel est le score à la fin ?", "trois|3", "L'équipe verte gagne trois à deux.", "gagne"]],
+      "Omar [cour|court|orthographe] vite. Les [joueur|joueurs|pluriel] portent un chandail vert. Tom [à|a|aA] marqué un but. Les parents [crie|crient|verbeIls] de joie. [l'équipe|L'équipe|majuscule] verte gagne.",
+      "Raconte un sport que tu aimes.", 30),
+    T("La leçon de natation", "Chloé a peur de l'eau. Pourtant, aujourd'hui, elle a son premier cours de natation. Au bord de la piscine, ses jambes tremblent. Le moniteur s'appelle Jules. Il est calme et patient. D'abord, il demande à Chloé de s'asseoir et de mettre ses pieds dans l'eau. Ensuite, elle descend l'échelle avec une planche. Jules lui montre comment souffler des bulles. À la fin du cours, Chloé flotte sur le dos pendant cinq secondes ! Elle a hâte de revenir la semaine prochaine.",
+      [["Comment se sent Chloé au bord de la piscine ?", "peur|tremble|nerveu|stress", "Chloé a peur : ses jambes tremblent.", "tremblent"],
+       ["Comment est le moniteur ?", "calme|patient", "Le moniteur est calme et patient.", "calme"],
+       ["Que fait Chloé en premier ?", "pied|asseoir|assoit", "D'abord, elle s'assoit et met ses pieds dans l'eau.", "pieds"],
+       ["Comment se sent Chloé à la fin ? Comment le sais-tu ?", "hate|revenir|content|fiere|heureuse", "Elle est contente, car elle a hâte de revenir la semaine prochaine.", "hâte"]],
+      "Chloé [à|a|aA] peur de l'eau. Ses jambes [tremble|tremblent|verbeIls]. Le moniteur [et|est|etEst] patient. Elle souffle des [bulle|bulles|pluriel]. Elle flotte sur le [dos|dos.|ponctuation]",
+      "Raconte une chose qui te faisait peur et que tu as réussi à faire.", 40),
+    T("La course du club", "Ce matin, c'est la grande course du club d'athlétisme. Ethan s'entraîne depuis deux mois. Il veut gagner la médaille d'or. Au départ, il part très vite et dépasse tout le monde. Mais au milieu de la course, il voit Karim tomber sur la piste. Karim tient son genou et grimace. Les autres coureurs passent sans s'arrêter. Ethan hésite une seconde, puis il s'arrête et aide Karim à se relever. Ensemble, ils terminent la course en marchant. Ethan arrive dernier. Pourtant, à la fin, l'entraîneuse lui remet un prix spécial : le prix de l'esprit sportif.",
+      [["Depuis combien de temps Ethan s'entraîne-t-il ?", "deux mois|2 mois", "Ethan s'entraîne depuis deux mois.", "entraîne depuis"],
+       ["Que se passe-t-il au milieu de la course ?", "tombe|karim", "Au milieu de la course, Karim tombe sur la piste.", "tomber"],
+       ["Que fait Ethan quand Karim tombe ?", "aide|arrete|relever", "Ethan s'arrête et aide Karim à se relever.", "se relever"],
+       ["Pourquoi Ethan reçoit-il un prix même s'il arrive dernier ?", "aide|esprit sportif|gentil|arrete", "Il reçoit le prix de l'esprit sportif parce qu'il a aidé Karim au lieu de gagner.", "prix spécial"]],
+      "Ethan [veu|veut|orthographe] gagner. Les [coureur|coureurs|pluriel] partent vite. Karim [et|est|etEst] tombé. Ethan et Karim [termine|terminent|verbeIls] la course. [c'est|C'est|majuscule] un beau geste.",
+      "Pour toi, c'est quoi être un bon joueur ou une bonne joueuse ? Donne un exemple.", 50)] },
+  { id: "alimentation", ico: "🍎", nom: "L'alimentation", textes: [
+    T("Au marché", "Samedi matin, Rayan va au marché avec sa maman. Il y a beaucoup de fruits et de légumes. Rayan choisit des pommes rouges. Maman achète des carottes et du fromage. Le marchand donne une fraise à Rayan. Elle est sucrée et délicieuse. Rayan dit merci.",
+      [["Avec qui Rayan va-t-il au marché ?", "maman|mere", "Rayan va au marché avec sa maman.", "va au marché"],
+       ["Que choisit Rayan ?", "pomme", "Rayan choisit des pommes rouges.", "choisit"],
+       ["Qu'est-ce que maman achète ?", "carotte|fromage", "Maman achète des carottes et du fromage.", "achète"],
+       ["Que donne le marchand à Rayan ?", "fraise", "Le marchand donne une fraise à Rayan.", "donne une fraise"]],
+      "Rayan choisit des [pomme|pommes|pluriel]. La fraise [et|est|etEst] sucrée. Maman [à|a|aA] un panier. Les fruits [son|sont|sonSont] frais. [rayan|Rayan|majuscule] dit merci.",
+      "Décris ton fruit ou ton légume préféré.", 30),
+    T("La soupe aux légumes", "Il fait froid, alors grand-papa Malik prépare une soupe aux légumes avec Jade. D'abord, ils lavent les carottes, les pommes de terre et le céleri. Ensuite, grand-papa coupe les légumes avec un grand couteau. Jade met les morceaux dans la marmite. Ils ajoutent de l'eau, du sel et un peu de poivre. La soupe cuit pendant une heure. Toute la maison sent bon ! Jade goûte la soupe. Elle souffle d'abord, car c'est très chaud.",
+      [["Pourquoi grand-papa prépare-t-il une soupe ?", "froid", "Il prépare une soupe parce qu'il fait froid.", "Il fait froid"],
+       ["Nomme deux légumes de la soupe.", "carotte|pomme de terre|patate|celeri", "Il y a des carottes, des pommes de terre et du céleri.", "lavent", 2],
+       ["Qui coupe les légumes ? Pourquoi, selon toi ?", "grand-papa|grand papa|malik|couteau", "Grand-papa coupe les légumes, car le grand couteau est dangereux pour un enfant.", "coupe"],
+       ["Pourquoi Jade souffle-t-elle sur la soupe ?", "chaud|brule", "Elle souffle parce que la soupe est très chaude.", "souffle"]],
+      "Jade et grand-papa [lave|lavent|verbeIls] les légumes. Les [carotte|carottes|pluriel] sont orange. La soupe [et|est|etEst] chaude. Grand-papa [à|a|aA] un grand couteau. [ou|Où|ouOu] est la marmite ?",
+      "Écris une recette simple que tu aimes. Utilise les mots d'abord, ensuite et enfin.", 40),
+    T("Le défi de la boîte à lunch", "Cette semaine, l'école organise le défi de la boîte à lunch sans déchets. Le but est d'apporter un dîner sans emballages jetables. Lundi, Félix arrive avec des biscuits dans un sac de plastique et un jus en boîte. Il remarque que son amie Sofia a des contenants réutilisables et une gourde. Sofia explique que les emballages jetables finissent souvent dans les dépotoirs ou dans la nature. Le soir, Félix en parle à son père. Ensemble, ils cherchent de vieux contenants dans l'armoire. Vendredi, la boîte à lunch de Félix est parfaite. Il n'a presque rien à jeter, et sa classe remporte le défi.",
+      [["Quel est le but du défi ?", "dechet|emballage|jetable", "Le but est d'apporter un dîner sans emballages jetables.", "Le but"],
+       ["Qu'est-ce que Félix apporte lundi ?", "biscuit|sac|jus", "Lundi, il apporte des biscuits dans un sac de plastique et un jus en boîte.", "Lundi"],
+       ["Pourquoi Sofia utilise-t-elle des contenants réutilisables ?", "depotoir|nature|dechet|planete|environnement", "Parce que les emballages jetables finissent dans les dépotoirs ou dans la nature.", "dépotoirs"],
+       ["Qu'est-ce que Félix a appris ? Explique avec tes mots.", "reutilisable|contenant|dechet|emballage|jeter|gourde", "Il a appris à utiliser des contenants réutilisables pour faire moins de déchets.", "parfaite"]],
+      "Félix [à|a|aA] un jus en boîte. Les [emballage|emballages|pluriel] vont souvent dans la nature. Sofia [et|est|etEst] fière de sa gourde. Félix et son père [cherche|cherchent|verbeIls] des contenants. [vendredi|Vendredi|majuscule], la classe gagne le défi.",
+      "Que peux-tu faire pour avoir moins de déchets à la maison ou à l'école ? Donne au moins deux idées.", 50)] }];
+
+/* ---------- Checking a written text (simple rules) ---------- */
+const FAUTES = { parceque: ["parce que", "orthographe"], aujourdhui: ["aujourd'hui", "apostrophe"], beaucou: ["beaucoup", "orthographe"], bocou: ["beaucoup", "orthographe"], boucoup: ["beaucoup", "orthographe"], beacoup: ["beaucoup", "orthographe"], bocoup: ["beaucoup", "orthographe"],
+  tro: ["trop", "orthographe"], ke: ["que", "orthographe"], kan: ["quand", "orthographe"], kel: ["quel", "orthographe"], ki: ["qui", "orthographe"], jai: ["j'ai", "apostrophe"], cest: ["c'est", "apostrophe"], jaime: ["j'aime", "apostrophe"], sappelle: ["s'appelle", "apostrophe"], cetait: ["c'était", "apostrophe"], quil: ["qu'il", "apostrophe"], jadore: ["j'adore", "apostrophe"],
+  lecole: ["l'école", "apostrophe"], "lécole": ["l'école", "apostrophe"], lhiver: ["l'hiver", "apostrophe"], larbre: ["l'arbre", "apostrophe"], dabord: ["d'abord", "apostrophe"], aussie: ["aussi", "orthographe"], ausi: ["aussi", "orthographe"], toujour: ["toujours", "orthographe"],
+  jamai: ["jamais", "orthographe"], "jamé": ["jamais", "orthographe"], avek: ["avec", "orthographe"], avc: ["avec", "orthographe"], sava: ["ça va", "orthographe"], chocola: ["chocolat", "orthographe"], bonome: ["bonhomme", "orthographe"], bonhome: ["bonhomme", "orthographe"],
+  oiseaus: ["oiseaux", "orthographe"], chevals: ["chevaux", "orthographe"], animals: ["animaux", "orthographe"], jeus: ["jeux", "orthographe"], dinosore: ["dinosaure", "orthographe"], dinosor: ["dinosaure", "orthographe"], otobus: ["autobus", "orthographe"], "musé": ["musée", "orthographe"],
+  ecole: ["école", "accent"], eleve: ["élève", "accent"], eleves: ["élèves", "accent"], tete: ["tête", "accent"], fete: ["fête", "accent"], foret: ["forêt", "accent"], etait: ["était", "accent"], tres: ["très", "accent"], pere: ["père", "accent"], mere: ["mère", "accent"],
+  frere: ["frère", "accent"], meme: ["même", "accent"], fenetre: ["fenêtre", "accent"], apres: ["après", "accent"], "apré": ["après", "accent"], deja: ["déjà", "accent"], voila: ["voilà", "accent"], prefere: ["préféré", "accent"], ete: ["été", "accent"], televiseur: ["téléviseur", "accent"] };
+const SUJETS = ["je", "j", "tu", "il", "elle", "on", "nous", "vous", "ils", "elles"];
+const PETITS = ["se", "ne", "me", "te", "le", "la", "les", "lui", "leur", "y", "en", "sont", "ont", "vont", "font", "l", "n", "s", "m", "t"];
+const DET_PLURIEL = ["les", "des", "mes", "tes", "ses", "nos", "vos", "leurs", "ces", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "dix", "plusieurs", "quelques"];
+const INVARIABLES = ["de", "du", "plus", "moins", "petit-déjeuner", "fois", "jours", "autres", "deux", "trois", "dix", "beaucoup", "aussi", "très", "bien", "tout", "avec", "pour", "dans", "sur", "chez", "et", "ou", "qui", "que", "à", "en", "y"];
+function verifier(texte, opts) {
+  opts = opts || {};
+  const erreurs = [], mots = [];
+  const re = /[A-Za-zÀ-ÖØ-öø-ÿ]+(?:['’][A-Za-zÀ-ÖØ-öø-ÿ]+)*/g; let m;
+  while ((m = re.exec(texte))) mots.push({ w: m[0], d: m.index, f: m.index + m[0].length, l: m[0].toLowerCase().replace(/’/g, "'") });
+  const ajoute = (i, t, conseil, sugg) => { if (!erreurs.some(e => e.i === i)) erreurs.push({ i, d: mots[i].d, f: mots[i].f, mot: mots[i].w, t, conseil, sugg }); };
+  mots.forEach((x, i) => {
+    const avant = i > 0 ? mots[i - 1].l : "", apres = i < mots.length - 1 ? mots[i + 1].l : "";
+    /* Capital letter at the start of a sentence */
+    const debut = texte.slice(0, x.d).replace(/[\s«»"]+$/, ""), finPhrase = debut === "" || /[.!?]$/.test(debut);
+    if (finPhrase && /^[a-zà-ÿ]/.test(x.w)) ajoute(i, "majuscule", "Le début d'une phrase prend une majuscule.", x.w[0].toUpperCase() + x.w.slice(1));
+    /* Frequently misspelled words */
+    const cle = x.l.replace(/'/g, "");
+    const faute = FAUTES[x.l] || (!x.l.includes("'") && FAUTES[cle]);
+    if (faute) { const [bon, t] = faute; ajoute(i, t, t === "accent" ? "Il manque un accent." : t === "apostrophe" ? "Il manque l'apostrophe." : "Ce mot s'écrit autrement.", bon); }
+    /* Repeated word */
+    if (avant === x.l && !["nous", "vous"].includes(x.l) && /^\s*$/.test(texte.slice(mots[i - 1].f, x.d))) ajoute(i, "repete", "Ce mot est écrit deux fois de suite.", "");
+    /* Homophones */
+    if (x.l === "à" && ["il", "elle", "on", "j", "je", "tu"].includes(avant)) ajoute(i, "aA", "Après « " + mots[i - 1].w + " », on peut dire « avait » : c'est le verbe avoir.", "a");
+    if (x.l === "et" && ["il", "elle", "on", "c", "ce", "ça", "cela", "qui"].includes(avant)) ajoute(i, "etEst", "On peut dire « était » : c'est le verbe être.", "est");
+    if (x.l === "son" && ["ils", "elles"].includes(avant)) ajoute(i, "sonSont", "On peut dire « étaient » : c'est le verbe être.", "sont");
+    if (x.l === "on" && ["ils", "elles"].includes(avant)) ajoute(i, "onOnt", "On peut dire « avaient » : c'est le verbe avoir.", "ont");
+    if (x.l === "ou" && ["est", "sont", "vas", "va", "vont", "habites", "habite", "es", "êtes"].includes(apres)) ajoute(i, "ouOu", "On parle d'un lieu : « où » prend un accent.", x.w[0] === "O" ? "Où" : "où");
+    if (x.l === "sa" && ["va", "fait", "marche", "suffit"].includes(apres)) ajoute(i, "saCa", "On peut dire « cela » : on écrit « ça ».", "ça");
+    if ((x.l === "ces" || x.l === "ses") && ["un", "une", "le", "la", "très", "pas", "mon", "ma", "beau", "bon", "super", "bien", "vrai", "facile"].includes(apres)) ajoute(i, "cestSes", "On peut dire « cela est » : on écrit « c'est ».", "c'est");
+    /* Verb agreement with the pronoun */
+    if (["ils", "elles"].includes(avant) && !PETITS.includes(x.l) && /[a-zéè]e?s?$/.test(x.l) && /(e|es)$/.test(x.l) && !/ent$/.test(x.l) && x.l.length > 2) ajoute(i, "verbeIls", "Avec « " + mots[i - 1].w + " », le verbe finit par -ent.", x.w.replace(/es?$/, "ent"));
+    if (avant === "tu" && !PETITS.includes(x.l) && /e$/.test(x.l) && x.l.length > 2 && !x.l.includes("'")) ajoute(i, "verbeTu", "Avec « tu », le verbe finit par s.", x.w + "s");
+    if (avant === "nous" && !PETITS.includes(x.l) && !["nous", "sommes", "avons"].includes(x.l) && !/ons$/.test(x.l) && x.l.length > 2 && /[a-z]$/.test(x.l)) ajoute(i, "verbeNous", "Avec « nous », le verbe finit par -ons.", "");
+    if (avant === "vous" && !PETITS.includes(x.l) && !["vous", "êtes", "faites", "dites"].includes(x.l) && !/ez$/.test(x.l) && x.l.length > 2 && /[a-z]$/.test(x.l)) ajoute(i, "verbeVous", "Avec « vous », le verbe finit par -ez.", "");
+    /* Plural after les, des, deux… (except "il les mange") */
+    if (DET_PLURIEL.includes(avant) && !(i > 1 && SUJETS.includes(mots[i - 2].l)) && !INVARIABLES.includes(x.l) && x.l.length > 2 && !/[sxz]$/.test(x.l) && !x.l.includes("'") && !/^[A-ZÀ-Ý]/.test(x.w))
+      { if (/[sx]$/.test(apres) && apres.length > 2) ajoute(i, "adjectif", "« " + x.w + " » décrit « " + mots[i + 1].w + " » : il s'accorde au pluriel avec un s.", x.w + "s");
+        else ajoute(i, "pluriel", "Après « " + mots[i - 1].w + " », le mot prend un s.", x.w + "s"); }
+  });
+  /* Period at the end */
+  const fin = texte.trim();
+  if (mots.length && !/[.!?»]$/.test(fin)) ajoute(mots.length - 1, "ponctuation", "Termine ta phrase par un point.", mots[mots.length - 1].w + ".");
+  erreurs.sort((a, b) => a.d - b.d);
+  return { erreurs, nbMots: mots.length };
+}
+
+/* ---------- Spelling of the answers ----------
+   Lexicon: all the words of the texts, questions and model answers, plus common words.
+   An unknown word very close to a known word (1 or 2 letters different) is flagged with its correct spelling.
+   An unknown word that looks like nothing known is not flagged (it may be right). */
+const MOTS_COURANTS = `le la les l un une des du de d au aux à a et ou où mais donc or ni car que qu qui quoi quand comme si ne n pas plus jamais rien très trop peu beaucoup aussi encore déjà toujours souvent parfois ensuite puis enfin alors après avant pendant depuis avec sans pour par sur sous dans entre chez vers près loin ici là y en
+je j me m moi tu te t toi il elle on nous vous ils elles se s lui leur leurs eux ce c cet cette ces ça cela mon ma mes ton ta tes son sa ses notre nos votre vos
+est sont suis es sommes êtes était étaient été être ai as a avons avez ont avait avaient eu avoir fait fais font faire faisait va vais vas vont allons allez aller allait peut peux peuvent pouvoir veut veux veulent vouloir dit dis disent dire voit vois voient voir vu sait sais savent savoir prend prends prennent prendre met mets mettent mettre vient viens viennent venir donne donnent donner mange mangent manger joue jouent jouer aime aiment aimer regarde regardent regarder court courent courir saute sautent sauter dort dorment dormir boit boivent boire lit lisent lire écrit écrivent écrire parle parlent parler trouve trouvent trouver cherche cherchent chercher aide aident aider rentre rentrent rentrer part partent partir arrive arrivent arriver tombe tombent tomber reste restent rester fond fondre gagne gagnent gagner rit rient rire sourit sourient sourire pleure pleurent pleurer fait faits apprend apprennent apprendre monte montent monter descend descendent descendre ouvre ouvrent ouvrir ferme ferment fermer
+grand grande grands grandes petit petite petits petites gros grosse beau belle beaux bon bonne bons bonnes mauvais nouveau nouvelle vieux vieille jeune content contente contents contentes triste tristes heureux heureuse fier fière fiers fières chaud chaude froid froide blanc blanche noir noire rouge rouges bleu bleue vert verte jaune brun brune gris grise rose orange
+garçon fille enfant enfants ami amie amis amies maman papa mère père frère sœur soeur famille grand-mère grand-père école classe maison jardin parc rue ville chat chats chien chiens animal animaux oiseau oiseaux arbre arbres fleur fleurs eau neige pluie soleil matin soir nuit jour jours semaine année hiver printemps été automne fois chose choses temps heure heures minute minutes
+parce pourquoi comment combien quel quelle quels quelles oui non merci bonjour au-revoir premier première deuxième dernier dernière tout toute tous toutes chaque autre autres même mêmes
+pense pensent penser crois croit croire sent sentent sentir sens appelle appellent appeler marche marchent marcher habite habitent habiter adore adorent adorer préfère préfèrent préférer veux voudrais aimerais
+zéro un deux trois quatre cinq six sept huit neuf dix onze douze treize quatorze quinze seize vingt trente cent mille`;
+const LEXIQUE = new Set();
+(function () {
+  const ajoute = t => (t.toLowerCase().replace(/’/g, "'").match(/[a-zà-ÿœ-]+/g) || []).forEach(w => { LEXIQUE.add(w); w.split("-").forEach(x => x && LEXIQUE.add(x)); });
+  ajoute(MOTS_COURANTS);
+  const participes = () => [...LEXIQUE].filter(w => w.endsWith("er") && w.length > 3).forEach(w => { const r = w.slice(0, -2); ["é", "ée", "és", "ées", "ais", "ait", "aient", "ons", "ez", "ent", "e", "es"].forEach(f => LEXIQUE.add(r + f)); });
+  THEMES.forEach(th => th.textes.forEach(x => { ajoute(x.titre); ajoute(x.texte); x.questions.forEach(q => { ajoute(q.q); ajoute(q.modele); }); x.corriger.forEach(sg => ajoute(typeof sg === "object" ? sg.c : sg)); }));
+  if (typeof LECONS !== "undefined") LECONS.forEach(l => { l.regles.forEach(r => ajoute(r.replace(/<[^>]+>/g, " "))); l.exemples.forEach(e => ajoute(e.join(" "))); });
+  if (typeof REDAC !== "undefined") REDAC.forEach(N => N.sujets.forEach(x => { ajoute(x.sujet); x.plan.forEach(ajoute); x.mots.forEach(ajoute); }));
+  participes();
+})();
+function distance(a, b) {
+  if (Math.abs(a.length - b.length) > 2) return 9;
+  const d = Array.from({ length: a.length + 1 }, (_, i) => [i]); for (let j = 1; j <= b.length; j++) d[0][j] = j;
+  for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++) d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+  return d[a.length][b.length];
+}
+function orthographe(texte, dejaSignales, prefere) {
+  const pref = new Set(((prefere || "").toLowerCase().match(/[a-zà-ÿœ]+/g)) || []);
+  const out = [], vus = new Set(dejaSignales || []);
+  const re = /[A-Za-zÀ-ÖØ-öø-ÿœŒ]+(?:['’][A-Za-zÀ-ÖØ-öø-ÿœŒ]+)*(?:-[A-Za-zÀ-ÖØ-öø-ÿœŒ]+)*/g; let m;
+  while ((m = re.exec(texte))) {
+    const brut = m[0];
+    if (vus.has(brut)) continue;
+    // each part is checked: "l'école" → l, école; "grand-mère" → grand, mère
+    const parties = brut.toLowerCase().replace(/’/g, "'").split(/['-]/).filter(Boolean);
+    for (const w of parties) {
+      if (LEXIQUE.has(w) || w.length < 3 || /^[A-ZÀ-Ý]/.test(brut) && !LEXIQUE.has(w) && m.index > 0 && !/[.!?]\s*$/.test(texte.slice(0, m.index))) continue; // proper noun in the middle of a sentence
+      const sa = sansAccent(w); let acc = null, proche = null, best = 3;
+      for (const L of LEXIQUE) {
+        if (sansAccent(L) === sa) { acc = L; break; }
+        if (Math.abs(L.length - w.length) <= 2 && L[0] === w[0] || Math.abs(L.length - w.length) <= 1) { const dd = distance(w, L) - (pref.has(L) ? .5 : 0); if (dd < best && dd <= (w.length > 5 ? 2 : 1)) { best = dd; proche = L; } }
+      }
+      const remplace = x => { const i = brut.toLowerCase().replace(/’/g, "'").lastIndexOf(w); let r = brut.slice(0, i) + x + brut.slice(i + w.length); if (/^[A-ZÀ-Ý]/.test(brut)) r = r[0].toUpperCase() + r.slice(1); return r; };
+      // another form of a known verb (pense → penser, jouait → jouer) is not a mistake
+      if (!acc && proche && !pref.has(proche)) { const fins = ["er", "ir", "re", "e", "es", "ent", "ons", "ez", "ait", "ais", "aient", "é", "ée", "és", "ées", "it", "is", "s"]; const stem = fins.reduce((r, f) => r || (w.endsWith(f) && w.length - f.length >= 3 ? w.slice(0, -f.length) : null), null) || w; if (stem.length >= 3 && fins.some(f => LEXIQUE.has(stem + f))) proche = null; }
+      if (acc && (sansAccent(w) !== w || acc === w)) acc = null; // the word already has an accent: it is not changed
+      if (acc) out.push({ mot: brut, t: "accent", conseil: "Attention aux accents.", sugg: remplace(acc) });
+      else if (proche) out.push({ mot: brut, t: "orthographe", conseil: "Ce mot est mal écrit.", sugg: remplace(proche) });
+      if (acc || proche) { vus.add(brut); break; }
+    }
+  }
+  return out;
+}
+
+/* ---------- Voice ----------
+   The most natural French voice of the device is chosen (or the one chosen by the student),
+   and the text is read sentence by sentence, with a short pause between sentences: clearer and slower. */
+const VITESSES = [[.55, "🐢 Très lent", 1000], [.7, "🚶 Lent", 650], [.9, "🙂 Normal", 300]];
+let vitesse = memo.lire("lee-vitesse2", .7), voixListe = [];
+if (!VITESSES.some(v => v[0] === vitesse)) vitesse = .7;
+function chargerVoix() { try { voixListe = speechSynthesis.getVoices().filter(v => /^fr/i.test(v.lang)); } catch (e) { voixListe = []; } }
+if (window.speechSynthesis) { chargerVoix(); try { speechSynthesis.addEventListener("voiceschanged", () => { chargerVoix(); const sel = document.querySelector("#choixVoix"); if (sel && mode === "texte" && etape === 1) tout(); }); } catch (e) {} }
+function meilleureVoix() {
+  const nom = memo.lire("lee-voix", ""); if (nom) { const v = voixListe.find(x => x.name === nom); if (v) return v; }
+  const score = v => (/natural|neural|online|premium|enhanced|google/i.test(v.name) ? 10 : 0) + (/^fr[-_]CA/i.test(v.lang) ? 3 : /^fr[-_]FR/i.test(v.lang) ? 1 : 0) + (v.localService === false ? 2 : 0);
+  return voixListe.slice().sort((a, b) => score(b) - score(a))[0] || null;
+}
+let lectureId = 0;
+function parler(t, surMot, fin) {
+  if (!window.speechSynthesis) return false;
+  try {
+    speechSynthesis.cancel(); const id = ++lectureId, v = meilleureVoix(), pause = (VITESSES.find(x => x[0] === vitesse) || VITESSES[1])[2];
+    const morceaux = []; const re = /[^.!?…]+[.!?…»]*\s*/g; let m; while ((m = re.exec(t))) if (m[0].trim()) morceaux.push({ txt: m[0], d: m.index });
+    if (!morceaux.length) morceaux.push({ txt: t, d: 0 });
+    const suivant = k => {
+      if (id !== lectureId) return;
+      if (k >= morceaux.length) { if (fin) fin(); return; }
+      const u = new SpeechSynthesisUtterance(morceaux[k].txt.replace(/[«»]/g, "").trim());
+      if (v) { u.voice = v; u.lang = v.lang; } else u.lang = "fr-CA";
+      u.rate = vitesse; u.pitch = 1;
+      if (surMot) { surMot(morceaux[k].d); u.onboundary = e => { if (e.name === "word" || e.name === undefined) surMot(morceaux[k].d + e.charIndex); }; }
+      u.onend = () => { if (id === lectureId) setTimeout(() => suivant(k + 1), pause); };
+      speechSynthesis.speak(u);
+    };
+    suivant(0); return true;
+  } catch (e) { return false; }
+}
+const taire = () => { lectureId++; try { if (window.speechSynthesis) speechSynthesis.cancel(); } catch (e) {} };
+
+/* ---------- State ---------- */
+const NIV = ["★", "★★", "★★★"], NIV_NOM = ["Facile", "Moyen", "Défi"];
+let theme = null, themeChoisi = null, texteNo = 0, etape = 0, mode = "menu", phraseNo = 0;
+const ETAPES = [["📖", "Lire"], ["🔊", "Écouter"], ["💭", "Comprendre"], ["✏️", "Corriger"]];
+const prog = () => memo.lire("lee-prog-" + theme.id, { faites: [], reponses: {}, corrige: {} });
+const sauver = p => memo.ecrire("lee-prog-" + theme.id, p);
+function marquer(n) { const p = prog(); if (!p.faites.includes(n)) { p.faites.push(n); sauver(p); } dessinerEtapes(); }
+const phrases = t => t.match(/[^.!?]+[.!?»]+(\s*»)?/g).map(s => s.trim());
+const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+const avancement = (tid, k) => memo.lire("lee-prog-" + tid + "-" + k, { faites: [] }).faites.length;
+
+/* ---------- Small sounds (on click only) ---------- */
+let actx = null;
+function son(type) {
+  try { actx = actx || new (window.AudioContext || window.webkitAudioContext)(); const t = actx.currentTime;
+    const notes = type === "faux" ? [[150, 0, .16, "square", .05], [120, .17, .2, "square", .05]] : [[880, 0, .5, "sine", .12], [1320, .09, .6, "sine", .08]];
+    notes.forEach(([f, d, dur, ty, v]) => { const o = actx.createOscillator(), g = actx.createGain(); o.type = ty; o.frequency.value = f; g.gain.setValueAtTime(.0001, t + d); g.gain.exponentialRampToValueAtTime(v, t + d + .01); g.gain.exponentialRampToValueAtTime(.0001, t + d + dur); o.connect(g); g.connect(actx.destination); o.start(t + d); o.stop(t + d + dur + .05); });
+  } catch (e) {}
+}
+
+/* ---------- "Texts" menu: categories, then texts (on hover) ---------- */
+/* ---------- The three menus: Lessons, Reading comprehension, Text writing ---------- */
+function dessinerMenu() {
+  const faitsR = memo.lire("redac-faits", []);
+  const M = [
+    ["lecons", "🎓 Leçons", NIVEAUX.map(N => ({ ico: N.ico, nom: N.nom, sous: N.sous, items: Object.keys(DOMAINES).flatMap(d => { const L = LECONS.filter(l => l.n === N.n && l.d === d); return L.length ? [{ entete: DOMAINES[d][0] + " " + DOMAINES[d][1] }, ...L.map(l => ({ attr: `data-lecon="${l.id}"`, html: `<span class="tx">${l.titre}</span><span class="etoiles">${txtEtoiles(etoilesDe(resultat(l.id)))}</span>` }))] : []; }) }))],
+    ["textes", "📖 Compréhension de textes", THEMES.map(th => ({ ico: th.ico, nom: th.nom, sous: th.textes.length + " textes", items: th.textes.map((x, k) => { const f = avancement(th.id, k); return { attr: `data-t="${th.id}|${k}"`, html: `<span class="niv">${NIV[k]}</span><span class="tx"><b>${x.titre}</b><small>${NIV_NOM[k]} · ${f >= 4 ? "✓ terminé" : f ? f + " / 4 étapes" : "à commencer"}</small></span>` }; }) }))],
+    ["redac", "✍️ Rédaction de textes", REDAC.map(N => ({ ico: N.ico, nom: N.nom, sous: N.sous, items: N.sujets.map(s => ({ attr: `data-redac="${s.id}"`, html: `<span class="tx">${s.titre}</span><span class="etoiles">${faitsR.includes(s.id) ? "✓" : ""}</span>` })) }))]
+  ];
+  $("#menuTextes").innerHTML = M.map(([id, titre, cats]) => `<div class="mt" data-mt="${id}"><button type="button" class="mt-btn" aria-haspopup="true" aria-expanded="false">${titre} <span aria-hidden="true">▾</span></button>
+    <ul class="mt-cat" role="menu">${cats.map(c => `<li class="mt-li" role="none"><button type="button" class="mt-cat-btn" role="menuitem" aria-haspopup="true"><span class="ico" aria-hidden="true">${c.ico}</span><span>${c.nom}<small>${c.sous}</small></span><span class="fl" aria-hidden="true">›</span></button>
+      <ul class="mt-sous" role="menu">${c.items.map(it => it.entete ? `<li class="mt-dom" role="presentation">${it.entete}</li>` : `<li role="none"><button type="button" role="menuitem" class="mt-lec" ${it.attr}>${it.html}</button></li>`).join("")}</ul></li>`).join("")}</ul></div>`).join("");
+  const fermer = sauf => document.querySelectorAll(".mt").forEach(m => { if (m !== sauf) { m.classList.remove("ouvert"); m.querySelector(".mt-btn").setAttribute("aria-expanded", "false"); m.querySelectorAll(".mt-li.ouvert").forEach(x => x.classList.remove("ouvert")); } });
+  document.querySelectorAll(".mt").forEach(mt => {
+    const b = mt.querySelector(".mt-btn");
+    b.onclick = () => { const o = !mt.classList.contains("ouvert"); fermer(mt); mt.classList.toggle("ouvert", o); b.setAttribute("aria-expanded", String(o)); };
+    mt.onmouseenter = () => fermer(mt);
+  });
+  document.querySelectorAll(".mt-cat-btn").forEach(b => b.onclick = () => { const li = b.parentElement, o = !li.classList.contains("ouvert"); li.parentElement.querySelectorAll(".mt-li.ouvert").forEach(x => x.classList.remove("ouvert")); li.classList.toggle("ouvert", o); });
+  document.querySelectorAll("[data-t]").forEach(b => b.onclick = () => { const [tid, k] = b.dataset.t.split("|"); ouvrirTexte(tid, +k); });
+  document.querySelectorAll("[data-lecon]").forEach(b => b.onclick = () => ouvrirLecon(b.dataset.lecon));
+  document.querySelectorAll("[data-redac]").forEach(b => b.onclick = () => ouvrirRedac(b.dataset.redac));
+  setTimeout(() => { if (window._fermeMenu) document.removeEventListener("click", window._fermeMenu); window._fermeMenu = e => { if (!e.target.closest || !e.target.closest(".mt")) fermer(null); }; document.addEventListener("click", window._fermeMenu); }, 0);
+}
+function montrerMenus(oui) { $("#menuTextes").hidden = !oui; $("#etapes").hidden = oui || mode !== "texte"; if (oui) dessinerMenu(); }
+function vueMenu(ouvrir) {
+  taire(); mode = "menu"; document.body.classList.remove("large"); montrerMenus(true);
+  const d = memo.lire("fr-dernier", null);
+  let reprendre = "";
+  if (d && d[0] === "texte") { const th = THEMES.find(t => t.id === d[1]); if (th) reprendre = `${th.ico} ${th.textes[d[2]].titre}`; }
+  if (d && d[0] === "lecon") { const l = LECONS.find(x => x.id === d[1]); if (l) reprendre = `🎓 ${l.titre}`; }
+  if (d && d[0] === "redac") { for (const N of REDAC) { const s = N.sujets.find(x => x.id === d[1]); if (s) reprendre = `✍️ ${s.titre}`; } }
+  $("#contenu").innerHTML = `<section class="accueil-textes">
+    <p class="grand">Choisis dans un menu :</p>
+    <ul class="intro-menus"><li><b>🎓 Leçons</b> : des explications courtes et des exercices corrigés, du niveau débutant à la 9e année.</li>
+      <li><b>📖 Compréhension de textes</b> : lire, écouter, répondre aux questions et corriger des phrases.</li>
+      <li><b>✍️ Rédaction de textes</b> : écrire un texte en 3 niveaux, avec un plan, des mots utiles et une vérification.</li></ul>
+    ${reprendre ? `<div><button type="button" class="btn vert" id="reprendre">↻ Reprendre : ${reprendre}</button></div>` : ""}</section>`;
+  if ($("#reprendre")) $("#reprendre").onclick = () => d[0] === "texte" ? ouvrirTexte(d[1], d[2]) : d[0] === "lecon" ? ouvrirLecon(d[1]) : ouvrirRedac(d[1]);
+  window.scrollTo(0, 0);
+  if (ouvrir) setTimeout(() => { const m = document.querySelector(`.mt[data-mt="${ouvrir}"]`); if (m) { m.classList.add("ouvert"); m.querySelector(".mt-btn").setAttribute("aria-expanded", "true"); } }, 30);
+}
+function ouvrirTexte(tid, k) {
+  themeChoisi = THEMES.find(t => t.id === tid) || THEMES[0]; texteNo = k;
+  theme = Object.assign({ id: themeChoisi.id + "-" + k }, themeChoisi.textes[k]);
+  memo.ecrire("fr-dernier", ["texte", themeChoisi.id, k]);
+  mode = "texte"; etape = 0; phraseNo = 0; montrerMenus(false); tout(); window.scrollTo(0, 0);
+}
+function dessinerEtapes() {
+  const p = prog();
+  $("#etapes").innerHTML = `<div class="titre-texte"><span class="chip-theme">${themeChoisi.ico} ${themeChoisi.nom}</span><h2>${theme.titre}</h2><span class="niv-txt">${NIV[texteNo]} ${NIV_NOM[texteNo]}</span></div>
+    <div class="onglets" role="tablist">${ETAPES.map(([i, n], k) => `<button type="button" role="tab" class="etape${p.faites.includes(k) ? " fait" : ""}" data-etape="${k}" aria-selected="${k === etape}" ${k === etape ? 'aria-current="step"' : ""}><span class="num">${p.faites.includes(k) ? "✓" : i}</span>${n}</button>`).join("")}</div>`;
+  document.querySelectorAll("[data-etape]").forEach(b => b.onclick = () => { taire(); etape = +b.dataset.etape; tout(); });
+}
+function tout() {
+  document.body.classList.toggle("large", etape === 2);
+  dessinerEtapes(); [lire, ecouter, comprendre, corriger][etape]();
+  $("#contenu").insertAdjacentHTML("beforeend", `<div class="bas-texte"><button type="button" class="btn" id="autreTexte">📚 Choisir un autre texte</button></div>`);
+  $("#autreTexte").onclick = () => vueMenu("textes");
+}
+
+/* An error bubble: the kind of error, the tip, and the grammar capsule */
+function bulle(t, conseil, mot, sugg) {
+  const S = SORTES[t] || SORTES.orthographe;
+  return `<div class="bulle ${famille(t)}" role="note"><div class="sorte"><span class="etiq">${S.nom}</span>${mot ? `<span class="mot">« ${esc(mot)} »</span>` : ""}${sugg ? `<span>→ <span class="mot">${esc(sugg)}</span></span>` : ""}</div><p>${esc(conseil || S.txt)}</p>${S.cap ? `<button type="button" class="capsule-btn" data-capsule="${t}">📘 Capsule : ${S.cap}</button>` : ""}</div>`;
+}
+const bravo = (titre, texte) => `<div class="bulle bravo" role="status"><div class="sorte"><span class="etiq">Bravo</span></div><p><b>${esc(titre)}</b>${texte ? " " + esc(texte) : ""}</p></div>`;
+function brancherCapsules(racine) { (racine || document).querySelectorAll("[data-capsule]").forEach(b => b.onclick = () => ouvrirCapsule(b.dataset.capsule)); }
+function ouvrirCapsule(t) {
+  const S = SORTES[t]; if (!S) return;
+  $("#capContenu").className = "cap " + famille(t);
+  $("#capContenu").innerHTML = `<h3>📘 ${S.cap}</h3><p>${S.txt}</p>${S.ex ? `<div class="ex">${S.ex}</div>` : ""}<div class="barre"><button type="button" class="btn petit" id="capLire">🔊 Écouter</button><button type="button" class="btn vert petit" id="capFermer">J'ai compris</button></div>`;
+  const d = $("#capsule"); if (d.showModal) d.showModal(); else d.setAttribute("open", "");
+  $("#capFermer").onclick = () => { taire(); d.close ? d.close() : d.removeAttribute("open"); };
+  $("#capLire").onclick = () => parler(S.cap + ". " + S.txt + " " + S.ex.replace(/<br>/g, ". ").replace(/<[^>]+>/g, ""));
+}
+/* The text cannot be copied (so the student answers in their own words) */
+function protegerTexte(el) { ["copy", "cut", "contextmenu", "dragstart", "selectstart"].forEach(ev => el.addEventListener(ev, e => e.preventDefault())); }
+function motsCliquables(texte) {
+  const mots = []; let html = ""; const re = /[A-Za-zÀ-ÖØ-öø-ÿ0-9'’-]+|[^A-Za-zÀ-ÖØ-öø-ÿ0-9'’-]+/g; let m;
+  while ((m = re.exec(texte))) { if (/[A-Za-zÀ-ÿ0-9]/.test(m[0])) { mots.push(m.index); html += `<span class="m" data-i="${m.index}">${esc(m[0])}</span>`; } else html += esc(m[0]); }
+  return { mots, html };
+}
+
+/* ---------- 1. Lire ---------- */
+function lire() {
+  $("#contenu").innerHTML = `<section class="panneau">
+    <article class="page" id="pageTexte"><p class="lecture">${esc(theme.texte)}</p></article>
+    <p class="consigne">Lis le texte en entier, lentement. Tu peux le relire une deuxième fois.</p>
+    <div class="barre"><button type="button" class="btn vert" id="suivant">J'ai lu le texte → Écouter</button></div></section>`;
+  protegerTexte($("#pageTexte"));
+  $("#suivant").onclick = () => { marquer(0); etape = 1; tout(); };
+}
+/* ---------- 2. Listen ---------- */
+function ecouter() {
+  const { mots, html } = motsCliquables(theme.texte);
+  $("#contenu").innerHTML = `<section class="panneau">
+    <div class="barre"><button type="button" class="btn vert" id="ecouterBtn">🔊 Écouter le texte</button><button type="button" class="btn" id="arreter">⏹ Arrêter</button>
+      <button type="button" class="btn" id="pauseL">⏸ Pause</button>
+      <span class="vitesse" role="group" aria-label="Vitesse de lecture">${VITESSES.map(([v, n]) => `<button type="button" data-v="${v}" aria-pressed="${vitesse === v}">${n}</button>`).join("")}</span></div>
+    ${voixListe.length > 1 ? `<div class="barre voix-zone"><label for="choixVoix">Voix :</label><select id="choixVoix">${voixListe.map(v => `<option value="${esc(v.name)}" ${meilleureVoix() === v ? "selected" : ""}>${esc(v.name)} (${v.lang})</option>`).join("")}</select><button type="button" class="btn petit" id="essaiVoix">🔊 Essayer</button></div>` : ""}
+    <article class="page" id="pageTexte"><p class="lecture" id="lecture">${html}</p></article>
+    <p class="consigne">Écoute le texte et suis avec tes yeux : les mots s'allument pendant la lecture.</p>
+    <div class="barre"><button type="button" class="btn vert" id="suivant">J'ai écouté → Comprendre</button></div></section>`;
+  protegerTexte($("#pageTexte"));
+  const allumer = ci => { document.querySelectorAll("#lecture .m.lu").forEach(x => x.classList.remove("lu")); let k = mots.length - 1; while (k > 0 && mots[k] > ci) k--; const e = document.querySelector(`#lecture .m[data-i="${mots[k]}"]`); if (e) e.classList.add("lu"); };
+  $("#ecouterBtn").onclick = () => { if (!parler(theme.titre + ". " + theme.texte, ci => allumer(ci - theme.titre.length - 2), () => document.querySelectorAll("#lecture .m.lu").forEach(x => x.classList.remove("lu")))) $("#ecouterBtn").textContent = "Lecture à voix haute non disponible sur cet appareil"; };
+  $("#arreter").onclick = () => { taire(); $("#pauseL").textContent = "⏸ Pause"; document.querySelectorAll("#lecture .m.lu").forEach(x => x.classList.remove("lu")); };
+  $("#pauseL").onclick = () => { try { if (speechSynthesis.paused) { speechSynthesis.resume(); $("#pauseL").textContent = "⏸ Pause"; } else if (speechSynthesis.speaking) { speechSynthesis.pause(); $("#pauseL").textContent = "▶ Continuer"; } } catch (e) {} };
+  document.querySelectorAll("[data-v]").forEach(b => b.onclick = () => { vitesse = +b.dataset.v; memo.ecrire("lee-vitesse2", vitesse); document.querySelectorAll("[data-v]").forEach(x => x.setAttribute("aria-pressed", String(x === b))); });
+  if ($("#choixVoix")) { $("#choixVoix").onchange = e => memo.ecrire("lee-voix", e.target.value); $("#essaiVoix").onclick = () => parler("Bonjour ! Je vais te lire le texte. Écoute bien."); }
+  $("#suivant").onclick = () => { taire(); marquer(1); etape = 2; tout(); };
+}
+
+/* ---------- 3. Understand: questions, no copy-paste, with a checker ---------- */
+function comprendre() {
+  const p = prog(), P = phrases(theme.texte);
+  $("#contenu").innerHTML = `<section class="panneau">
+    <p class="consigne">Réponds à chaque question par une phrase, <b>avec tes mots</b>. On ne peut pas copier le texte ni coller une réponse.</p>
+    <div class="deux-col"><article class="page texte-fixe" id="pageTexte"><h3>${theme.titre}</h3><p class="lecture" id="relire">${P.map((s, k) => `<span data-ph="${k}">${esc(s)}</span>`).join(" ")}</p></article><div class="col-q">
+    ${theme.questions.map((q, i) => `<div class="question" id="q${i}"><div class="q-tete"><p>${i + 1}. ${esc(q.q)}</p><button type="button" class="lire" data-lire-q="${i}" aria-label="Écouter la question">🔊</button></div>
+      <label for="rep${i}" hidden>Ta réponse</label><textarea id="rep${i}" placeholder="Écris ta réponse ici…" autocomplete="off">${esc(p.reponses[i] || "")}</textarea>
+      <div class="barre"><button type="button" class="btn vert petit" data-verif-q="${i}">Vérifier ma réponse</button></div><div class="bulles" id="b${i}"></div></div>`).join("")}
+    </div></div>
+    <div class="barre"><button type="button" class="btn vert" id="suivant">Continuer → Corriger</button></div></section>`;
+  protegerTexte($("#pageTexte"));
+  theme.questions.forEach((q, i) => {
+    const ta = $("#rep" + i);
+    ta.oninput = e => { const p = prog(); p.reponses[i] = e.target.value; sauver(p); };
+    ["paste", "drop"].forEach(ev => ta.addEventListener(ev, e => { e.preventDefault(); $("#b" + i).innerHTML = `<div class="bulle famille-sens"><div class="sorte"><span class="etiq">Pas de copier-coller</span></div><p>Écris ta réponse toi-même, avec tes mots.</p></div>`; }));
+  });
+  document.querySelectorAll("[data-lire-q]").forEach(b => b.onclick = () => parler(theme.questions[+b.dataset.lireQ].q));
+  document.querySelectorAll("[data-verif-q]").forEach(b => b.onclick = () => verifierReponse(+b.dataset.verifQ));
+  $("#suivant").onclick = () => { taire(); marquer(2); etape = 3; tout(); };
+}
+function verifierReponse(i) {
+  const P2 = phrases(theme.texte), q = theme.questions[i], rep = $("#rep" + i).value, zone = $("#b" + i), carte = $("#q" + i);
+  document.querySelectorAll("#relire .indice").forEach(x => x.classList.remove("indice"));
+  if (!rep.trim()) { zone.innerHTML = bulle("vide"); brancherCapsules(zone); return; }
+  const norm = " " + sansAccent(rep) + " ", trouves = q.cles[0].filter(k => norm.includes(sansAccent(k)));
+  const out = [];
+  if (trouves.length < (q.min || 1)) out.push(bulle("reponse", (q.min ? "Nomme au moins " + q.min + " choses. " : "") + "Ta réponse ne dit pas encore la bonne information. Relis la phrase du texte qui est surlignée en jaune."));
+  const v = verifier(rep);
+  if (v.nbMots < 3) out.push(bulle("phrase", "Écris une phrase complète. Par exemple, commence avec des mots de la question."));
+  v.erreurs.forEach(e => out.push(bulle(e.t, e.conseil, e.mot, e.sugg)));
+  orthographe(rep, v.erreurs.map(e => e.mot), theme.texte + " " + q.q + " " + q.modele).forEach(e => out.push(bulle(e.t, e.conseil, e.mot, e.sugg)));
+  if (!out.length) { carte.classList.add("juste"); zone.innerHTML = bravo("Bonne réponse, bien écrite !", "Exemple : " + q.modele); }
+  else { carte.classList.remove("juste"); zone.innerHTML = out.join("");
+    if (trouves.length < (q.min || 1)) { const k = P2.findIndex(x => sansAccent(x).includes(sansAccent(q.ind || q.cles[0][0]))), ph = document.querySelector(`#relire [data-ph="${k}"]`); if (ph) { ph.classList.add("indice"); ph.scrollIntoView({ block: "nearest", behavior: "smooth" }); } } }
+  brancherCapsules(zone);
+}
+
+/* ---------- 4. Correct: one sentence at a time ----------
+   1) the student touches the word that contains the error (otherwise: a sound and "ce n'est pas le bon mot");
+   2) they write the word correctly in the space that appears. */
+function phrasesAErreur() {
+  const seq = [];
+  theme.corriger.forEach((seg, s) => { if (typeof seg === "object") seq.push({ err: seg, s }); else seg.split(/(?<=[.!?])\s+/).forEach((morceau, j, arr) => { seq.push({ txt: morceau + (j < arr.length - 1 ? " " : ""), fin: j < arr.length - 1 }); }); });
+  const res = []; let cur = [];
+  seq.forEach(it => { cur.push(it); if (it.fin) { res.push(cur); cur = []; } });
+  if (cur.length) res.push(cur);
+  const out = [];
+  res.forEach(ph => ph.filter(x => x.err).forEach(cible => out.push(ph.map(x => x.err && x !== cible ? { txt: x.err.c } : x))));
+  return out;
+}
+
+function corriger() {
+  const P = phrasesAErreur(), p = prog(), faites = p.corrige || {};
+  if (phraseNo >= P.length) phraseNo = 0;
+  const premiere = P.findIndex(ph => ph.some(x => x.err && !faites[x.s])); if (premiere < 0 && phraseNo === 0) return finCorriger(P);
+  if (P[phraseNo].every(x => !x.err || faites[x.s]) && premiere >= 0) phraseNo = premiere;
+  const ph = P[phraseNo];
+  let html = "", k = 0; const re = /[A-Za-zÀ-ÖØ-öø-ÿ0-9'’-]+|[^A-Za-zÀ-ÖØ-öø-ÿ0-9'’-]+/g;
+  ph.forEach(it => {
+    if (it.err) { html += `<span class="mot-c${faites[it.s] ? " trouve" : ""}" role="button" tabindex="0" data-s="${it.s}">${esc(faites[it.s] ? it.err.c : it.err.f)}</span>`; return; }
+    let m; re.lastIndex = 0; while ((m = re.exec(it.txt))) { if (/[A-Za-zÀ-ÿ0-9]/.test(m[0])) html += `<span class="mot-c" role="button" tabindex="0" data-k="${k++}">${esc(m[0])}</span>`; else html += esc(m[0]); }
+  });
+  const nbFaites = P.filter(ph => ph.every(x => !x.err || faites[x.s])).length;
+  $("#contenu").innerHTML = `<section class="panneau">
+    <div class="barre"><span class="compteur">Phrase ${phraseNo + 1} sur ${P.length}</span><span class="pastilles-c">${P.map((ph, i) => `<i class="${ph.every(x => !x.err || faites[x.s]) ? "ok" : i === phraseNo ? "ici" : ""}"></i>`).join("")}</span><button type="button" class="btn petit" id="ecouterP">🔊 Écouter la phrase</button></div>
+    <p class="consigne grand">Cette phrase contient <b>une erreur</b>. <b>Quel mot</b> contient l'erreur ? Touche-le.</p>
+    <article class="page corriger" id="pagePhrase"><p class="lecture phrase-c" id="phraseC">${html}</p></article>
+    <div class="editeur" id="editeur" hidden><label for="correction">Écris le mot <b id="motChoisi"></b> correctement :</label><input id="correction" autocomplete="off" spellcheck="false" autocapitalize="off"><button type="button" class="btn vert petit" id="valider">✓ Valider</button></div>
+    <div class="bulles" id="bullesC" aria-live="polite"></div>
+    <div class="barre" id="navPhrase" hidden><button type="button" class="btn vert" id="phraseSuiv">${nbFaites + 1 >= P.length ? "Terminer ✓" : "Phrase suivante →"}</button></div></section>`;
+  protegerTexte($("#pagePhrase"));
+  let choisi = null;
+  document.querySelectorAll("#phraseC .mot-c").forEach(el => {
+    el.onclick = () => {
+      if (el.classList.contains("trouve")) return;
+      document.querySelectorAll(".mot-c.ouvert,.mot-c.non").forEach(x => x.classList.remove("ouvert", "non"));
+      if (el.dataset.s == null) { // not the right word
+        son("faux"); el.classList.add("non"); setTimeout(() => el.classList.remove("non"), 700);
+        $("#bullesC").innerHTML = `<div class="bulle famille-forme"><div class="sorte"><span class="etiq">Ce n'est pas le bon mot</span><span class="mot">« ${esc(el.textContent)} »</span></div><p>Ce mot est bien écrit. Relis la phrase et cherche un autre mot.</p></div>`;
+        $("#editeur").hidden = true; return;
+      }
+      choisi = el; el.classList.add("ouvert");
+      $("#bullesC").innerHTML = bravo("Oui, c'est ce mot !", "Maintenant, écris-le correctement.");
+      $("#editeur").hidden = false; $("#motChoisi").textContent = "« " + el.textContent + " »"; $("#correction").value = ""; $("#correction").focus();
+    };
+    el.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); el.click(); } };
+  });
+  $("#correction").onkeydown = e => { if (e.key === "Enter") $("#valider").click(); };
+  $("#valider").onclick = () => {
+    if (!choisi) return; const val = propre($("#correction").value), s = +choisi.dataset.s, seg = theme.corriger[s], zone = $("#bullesC");
+    if (!val) { zone.innerHTML = bulle("vide", "Écris le mot dans l'espace."); return; }
+    if (val === seg.c) {
+      son("juste"); const p = prog(); p.corrige[s] = true; sauver(p);
+      choisi.textContent = seg.c; choisi.classList.remove("ouvert"); choisi.classList.add("trouve"); $("#editeur").hidden = true;
+      zone.innerHTML = bravo("« " + seg.f + " » → « " + seg.c + " »", "C'était une erreur de " + SORTES[seg.t].nom.toLowerCase() + ".") + `<button type="button" class="capsule-btn" data-capsule="${seg.t}">📘 Revoir la capsule : ${SORTES[seg.t].cap}</button>`;
+      if (ph.every(x => !x.err || prog().corrige[x.s])) $("#navPhrase").hidden = false;
+    } else if (val === seg.f) zone.innerHTML = bulle(seg.t, "Tu as écrit le même mot. Il faut le changer. Regarde la capsule pour t'aider.", seg.f, "");
+    else zone.innerHTML = bulle(seg.t, "Ce n'est pas encore ça. C'est une erreur de « " + SORTES[seg.t].nom + " ». Essaie encore.", val, "");
+    brancherCapsules(zone);
+  };
+  $("#ecouterP").onclick = () => parler(ph.map(x => x.err ? x.err.f : x.txt).join(""));
+  $("#phraseSuiv").onclick = () => { const P2 = phrasesAErreur(), f2 = prog().corrige; const n = P2.findIndex(ph => ph.some(x => x.err && !f2[x.s])); if (n < 0) { marquer(3); finCorriger(P2); } else { phraseNo = n; tout(); } };
+}
+function finCorriger(P) {
+  $("#contenu").innerHTML = `<section class="panneau fin-c"><div class="grand-ico" aria-hidden="true">🏆</div><h2>Bravo ! Tu as corrigé toutes les phrases.</h2>
+    <p class="doux">Tu as trouvé et corrigé ${P.length} erreurs.</p>
+    <div class="barre"><button type="button" class="btn" id="refaire">↻ Recommencer les phrases</button></div></section>`;
+  $("#refaire").onclick = () => { const p = prog(); p.corrige = {}; sauver(p); phraseNo = 0; tout(); };
+  $("#contenu").insertAdjacentHTML("beforeend", `<div class="bas-texte"><button type="button" class="btn vert" id="autreTexte2">📚 Choisir un autre texte</button></div>`);
+  $("#autreTexte2").onclick = () => vueMenu("textes");
+}
+
+vueMenu(false);
+
+</script>
+</body>
+</html>

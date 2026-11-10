@@ -1,0 +1,21 @@
+FrançaisRoute
+Site de français de la classe (leçons, exercices, compréhension de textes, rédaction, atelier « L’imprimerie des mots »).
+Adresse prévue : https://hakima-aithamou.github.io/FrancaisRoute/  (dépôt GitHub « FrancaisRoute »)
+
+Comptes : les mêmes que Horizons et Mathéroute (même serveur Edu-Centre). Un élève connecté sur un site est connecté sur les autres.
+
+Pages
+- index.html .................. accueil : Parcours en 17 étapes, Cours de français et L’imprimerie des mots
+- parcours/index.html ......... parcours en 17 étapes (leçon, entraînement, petit devoir et étoiles pour chaque étape)
+- parcours/etape1.html à etape17.html  les étapes ; l’étape 8 regroupe les jeux de la classe de Lili (être et avoir) et son petit devoir est etape8-devoir.html
+- parcours/parcours.js, parcours.css  moteur et présentation communs à toutes les étapes
+- francais/cours.html ......... cours complet : leçons et exercices, lire et comprendre, rédaction (3 niveaux)
+- francais/lire-ecrire.html ... ancienne adresse, renvoie vers cours.html
+- ateliers/jeu.html?j=imprimerie  L’imprimerie des mots (6 niveaux, score gardé dans l’espace de l’élève)
+- connexion.html, mon-espace.html  connexion élève et enseignante, espace de l’élève
+- catalogue.js ................ liste des activités affichées dans l’espace de l’élève
+
+Parcours en 17 étapes
+- Chaque étape : la leçon (avec 🔊), « Je m’entraîne », puis « Petit devoir » avec d’autres questions.
+- Les choix sont mélangés à chaque fois. Une bonne réponse du premier coup compte un point ; après deux erreurs, la bonne réponse est montrée.
+- Les étoiles du petit devoir sont gardées sur l’appareil de l’élève (pas sur le serveur).

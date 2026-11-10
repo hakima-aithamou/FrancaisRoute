@@ -1,0 +1,50 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FrançaisRoute - Français</title><link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="style.css"><link rel="icon" href="images/favicon.svg" type="image/svg+xml"><script src="compte.js" defer></script><link rel="stylesheet" href="apparence.css">
+<script src="menu-lateral.js" defer></script>
+<style>.illu-emo{font-size:58px;line-height:1;display:flex;align-items:center;justify-content:center;height:100%}</style>
+</head><body class="cat-francais">
+<header class="barre-haut">
+<a class="brand" href="index.html">Français<span>Route</span><small>De La Salle · Ottawa</small></a>
+<button class="menu-bouton" type="button" aria-expanded="false" aria-controls="menu-general">☰ Menu</button>
+<nav class="menu-general" id="menu-general" aria-label="Menu général">
+<a href="index.html">Accueil</a><a href="https://hakima-aithamou.github.io/Horizons/">Horizons ↗</a><a href="https://hakima-aithamou.github.io/Matheroute/">Mathéroute ↗</a><a data-compte="eleve" href="connexion.html?role=eleve">🎒 Connexion élève</a><a data-compte="prof" href="connexion.html?role=teacher">🍎 Connexion enseignante</a></nav>
+</header>
+<script>document.currentScript.previousElementSibling.querySelector(".menu-bouton").onclick=function(){var o=this.getAttribute("aria-expanded")!=="true";this.setAttribute("aria-expanded",o);this.parentNode.classList.toggle("ouvert",o)}</script>
+<div class="mise-en-page">
+<aside class="barre-laterale">
+<p class="menu-titre">Français</p>
+<nav class="menu-activites" aria-label="Activités de français">
+<a href="index.html" style="--c:var(--francais)" aria-current="page"><span class="menu-icone" aria-hidden="true">📖</span>Toutes les activités</a>
+<a class="sous-onglet" href="parcours/index.html" style="--c:var(--francais)"><span class="menu-icone" aria-hidden="true">🧭</span>Parcours en 17 étapes</a>
+<a class="sous-onglet" href="francais/cours.html" style="--c:var(--francais)"><span class="menu-icone" aria-hidden="true">📚</span>Cours de français (niveau supérieur)</a>
+<a class="sous-onglet" href="ateliers/jeu.html?j=imprimerie" style="--c:var(--francais)"><span class="menu-icone" aria-hidden="true">🖨️</span>L’imprimerie des mots</a>
+</nav>
+</aside>
+<div class="page">
+
+<section class="entete-page"><span>LIRE • COMPRENDRE • ÉCRIRE</span><h1>📖 Français</h1>
+<p>Commence par le <b>Parcours en 17 étapes</b>, puis passe au <b>Cours de français</b> (niveau supérieur). L’imprimerie des mots permet de s’entraîner en jouant. Des activités pour lire, écouter, comprendre et écrire de petits textes. Quand l’élève fait une erreur, une bulle lui dit quelle sorte d’erreur c’est et une capsule de grammaire l’aide à la corriger.</p></section>
+<main class="conteneur">
+<div class="tuiles">
+<a class="tuile" href="parcours/index.html" style="--c1:#117b5c;--c2:#8fd3b4;--fonce:#0d5c45">
+  <span class="tuile-illu" aria-hidden="true"><span class="illu-emo">🧭</span></span>
+  <span class="tuile-texte"><strong>Parcours en 17 étapes</strong><small><b>Niveau débutant.</b> Des lettres aux textes : sons, syllabes, phrase, ponctuation, être et avoir, verbes et temps, lecture et écriture.</small></span>
+  <span class="tuile-pied"><b>17 étapes</b><span>Commencer <span aria-hidden="true">→</span></span></span>
+</a>
+<a class="tuile" href="francais/cours.html" style="--c1:#3b3f9e;--c2:#9aa0e6;--fonce:#2b2f7a">
+  <span class="tuile-illu" aria-hidden="true"><svg viewBox="0 0 120 80"><rect x="14" y="14" width="44" height="54" rx="4" fill="#fff"/><g stroke="#3b3f9e" stroke-width="3" stroke-linecap="round"><line x1="22" y1="28" x2="50" y2="28"/><line x1="22" y1="38" x2="50" y2="38"/><line x1="22" y1="48" x2="42" y2="48"/></g><rect x="66" y="22" width="40" height="40" rx="20" fill="#fff" opacity=".85"/><text x="86" y="49" text-anchor="middle" font-size="20">🔊</text></svg></span>
+  <span class="tuile-texte"><strong>Cours de français</strong><small><b>Niveau supérieur, après le parcours.</b> Leçons et exercices, compréhension de textes et rédaction en 3 niveaux.</small></span>
+  <span class="tuile-pied"><b>24 leçons · 18 textes</b><span>Commencer <span aria-hidden="true">→</span></span></span>
+</a>
+<a class="tuile" href="ateliers/jeu.html?j=imprimerie" style="--c1:#8e3b8e;--c2:#e0aee0;--fonce:#8e3b8e">
+  <span class="tuile-illu" aria-hidden="true"><span class="illu-emo">🖨️</span></span>
+  <span class="tuile-texte"><strong>L’imprimerie des mots</strong><small>Lettres, syllabes, phrases, déterminants, accords et homophones.</small></span>
+  <span class="tuile-pied"><b>6 niveaux</b><span>Jouer <span aria-hidden="true">→</span></span></span>
+</a>
+</div>
+</main><footer class="site-footer"><span>FrançaisRoute <b>│</b> De La Salle · Ottawa</span><span>Apprendre aujourd’hui pour demain</span></footer><script src="script.js"></script>
+</div>
+</div>
+
+</body></html>
